@@ -1,0 +1,364 @@
+[31m[Nest] 11748  - [39m05/07/2026, 3:09:27 PM [31m  ERROR[39m [38;5;3m[MongooseModule] [39m[31mUnable to connect to the database. Retrying (1)...[39m
+MongooseServerSelectionError: Could not connect to any servers in your MongoDB Atlas cluster. One common reason is that you're trying to access the database from an IP that isn't whitelisted. Make sure your current IP address is on your Atlas cluster's IP whitelist: https://www.mongodb.com/docs/atlas/security-whitelist/
+    at _handleConnectionErrors (F:\JAIKVIK-PROJECTS\radicon-lab\backend\node_modules\mongoose\lib\connection.js:1180:11)
+    at NativeConnection.asPromise (F:\JAIKVIK-PROJECTS\radicon-lab\backend\node_modules\mongoose\lib\connection.js:1643:11)
+    at async F:\JAIKVIK-PROJECTS\radicon-lab\backend\node_modules\@nestjs\mongoose\dist\mongoose-core.module.js:65:112
+[31m[Nest] 11748  - [39m05/07/2026, 3:10:01 PM [31m  ERROR[39m [38;5;3m[MongooseModule] [39m[31mUnable to connect to the database. Retrying (2)...[39m
+MongooseServerSelectionError: Could not connect to any servers in your MongoDB Atlas cluster. One common reason is that you're trying to access the database from an IP that isn't whitelisted. Make sure your current IP address is on your Atlas cluster's IP whitelist: https://www.mongodb.com/docs/atlas/security-whitelist/
+    at _handleConnectionErrors (F:\JAIKVIK-PROJECTS\radicon-lab\backend\node_modules\mongoose\lib\connection.js:1180:11)
+    at NativeConnection.asPromise (F:\JAIKVIK-PROJECTS\radicon-lab\backend\node_modules\mongoose\lib\connection.js:1643:11)
+    at async F:\JAIKVIK-PROJECTS\radicon-lab\backend\node_modules\@nestjs\mongoose\dist\mongoose-core.module.js:65:112
+[31m[Nest] 11748  - [39m05/07/2026, 3:10:34 PM [31m  ERROR[39m [38;5;3m[MongooseModule] [39m[31mUnable to connect to the database. Retrying (3)...[39m
+MongooseServerSelectionError: Could not connect to any servers in your MongoDB Atlas cluster. One common reason is that you're trying to access the database from an IP that isn't whitelisted. Make sure your current IP address is on your Atlas cluster's IP whitelist: https://www.mongodb.com/docs/atlas/security-whitelist/
+    at _handleConnectionErrors (F:\JAIKVIK-PROJECTS\radicon-lab\backend\node_modules\mongoose\lib\connection.js:1180:11)
+    at NativeConnection.asPromise (F:\JAIKVIK-PROJECTS\radicon-lab\backend\node_modules\mongoose\lib\connection.js:1643:11)
+    at async F:\JAIKVIK-PROJECTS\radicon-lab\backend\node_modules\@nestjs\mongoose\dist\mongoose-core.module.js:65:112
+[31m[Nest] 11748  - [39m05/07/2026, 3:11:07 PM [31m  ERROR[39m [38;5;3m[MongooseModule] [39m[31mUnable to connect to the database. Retrying (4)...[39m
+MongooseServerSelectionError: Could not connect to any servers in your MongoDB Atlas cluster. One common reason is that you're trying to access the database from an IP that isn't whitelisted. Make sure your current IP address is on your Atlas cluster's IP whitelist: https://www.mongodb.com/docs/atlas/security-whitelist/
+    at _handleConnectionErrors (F:\JAIKVIK-PROJECTS\radicon-lab\backend\node_modules\mongoose\lib\connection.js:1180:11)
+    at NativeConnection.asPromise (F:\JAIKVIK-PROJECTS\radicon-lab\backend\node_modules\mongoose\lib\connection.js:1643:11)
+    at runNextTicks (node:internal/process/task_queues:65:5)
+    at process.processTimers (node:internal/timers:526:9)
+    at async F:\JAIKVIK-PROJECTS\radicon-lab\backend\node_modules\@nestjs\mongoose\dist\mongoose-core.module.js:65:112
+[31m[Nest] 11748  - [39m05/07/2026, 3:11:40 PM [31m  ERROR[39m [38;5;3m[MongooseModule] [39m[31mUnable to connect to the database. Retrying (5)...[39m
+MongooseServerSelectionError: Could not connect to any servers in your MongoDB Atlas cluster. One common reason is that you're trying to access the database from an IP that isn't whitelisted. Make sure your current IP address is on your Atlas cluster's IP whitelist: https://www.mongodb.com/docs/atlas/security-whitelist/
+    at _handleConnectionErrors (F:\JAIKVIK-PROJECTS\radicon-lab\backend\node_modules\mongoose\lib\connection.js:1180:11)
+    at NativeConnection.asPromise (F:\JAIKVIK-PROJECTS\radicon-lab\backend\node_modules\mongoose\lib\connection.js:1643:11)
+    at async F:\JAIKVIK-PROJECTS\radicon-lab\backend\node_modules\@nestjs\mongoose\dist\mongoose-core.module.js:65:112
+[31m[Nest] 11748  - [39m05/07/2026, 3:12:13 PM [31m  ERROR[39m [38;5;3m[MongooseModule] [39m[31mUnable to connect to the database. Retrying (6)...[39m
+MongooseServerSelectionError: Could not connect to any servers in your MongoDB Atlas cluster. One common reason is that you're trying to access the database from an IP that isn't whitelisted. Make sure your current IP address is on your Atlas cluster's IP whitelist: https://www.mongodb.com/docs/atlas/security-whitelist/
+    at _handleConnectionErrors (F:\JAIKVIK-PROJECTS\radicon-lab\backend\node_modules\mongoose\lib\connection.js:1180:11)
+    at NativeConnection.asPromise (F:\JAIKVIK-PROJECTS\radicon-lab\backend\node_modules\mongoose\lib\connection.js:1643:11)
+    at async F:\JAIKVIK-PROJECTS\radicon-lab\backend\node_modules\@nestjs\mongoose\dist\mongoose-core.module.js:65:112
+[31m[Nest] 11748  - [39m05/07/2026, 3:12:46 PM [31m  ERROR[39m [38;5;3m[MongooseModule] [39m[31mUnable to connect to the database. Retrying (7)...[39m
+MongooseServerSelectionError: Could not connect to any servers in your MongoDB Atlas cluster. One common reason is that you're trying to access the database from an IP that isn't whitelisted. Make sure your current IP address is on your Atlas cluster's IP whitelist: https://www.mongodb.com/docs/atlas/security-whitelist/
+    at _handleConnectionErrors (F:\JAIKVIK-PROJECTS\radicon-lab\backend\node_modules\mongoose\lib\connection.js:1180:11)
+    at NativeConnection.asPromise (F:\JAIKVIK-PROJECTS\radicon-lab\backend\node_modules\mongoose\lib\connection.js:1643:11)
+    at async F:\JAIKVIK-PROJECTS\radicon-lab\backend\node_modules\@nestjs\mongoose\dist\mongoose-core.module.js:65:112
+[31m[Nest] 11748  - [39m05/07/2026, 3:13:19 PM [31m  ERROR[39m [38;5;3m[MongooseModule] [39m[31mUnable to connect to the database. Retrying (8)...[39m
+MongooseServerSelectionError: Could not connect to any servers in your MongoDB Atlas cluster. One common reason is that you're trying to access the database from an IP that isn't whitelisted. Make sure your current IP address is on your Atlas cluster's IP whitelist: https://www.mongodb.com/docs/atlas/security-whitelist/
+    at _handleConnectionErrors (F:\JAIKVIK-PROJECTS\radicon-lab\backend\node_modules\mongoose\lib\connection.js:1180:11)
+    at NativeConnection.asPromise (F:\JAIKVIK-PROJECTS\radicon-lab\backend\node_modules\mongoose\lib\connection.js:1643:11)
+    at async F:\JAIKVIK-PROJECTS\radicon-lab\backend\node_modules\@nestjs\mongoose\dist\mongoose-core.module.js:65:112
+[31m[Nest] 11748  - [39m05/07/2026, 3:13:52 PM [31m  ERROR[39m [38;5;3m[MongooseModule] [39m[31mUnable to connect to the database. Retrying (9)...[39m
+MongooseServerSelectionError: Could not connect to any servers in your MongoDB Atlas cluster. One common reason is that you're trying to access the database from an IP that isn't whitelisted. Make sure your current IP address is on your Atlas cluster's IP whitelist: https://www.mongodb.com/docs/atlas/security-whitelist/
+    at _handleConnectionErrors (F:\JAIKVIK-PROJECTS\radicon-lab\backend\node_modules\mongoose\lib\connection.js:1180:11)
+    at NativeConnection.asPromise (F:\JAIKVIK-PROJECTS\radicon-lab\backend\node_modules\mongoose\lib\connection.js:1643:11)
+    at async F:\JAIKVIK-PROJECTS\radicon-lab\backend\node_modules\@nestjs\mongoose\dist\mongoose-core.module.js:65:112
+[31m[Nest] 11748  - [39m05/07/2026, 3:13:52 PM [31m  ERROR[39m [38;5;3m[ExceptionHandler] [39mMongooseServerSelectionError: Could not connect to any servers in your MongoDB Atlas cluster. One common reason is that you're trying to access the database from an IP that isn't whitelisted. Make sure your current IP address is on your Atlas cluster's IP whitelist: https://www.mongodb.com/docs/atlas/security-whitelist/
+    at _handleConnectionErrors [90m(F:\JAIKVIK-PROJECTS\radicon-lab\backend\[39mnode_modules\[4mmongoose[24m\lib\connection.js:1180:11[90m)[39m
+    at NativeConnection.asPromise [90m(F:\JAIKVIK-PROJECTS\radicon-lab\backend\[39mnode_modules\[4mmongoose[24m\lib\connection.js:1643:11[90m)[39m
+    at async [90mF:\JAIKVIK-PROJECTS\radicon-lab\backend\[39mnode_modules\[4m@nestjs[24m\mongoose\dist\mongoose-core.module.js:65:112 {
+  errorLabelSet: Set(0) {},
+  reason: TopologyDescription {
+    type: [32m'ReplicaSetNoPrimary'[39m,
+    servers: Map(3) {
+      [32m'ac-fm1tv50-shard-00-00.xnc21rr.mongodb.net:27017'[39m => ServerDescription {
+        address: [32m'ac-fm1tv50-shard-00-00.xnc21rr.mongodb.net:27017'[39m,
+        type: [32m'Unknown'[39m,
+        hosts: [],
+        passives: [],
+        arbiters: [],
+        tags: {},
+        minWireVersion: [33m0[39m,
+        maxWireVersion: [33m0[39m,
+        roundTripTime: [33m-1[39m,
+        minRoundTripTime: [33m0[39m,
+        lastUpdateTime: [33m311932[39m,
+        lastWriteDate: [33m0[39m,
+        error: MongoNetworkError: unable to verify the first certificate
+            at TLSSocket.<anonymous> [90m(F:\JAIKVIK-PROJECTS\radicon-lab\backend\[39mnode_modules\[4mmongodb[24m\lib\cmap\connect.js:313:44[90m)[39m
+        [90m    at Object.onceWrapper (node:events:633:26)[39m
+        [90m    at TLSSocket.emit (node:events:518:28)[39m
+        [90m    at emitErrorNT (node:internal/streams/destroy:170:8)[39m
+        [90m    at emitErrorCloseNT (node:internal/streams/destroy:129:3)[39m
+        [90m    at process.processTicksAndRejections (node:internal/process/task_queues:90:21)[39m {
+          errorLabelSet: Set(3) {
+            [32m'SystemOverloadedError'[39m,
+            [32m'RetryableError'[39m,
+            [32m'ResetPool'[39m
+          },
+          beforeHandshake: [33mfalse[39m,
+          [cause]: Error: unable to verify the first certificate
+          [90m    at TLSSocket.onConnectSecure (node:_tls_wrap:1679:34)[39m
+          [90m    at TLSSocket.emit (node:events:518:28)[39m
+          [90m    at TLSSocket._finishInit (node:_tls_wrap:1078:8)[39m
+          [90m    at ssl.onhandshakedone (node:_tls_wrap:864:12)[39m {
+            code: [32m'UNABLE_TO_VERIFY_LEAF_SIGNATURE'[39m
+          }
+        },
+        topologyVersion: [1mnull[22m,
+        setName: [1mnull[22m,
+        setVersion: [1mnull[22m,
+        electionId: [1mnull[22m,
+        logicalSessionTimeoutMinutes: [1mnull[22m,
+        maxMessageSizeBytes: [1mnull[22m,
+        maxWriteBatchSize: [1mnull[22m,
+        maxBsonObjectSize: [1mnull[22m,
+        primary: [1mnull[22m,
+        me: [1mnull[22m,
+        [32m'$clusterTime'[39m: [1mnull[22m,
+        iscryptd: [33mfalse[39m
+      },
+      [32m'ac-fm1tv50-shard-00-01.xnc21rr.mongodb.net:27017'[39m => ServerDescription {
+        address: [32m'ac-fm1tv50-shard-00-01.xnc21rr.mongodb.net:27017'[39m,
+        type: [32m'Unknown'[39m,
+        hosts: [],
+        passives: [],
+        arbiters: [],
+        tags: {},
+        minWireVersion: [33m0[39m,
+        maxWireVersion: [33m0[39m,
+        roundTripTime: [33m-1[39m,
+        minRoundTripTime: [33m0[39m,
+        lastUpdateTime: [33m311303[39m,
+        lastWriteDate: [33m0[39m,
+        error: MongoNetworkError: unable to verify the first certificate
+            at TLSSocket.<anonymous> [90m(F:\JAIKVIK-PROJECTS\radicon-lab\backend\[39mnode_modules\[4mmongodb[24m\lib\cmap\connect.js:313:44[90m)[39m
+        [90m    at Object.onceWrapper (node:events:633:26)[39m
+        [90m    at TLSSocket.emit (node:events:518:28)[39m
+        [90m    at emitErrorNT (node:internal/streams/destroy:170:8)[39m
+        [90m    at emitErrorCloseNT (node:internal/streams/destroy:129:3)[39m
+        [90m    at process.processTicksAndRejections (node:internal/process/task_queues:90:21)[39m {
+          errorLabelSet: Set(3) {
+            [32m'SystemOverloadedError'[39m,
+            [32m'RetryableError'[39m,
+            [32m'ResetPool'[39m
+          },
+          beforeHandshake: [33mfalse[39m,
+          [cause]: Error: unable to verify the first certificate
+          [90m    at TLSSocket.onConnectSecure (node:_tls_wrap:1679:34)[39m
+          [90m    at TLSSocket.emit (node:events:518:28)[39m
+          [90m    at TLSSocket._finishInit (node:_tls_wrap:1078:8)[39m
+          [90m    at ssl.onhandshakedone (node:_tls_wrap:864:12)[39m {
+            code: [32m'UNABLE_TO_VERIFY_LEAF_SIGNATURE'[39m
+          }
+        },
+        topologyVersion: [1mnull[22m,
+        setName: [1mnull[22m,
+        setVersion: [1mnull[22m,
+        electionId: [1mnull[22m,
+        logicalSessionTimeoutMinutes: [1mnull[22m,
+        maxMessageSizeBytes: [1mnull[22m,
+        maxWriteBatchSize: [1mnull[22m,
+        maxBsonObjectSize: [1mnull[22m,
+        primary: [1mnull[22m,
+        me: [1mnull[22m,
+        [32m'$clusterTime'[39m: [1mnull[22m,
+        iscryptd: [33mfalse[39m
+      },
+      [32m'ac-fm1tv50-shard-00-02.xnc21rr.mongodb.net:27017'[39m => ServerDescription {
+        address: [32m'ac-fm1tv50-shard-00-02.xnc21rr.mongodb.net:27017'[39m,
+        type: [32m'Unknown'[39m,
+        hosts: [],
+        passives: [],
+        arbiters: [],
+        tags: {},
+        minWireVersion: [33m0[39m,
+        maxWireVersion: [33m0[39m,
+        roundTripTime: [33m-1[39m,
+        minRoundTripTime: [33m0[39m,
+        lastUpdateTime: [33m311914[39m,
+        lastWriteDate: [33m0[39m,
+        error: MongoNetworkError: unable to verify the first certificate
+            at TLSSocket.<anonymous> [90m(F:\JAIKVIK-PROJECTS\radicon-lab\backend\[39mnode_modules\[4mmongodb[24m\lib\cmap\connect.js:313:44[90m)[39m
+        [90m    at Object.onceWrapper (node:events:633:26)[39m
+        [90m    at TLSSocket.emit (node:events:518:28)[39m
+        [90m    at emitErrorNT (node:internal/streams/destroy:170:8)[39m
+        [90m    at emitErrorCloseNT (node:internal/streams/destroy:129:3)[39m
+        [90m    at process.processTicksAndRejections (node:internal/process/task_queues:90:21)[39m {
+          errorLabelSet: Set(3) {
+            [32m'SystemOverloadedError'[39m,
+            [32m'RetryableError'[39m,
+            [32m'ResetPool'[39m
+          },
+          beforeHandshake: [33mfalse[39m,
+          [cause]: Error: unable to verify the first certificate
+          [90m    at TLSSocket.onConnectSecure (node:_tls_wrap:1679:34)[39m
+          [90m    at TLSSocket.emit (node:events:518:28)[39m
+          [90m    at TLSSocket._finishInit (node:_tls_wrap:1078:8)[39m
+          [90m    at ssl.onhandshakedone (node:_tls_wrap:864:12)[39m {
+            code: [32m'UNABLE_TO_VERIFY_LEAF_SIGNATURE'[39m
+          }
+        },
+        topologyVersion: [1mnull[22m,
+        setName: [1mnull[22m,
+        setVersion: [1mnull[22m,
+        electionId: [1mnull[22m,
+        logicalSessionTimeoutMinutes: [1mnull[22m,
+        maxMessageSizeBytes: [1mnull[22m,
+        maxWriteBatchSize: [1mnull[22m,
+        maxBsonObjectSize: [1mnull[22m,
+        primary: [1mnull[22m,
+        me: [1mnull[22m,
+        [32m'$clusterTime'[39m: [1mnull[22m,
+        iscryptd: [33mfalse[39m
+      }
+    },
+    stale: [33mfalse[39m,
+    compatible: [33mtrue[39m,
+    heartbeatFrequencyMS: [33m10000[39m,
+    localThresholdMS: [33m15[39m,
+    setName: [32m'atlas-kzxqjo-shard-0'[39m,
+    maxElectionId: [1mnull[22m,
+    maxSetVersion: [1mnull[22m,
+    commonWireVersion: [33m0[39m,
+    logicalSessionTimeoutMinutes: [1mnull[22m
+  },
+  code: [90mundefined[39m,
+  cause: TopologyDescription {
+    type: [32m'ReplicaSetNoPrimary'[39m,
+    servers: Map(3) {
+      [32m'ac-fm1tv50-shard-00-00.xnc21rr.mongodb.net:27017'[39m => ServerDescription {
+        address: [32m'ac-fm1tv50-shard-00-00.xnc21rr.mongodb.net:27017'[39m,
+        type: [32m'Unknown'[39m,
+        hosts: [],
+        passives: [],
+        arbiters: [],
+        tags: {},
+        minWireVersion: [33m0[39m,
+        maxWireVersion: [33m0[39m,
+        roundTripTime: [33m-1[39m,
+        minRoundTripTime: [33m0[39m,
+        lastUpdateTime: [33m311932[39m,
+        lastWriteDate: [33m0[39m,
+        error: MongoNetworkError: unable to verify the first certificate
+            at TLSSocket.<anonymous> [90m(F:\JAIKVIK-PROJECTS\radicon-lab\backend\[39mnode_modules\[4mmongodb[24m\lib\cmap\connect.js:313:44[90m)[39m
+        [90m    at Object.onceWrapper (node:events:633:26)[39m
+        [90m    at TLSSocket.emit (node:events:518:28)[39m
+        [90m    at emitErrorNT (node:internal/streams/destroy:170:8)[39m
+        [90m    at emitErrorCloseNT (node:internal/streams/destroy:129:3)[39m
+        [90m    at process.processTicksAndRejections (node:internal/process/task_queues:90:21)[39m {
+          errorLabelSet: Set(3) {
+            [32m'SystemOverloadedError'[39m,
+            [32m'RetryableError'[39m,
+            [32m'ResetPool'[39m
+          },
+          beforeHandshake: [33mfalse[39m,
+          [cause]: Error: unable to verify the first certificate
+          [90m    at TLSSocket.onConnectSecure (node:_tls_wrap:1679:34)[39m
+          [90m    at TLSSocket.emit (node:events:518:28)[39m
+          [90m    at TLSSocket._finishInit (node:_tls_wrap:1078:8)[39m
+          [90m    at ssl.onhandshakedone (node:_tls_wrap:864:12)[39m {
+            code: [32m'UNABLE_TO_VERIFY_LEAF_SIGNATURE'[39m
+          }
+        },
+        topologyVersion: [1mnull[22m,
+        setName: [1mnull[22m,
+        setVersion: [1mnull[22m,
+        electionId: [1mnull[22m,
+        logicalSessionTimeoutMinutes: [1mnull[22m,
+        maxMessageSizeBytes: [1mnull[22m,
+        maxWriteBatchSize: [1mnull[22m,
+        maxBsonObjectSize: [1mnull[22m,
+        primary: [1mnull[22m,
+        me: [1mnull[22m,
+        [32m'$clusterTime'[39m: [1mnull[22m,
+        iscryptd: [33mfalse[39m
+      },
+      [32m'ac-fm1tv50-shard-00-01.xnc21rr.mongodb.net:27017'[39m => ServerDescription {
+        address: [32m'ac-fm1tv50-shard-00-01.xnc21rr.mongodb.net:27017'[39m,
+        type: [32m'Unknown'[39m,
+        hosts: [],
+        passives: [],
+        arbiters: [],
+        tags: {},
+        minWireVersion: [33m0[39m,
+        maxWireVersion: [33m0[39m,
+        roundTripTime: [33m-1[39m,
+        minRoundTripTime: [33m0[39m,
+        lastUpdateTime: [33m311303[39m,
+        lastWriteDate: [33m0[39m,
+        error: MongoNetworkError: unable to verify the first certificate
+            at TLSSocket.<anonymous> [90m(F:\JAIKVIK-PROJECTS\radicon-lab\backend\[39mnode_modules\[4mmongodb[24m\lib\cmap\connect.js:313:44[90m)[39m
+        [90m    at Object.onceWrapper (node:events:633:26)[39m
+        [90m    at TLSSocket.emit (node:events:518:28)[39m
+        [90m    at emitErrorNT (node:internal/streams/destroy:170:8)[39m
+        [90m    at emitErrorCloseNT (node:internal/streams/destroy:129:3)[39m
+        [90m    at process.processTicksAndRejections (node:internal/process/task_queues:90:21)[39m {
+          errorLabelSet: Set(3) {
+            [32m'SystemOverloadedError'[39m,
+            [32m'RetryableError'[39m,
+            [32m'ResetPool'[39m
+          },
+          beforeHandshake: [33mfalse[39m,
+          [cause]: Error: unable to verify the first certificate
+          [90m    at TLSSocket.onConnectSecure (node:_tls_wrap:1679:34)[39m
+          [90m    at TLSSocket.emit (node:events:518:28)[39m
+          [90m    at TLSSocket._finishInit (node:_tls_wrap:1078:8)[39m
+          [90m    at ssl.onhandshakedone (node:_tls_wrap:864:12)[39m {
+            code: [32m'UNABLE_TO_VERIFY_LEAF_SIGNATURE'[39m
+          }
+        },
+        topologyVersion: [1mnull[22m,
+        setName: [1mnull[22m,
+        setVersion: [1mnull[22m,
+        electionId: [1mnull[22m,
+        logicalSessionTimeoutMinutes: [1mnull[22m,
+        maxMessageSizeBytes: [1mnull[22m,
+        maxWriteBatchSize: [1mnull[22m,
+        maxBsonObjectSize: [1mnull[22m,
+        primary: [1mnull[22m,
+        me: [1mnull[22m,
+        [32m'$clusterTime'[39m: [1mnull[22m,
+        iscryptd: [33mfalse[39m
+      },
+      [32m'ac-fm1tv50-shard-00-02.xnc21rr.mongodb.net:27017'[39m => ServerDescription {
+        address: [32m'ac-fm1tv50-shard-00-02.xnc21rr.mongodb.net:27017'[39m,
+        type: [32m'Unknown'[39m,
+        hosts: [],
+        passives: [],
+        arbiters: [],
+        tags: {},
+        minWireVersion: [33m0[39m,
+        maxWireVersion: [33m0[39m,
+        roundTripTime: [33m-1[39m,
+        minRoundTripTime: [33m0[39m,
+        lastUpdateTime: [33m311914[39m,
+        lastWriteDate: [33m0[39m,
+        error: MongoNetworkError: unable to verify the first certificate
+            at TLSSocket.<anonymous> [90m(F:\JAIKVIK-PROJECTS\radicon-lab\backend\[39mnode_modules\[4mmongodb[24m\lib\cmap\connect.js:313:44[90m)[39m
+        [90m    at Object.onceWrapper (node:events:633:26)[39m
+        [90m    at TLSSocket.emit (node:events:518:28)[39m
+        [90m    at emitErrorNT (node:internal/streams/destroy:170:8)[39m
+        [90m    at emitErrorCloseNT (node:internal/streams/destroy:129:3)[39m
+        [90m    at process.processTicksAndRejections (node:internal/process/task_queues:90:21)[39m {
+          errorLabelSet: Set(3) {
+            [32m'SystemOverloadedError'[39m,
+            [32m'RetryableError'[39m,
+            [32m'ResetPool'[39m
+          },
+          beforeHandshake: [33mfalse[39m,
+          [cause]: Error: unable to verify the first certificate
+          [90m    at TLSSocket.onConnectSecure (node:_tls_wrap:1679:34)[39m
+          [90m    at TLSSocket.emit (node:events:518:28)[39m
+          [90m    at TLSSocket._finishInit (node:_tls_wrap:1078:8)[39m
+          [90m    at ssl.onhandshakedone (node:_tls_wrap:864:12)[39m {
+            code: [32m'UNABLE_TO_VERIFY_LEAF_SIGNATURE'[39m
+          }
+        },
+        topologyVersion: [1mnull[22m,
+        setName: [1mnull[22m,
+        setVersion: [1mnull[22m,
+        electionId: [1mnull[22m,
+        logicalSessionTimeoutMinutes: [1mnull[22m,
+        maxMessageSizeBytes: [1mnull[22m,
+        maxWriteBatchSize: [1mnull[22m,
+        maxBsonObjectSize: [1mnull[22m,
+        primary: [1mnull[22m,
+        me: [1mnull[22m,
+        [32m'$clusterTime'[39m: [1mnull[22m,
+        iscryptd: [33mfalse[39m
+      }
+    },
+    stale: [33mfalse[39m,
+    compatible: [33mtrue[39m,
+    heartbeatFrequencyMS: [33m10000[39m,
+    localThresholdMS: [33m15[39m,
+    setName: [32m'atlas-kzxqjo-shard-0'[39m,
+    maxElectionId: [1mnull[22m,
+    maxSetVersion: [1mnull[22m,
+    commonWireVersion: [33m0[39m,
+    logicalSessionTimeoutMinutes: [1mnull[22m
+  }
+}

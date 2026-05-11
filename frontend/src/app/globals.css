@@ -1,0 +1,220 @@
+@import "tailwindcss";
+
+:root {
+  --background: #FFFFFF;
+  --foreground: #171717;
+  --brand-color: #DF1F26;
+  --surface-color: #FFFFFF;
+  --line-color: #D7E8F7;
+}
+
+@theme inline {
+  /* Livvic Font mapping */
+  --font-sans: var(--font-livvic), ui-sans-serif, system-ui, sans-serif;
+  --font-livvic: var(--font-livvic);
+  --color-brand-50: #FFF1F2;
+  --color-brand-100: #FFE1E3;
+  --color-brand-200: #FFC8CC;
+  --color-brand-300: #FFA1A8;
+  --color-brand-400: #FF6874;
+  --color-brand-500: #F43B46;
+  --color-brand-600: #DF1F26;
+  --color-brand-700: #BD171D;
+  --color-brand-800: #9D171C;
+  --color-brand-900: #821A1E;
+  --color-brand-950: #47080B;
+  --color-surface: #FFFFFF;
+  --color-line: #D7E8F7;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-livvic), sans-serif;
+}
+
+html,
+body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+img,
+video,
+canvas,
+svg {
+  max-width: 100%;
+}
+
+* {
+  min-width: 0;
+}
+
+body::before {
+  content: none;
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at 18% 16%, rgba(255, 255, 255, 0.86), transparent 28%),
+    radial-gradient(ellipse at 82% 8%, rgba(255, 255, 255, 0.58), transparent 24%),
+    repeating-radial-gradient(ellipse at 50% 42%, rgba(91, 169, 220, 0.16) 0 2px, transparent 3px 20px);
+  background-size: 100% 100%, 100% 100%, 620px 220px;
+  opacity: 0.78;
+  animation: waveDrift 18s ease-in-out infinite alternate;
+}
+
+@keyframes waveDrift {
+  from {
+    background-position: 0 0, 0 0, 0 0;
+  }
+  to {
+    background-position: 0 0, 0 0, 72px 28px;
+  }
+}
+
+.site-wave-bg {
+  position: relative;
+  isolation: isolate;
+  background: #FFFFFF;
+}
+
+.floating-panel {
+  border: 1px solid rgba(215, 232, 247, 0.95);
+  background: #FFFFFF;
+  box-shadow: 0 22px 70px rgba(39, 96, 134, 0.12);
+}
+
+/* nav baar animation  */
+@keyframes slideDown {
+  from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+.animate-slide-down {
+  animation: slideDown 0.4s ease-out;
+}
+
+/* globals.css mein add karein */
+.dropdown-link {
+  @apply block px-6 py-2 text-sm transition-all duration-300 ease-in-out;
+}
+
+.dropdown-link:hover {
+  @apply bg-brand-50 text-brand-600 translate-x-2;
+}
+
+.blog-rich-content h1 {
+  @apply mb-5 mt-10 scroll-mt-28 text-4xl font-bold leading-tight text-[#111111];
+}
+
+.blog-rich-content h2 {
+  @apply mb-4 mt-10 scroll-mt-28 text-3xl font-bold text-[#111111];
+}
+
+.blog-rich-content h3 {
+  @apply mb-4 mt-9 scroll-mt-28 text-2xl font-bold text-[#111111];
+}
+
+.blog-rich-content p {
+  @apply my-5 text-base leading-8 text-gray-600;
+}
+
+.blog-rich-content a {
+  @apply font-bold text-brand-600 underline underline-offset-4;
+}
+
+.blog-rich-content ul,
+.blog-rich-content ol {
+  @apply my-6 space-y-3 pl-6 text-gray-600;
+}
+
+.blog-rich-content ul li {
+  @apply list-disc leading-7;
+}
+
+.blog-rich-content ol li {
+  @apply list-decimal leading-7;
+}
+
+.blog-rich-content blockquote {
+  @apply my-7 border-l-4 border-brand-600 bg-brand-50 px-6 py-5 text-lg font-semibold leading-8 text-[#111111];
+}
+
+.blog-rich-content img {
+  @apply my-8 w-full rounded-sm border border-brand-100 object-cover shadow-sm;
+}
+
+.blog-rich-content table {
+  @apply my-8 w-full border-collapse overflow-hidden rounded-sm text-left text-sm;
+}
+
+.blog-rich-content th {
+  @apply border border-brand-100 bg-brand-50 px-4 py-3 font-bold text-[#111111];
+}
+
+.blog-rich-content td {
+  @apply border border-brand-100 px-4 py-3 text-gray-600;
+}
+
+.blog-rich-content pre {
+  @apply my-7 overflow-x-auto rounded-sm bg-[#111111] p-5 text-sm leading-7 text-white;
+}
+
+.ProseMirror h1 {
+  @apply my-4 text-3xl font-black leading-tight text-slate-950;
+}
+
+.ProseMirror h2 {
+  @apply my-4 text-2xl font-black leading-tight text-slate-950;
+}
+
+.ProseMirror h3 {
+  @apply my-3 text-xl font-black leading-tight text-slate-950;
+}
+
+.ProseMirror p {
+  @apply my-3;
+}
+
+.ProseMirror ul,
+.ProseMirror ol {
+  @apply my-3 pl-6;
+}
+
+.ProseMirror ul li {
+  @apply list-disc;
+}
+
+.ProseMirror ol li {
+  @apply list-decimal;
+}
+
+.ProseMirror blockquote {
+  @apply my-4 border-l-4 border-brand-500 bg-brand-50 px-4 py-3 text-slate-700;
+}
+
+.ProseMirror a {
+  @apply text-brand-600 underline underline-offset-4;
+}
+
+.ProseMirror img {
+  @apply my-4 max-h-[420px] w-full rounded-2xl object-cover;
+}
+
+.ProseMirror table {
+  @apply my-4 w-full border-collapse text-left;
+}
+
+.ProseMirror th {
+  @apply border border-slate-200 bg-slate-100 px-3 py-2 font-black text-slate-800;
+}
+
+.ProseMirror td {
+  @apply border border-slate-200 px-3 py-2;
+}
