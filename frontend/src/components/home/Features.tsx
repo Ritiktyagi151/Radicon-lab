@@ -45,8 +45,8 @@ export default function FeaturesSection() {
               transition={{ delay: index * 0.1, duration: 0.5 }}
               whileHover={{ y: -12, rotateX: 5, rotateY: index % 2 === 0 ? -5 : 5, scale: 1.02 }}
               className={`group relative p-10 border border-gray-100 transition-all duration-500 cursor-pointer overflow-hidden
-                ${feature.active ? 'bg-[#111111] text-white' : 'bg-white text-gray-900 hover:bg-[#F0F8FF]'}
-                [transform-style:preserve-3d] hover:z-10 hover:shadow-2xl hover:shadow-gray-300/50
+                ${feature.active ? 'bg-[#111111] text-white' : 'bg-white text-gray-900 hover:border-blue-100 hover:bg-[#F0F8FF]'}
+                [transform-style:preserve-3d] hover:z-10 hover:shadow-2xl hover:shadow-blue-100/70
               `}
             >
               {/* Background Pattern Effect on Hover */}
@@ -59,7 +59,7 @@ export default function FeaturesSection() {
               {/* Content */}
               <div className="relative z-10 transition-transform duration-500 group-hover:translate-z-6">
                 <div className={`mb-8 inline-block transition-colors duration-500 
-                  ${feature.active ? 'text-white' : 'text-slate-500 group-hover:text-slate-700'}
+                  ${feature.active ? 'text-white' : 'text-slate-500 group-hover:text-blue-600'}
                 `}>
                   <feature.icon size={50} strokeWidth={1.5} />
                 </div>
@@ -76,7 +76,7 @@ export default function FeaturesSection() {
               </div>
               
               {/* Bottom Border Animation */}
-              <div className="absolute bottom-0 left-0 w-0 h-1 bg-white transition-all duration-500 group-hover:w-full" />
+              <div className={`absolute bottom-0 left-0 h-1 w-0 transition-all duration-500 group-hover:w-full ${feature.active ? 'bg-blue-400' : 'bg-blue-500'}`} />
             </motion.div>
           ))}
         </div>

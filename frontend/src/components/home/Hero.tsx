@@ -8,21 +8,21 @@ import { useSeoRoutes } from '@/lib/admin/useSeoRoutes'
 const BANNERS = [
   {
     id: 1,
-    image: "/homepage-banner/banner.jpeg",
+    image: "/homepage-banner/b1.jpeg",
     title: "Trusted pharmaceutical manufacturing partner in India.",
     subtitle: "Radicon Laboratories Ltd",
     desc: "Scalable pharma manufacturing solutions for tablets, capsules, and oral strips."
   },
   {
     id: 2,
-    image: "/homepage-banner/banner2.jpeg", 
+    image: "/homepage-banner/b2.jpeg", 
     title: "World-class GMP Certified Facilities.",
     subtitle: "Quality Assurance",
     desc: "Maintaining the highest standards in every batch we produce."
   },
   {
     id: 3,
-    image: "/homepage-banner/banner3.jpeg",
+    image: "/homepage-banner/b3.jpeg",
     title: "Innovative Research & Development.",
     subtitle: "R&D Excellence",
     desc: "Pioneering new formulations to meet global healthcare needs."
@@ -95,12 +95,12 @@ export default function Hero() {
 
               <div className="mt-10 flex flex-wrap gap-4 [perspective:900px]">
                 <motion.div whileHover={{ y: -5, rotateX: 8, scale: 1.03 }} whileTap={{ scale: 0.97 }}>
-                  <Link href={hrefFor('/contact')} className="inline-flex rounded-full bg-[#DF1F26] px-6 py-3 text-xs font-bold uppercase text-white transition hover:opacity-90 hover:shadow-xl hover:shadow-gray-300 sm:px-8 sm:py-4 sm:text-sm">
+                  <Link href={hrefFor('/contact')} className="inline-flex rounded-full bg-[#DF1F26] px-6 py-3 text-xs font-bold uppercase text-white transition hover:opacity-95 hover:shadow-xl hover:shadow-blue-200/50 sm:px-8 sm:py-4 sm:text-sm">
                   Contact Us
                   </Link>
                 </motion.div>
                 <motion.div whileHover={{ y: -5, rotateX: 8, scale: 1.03 }} whileTap={{ scale: 0.97 }}>
-                  <Link href={hrefFor('/services')} className="inline-flex rounded-full border-2 border-[#E8E8E8] px-6 py-3 text-xs font-bold uppercase text-gray-700 transition hover:bg-[#F0F8FF] hover:shadow-xl hover:shadow-gray-200 sm:px-8 sm:py-4 sm:text-sm">
+                  <Link href={hrefFor('/services')} className="inline-flex rounded-full border-2 border-[#E8E8E8] px-6 py-3 text-xs font-bold uppercase text-gray-700 transition hover:border-blue-200 hover:bg-[#F0F8FF] hover:text-blue-700 hover:shadow-xl hover:shadow-blue-100/70 sm:px-8 sm:py-4 sm:text-sm">
                   View Services
                   </Link>
                 </motion.div>
@@ -117,7 +117,7 @@ export default function Hero() {
             key={index}
             onClick={() => setCurrent(index)}
             className={`h-2 transition-all duration-300 rounded-full ${
-              current === index ? "w-8 bg-gray-500" : "w-2 bg-gray-300"
+              current === index ? "w-8 bg-blue-500" : "w-2 bg-gray-300 hover:bg-blue-200"
             }`}
           />
         ))}

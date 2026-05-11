@@ -140,7 +140,13 @@ export default function Footer({ initialRoutes }: { initialRoutes?: PublicSeoRou
               <li>
                 <Link href="/products/syrups" className="group/link inline-flex items-center text-[16px] text-gray-500 transition-all duration-300 hover:text-slate-700 hover:pl-4">
                   <span className="opacity-0 -translate-x-2 text-[10px] text-slate-400 transition-all duration-200 group-hover/link:opacity-100 group-hover/link:translate-x-[-8px]">→</span>
-                  Syrups
+                  Ointments
+                </Link>
+              </li>
+              <li>
+                <Link href="/products/syrups" className="group/link inline-flex items-center text-[16px] text-gray-500 transition-all duration-300 hover:text-slate-700 hover:pl-4">
+                  <span className="opacity-0 -translate-x-2 text-[10px] text-slate-400 transition-all duration-200 group-hover/link:opacity-100 group-hover/link:translate-x-[-8px]">→</span>
+                  Orally-Disintegrating Strips
                 </Link>
               </li>
             </ul>

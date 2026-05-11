@@ -65,9 +65,9 @@ export default function AboutSection() {
             </motion.p>
 
             <motion.div variants={itemVariants}>
-              <Link href={hrefFor('/about')} className="group inline-flex items-center gap-3 border border-[#E8E8E8] bg-white px-8 py-4 font-bold text-gray-700 transition-all hover:bg-[#F0F8FF] hover:shadow-lg hover:shadow-gray-200">
+              <Link href={hrefFor('/about')} className="group inline-flex items-center gap-3 border border-[#E8E8E8] bg-white px-8 py-4 font-bold text-gray-700 transition-all hover:border-blue-100 hover:bg-[#F0F8FF] hover:text-blue-700 hover:shadow-lg hover:shadow-blue-100/60">
                 More About
-                <span className="w-8 h-[2px] bg-gray-400 transition-all group-hover:w-12"></span>
+                <span className="w-8 h-[2px] bg-gray-400 transition-all group-hover:w-12 group-hover:bg-blue-500"></span>
               </Link>
             </motion.div>
 
@@ -117,8 +117,8 @@ export default function AboutSection() {
                     }}
                     className="flex items-center gap-3 text-[#111111] font-medium"
                   >
-                    <span className="flex-shrink-0 w-5 h-5 bg-[#E8E8E8] flex items-center justify-center">
-                      <Check className="text-gray-600 w-3 h-3" strokeWidth={4} />
+                    <span className="flex-shrink-0 w-5 h-5 bg-[#E8E8E8] flex items-center justify-center transition-colors group-hover:bg-blue-50">
+                      <Check className="text-blue-600 w-3 h-3" strokeWidth={4} />
                     </span>
                     {item}
                   </motion.li>
@@ -153,7 +153,7 @@ export default function AboutSection() {
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: false, amount: 0.3 }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="absolute -bottom-6 -right-6 w-full h-full border-2 border-line -z-0"
+              className="absolute -bottom-6 -right-6 w-full h-full border-2 border-blue-100 -z-0"
             ></motion.div>
           </motion.div>
 

@@ -69,7 +69,7 @@ export default function BlogSection() {
               transition={{ delay: index * 0.1, duration: 0.55, ease: 'easeOut' }}
               whileHover={{ y: -12, rotateX: 4, rotateY: index % 2 === 0 ? -4 : 4, scale: 1.02 }}
               // overflow-hidden yahan move kiya hai taaki image zoom card se bahar na jaye
-              className="bg-white rounded-sm shadow-sm group border border-gray-100 overflow-hidden hover:shadow-2xl hover:shadow-gray-300/50 [transform-style:preserve-3d]"
+              className="bg-white rounded-sm shadow-sm group border border-gray-100 overflow-hidden transition-colors hover:border-blue-100 hover:shadow-2xl hover:shadow-blue-100/70 [transform-style:preserve-3d]"
             >
               {/* Image Container - overflow-hidden yahan se hata diya hai taaki date upar dikhe */}
               <div className="relative">
@@ -89,22 +89,22 @@ export default function BlogSection() {
 
               {/* Content Container */}
               <div className="p-6 pt-10 bg-white">
-                <h3 className="text-xl font-bold text-[#111111] mb-6 line-clamp-2 hover:text-gray-600 cursor-pointer transition-colors">
+                <h3 className="text-xl font-bold text-[#111111] mb-6 line-clamp-2 hover:text-blue-700 cursor-pointer transition-colors">
                   {blog.title}
                 </h3>
 
                 {/* Meta Information (Icons) */}
                 <div className="flex items-center gap-4 text-gray-500 text-sm border-b border-gray-100 pb-6 mb-6">
                   <div className="flex items-center gap-1.5">
-                    <User size={16} className="text-slate-500" />
+                    <User size={16} className="text-blue-500" />
                     <span>{blog.author}</span>
                   </div>
                   <div className="flex items-center gap-1.5">
-                    <Eye size={16} className="text-slate-500" />
+                    <Eye size={16} className="text-blue-500" />
                     <span>{blog.views}</span>
                   </div>
                   <div className="flex items-center gap-1.5">
-                    <MessageSquare size={16} className="text-slate-500" />
+                    <MessageSquare size={16} className="text-blue-500" />
                     <span>{blog.comments}</span>
                   </div>
                 </div>
@@ -115,7 +115,7 @@ export default function BlogSection() {
                     {blog.tags.map((tag, i) => (
                       <span 
                         key={i} 
-                        className="bg-[#f0f4f8] text-gray-600 text-xs font-medium px-3 py-1.5 rounded-sm hover:bg-[#E8E8E8] cursor-pointer transition-colors"
+                        className="bg-[#f0f4f8] text-gray-600 text-xs font-medium px-3 py-1.5 rounded-sm hover:bg-blue-50 hover:text-blue-700 cursor-pointer transition-colors"
                       >
                         {tag}
                       </span>
@@ -125,7 +125,7 @@ export default function BlogSection() {
                   <motion.button 
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.9 }}
-                    className="w-10 h-10 bg-[#F0F8FF] text-slate-600 rounded-full flex items-center justify-center shadow-lg shadow-gray-200"
+                    className="w-10 h-10 bg-[#F0F8FF] text-blue-600 rounded-full flex items-center justify-center shadow-lg shadow-blue-100 transition-colors hover:bg-blue-600 hover:text-white"
                   >
                     <ArrowRight size={20} />
                   </motion.button>

@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Phone, ChevronLeft, ChevronRight } from 'lucide-react'
 
@@ -18,45 +18,31 @@ const researchImages = [
 export default function ResearchSection() {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [isAutoPlaying, setIsAutoPlaying] = useState(true)
-  const [direction, setDirection] = useState(0)
-
-  const paginate = (newDirection: number) => {
-    setDirection(newDirection)
-    setCurrentIndex((prevIndex) => {
-      let newIndex = prevIndex + newDirection
-      if (newIndex < 0) newIndex = researchImages.length - 1
-      if (newIndex >= researchImages.length) newIndex = 0
-      return newIndex
-    })
-  }
-
-  // Auto-slide every 3 seconds
-  useEffect(() => {
-    if (!isAutoPlaying) return
-    
-    const interval = setInterval(() => {
-      paginate(1)
-    }, 3000)
-
-    return () => clearInterval(interval)
-  }, [isAutoPlaying, currentIndex])
+  const [isHovering, setIsHovering] = useState(false)
 
   const nextSlide = () => {
-    paginate(1)
-    setIsAutoPlaying(false)
+    setCurrentIndex((prev) => (prev + 1) % researchImages.length)
   }
 
   const prevSlide = () => {
-    paginate(-1)
-    setIsAutoPlaying(false)
+    setCurrentIndex((prev) => (prev - 1 + researchImages.length) % researchImages.length)
   }
 
   const goToSlide = (index: number) => {
-    const newDirection = index > currentIndex ? 1 : -1
-    setDirection(newDirection)
     setCurrentIndex(index)
     setIsAutoPlaying(false)
   }
+
+  // Auto-slide every 3 seconds - stops on hover
+  useEffect(() => {
+    if (!isAutoPlaying || isHovering) return
+    
+    const interval = setInterval(() => {
+      nextSlide()
+    }, 3000)
+
+    return () => clearInterval(interval)
+  }, [isAutoPlaying, isHovering, currentIndex])
 
   // Calculate visible images (5 at a time)
   const getVisibleImages = () => {
@@ -88,10 +74,17 @@ export default function ResearchSection() {
       </motion.div>
 
       {/* Image Gallery Slider */}
-      <div className="relative w-full bg-gray-100 overflow-hidden">
+      <div 
+        className="relative w-full bg-gray-100 overflow-hidden"
+        onMouseEnter={() => setIsHovering(true)}
+        onMouseLeave={() => setIsHovering(false)}
+      >
         {/* Previous Button */}
         <button
-          onClick={prevSlide}
+          onClick={() => {
+            prevSlide()
+            setIsAutoPlaying(false)
+          }}
           className="absolute left-4 top-1/2 -translate-y-1/2 z-10 bg-white/90 hover:bg-white p-3 rounded-full shadow-lg transition-all hover:scale-110"
           aria-label="Previous"
         >
@@ -100,65 +93,59 @@ export default function ResearchSection() {
 
         {/* Next Button */}
         <button
-          onClick={nextSlide}
+          onClick={() => {
+            nextSlide()
+            setIsAutoPlaying(false)
+          }}
           className="absolute right-4 top-1/2 -translate-y-1/2 z-10 bg-white/90 hover:bg-white p-3 rounded-full shadow-lg transition-all hover:scale-110"
           aria-label="Next"
         >
           <ChevronRight className="w-6 h-6 text-[#111111]" />
         </button>
 
-        {/* Images Grid with smooth transition using AnimatePresence */}
+        {/* Images Grid - Smooth one-by-one slide */}
         <div className="relative w-full overflow-hidden">
-          <AnimatePresence initial={false} custom={direction} mode="wait">
-            <motion.div
-              key={currentIndex}
-              custom={direction}
-              initial={{ x: direction > 0 ? '100%' : '-100%', opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
-              exit={{ x: direction > 0 ? '-100%' : '100%', opacity: 0 }}
-              transition={{
-                x: { type: "spring", stiffness: 300, damping: 30 },
-                opacity: { duration: 0.2 }
-              }}
-              className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 w-full"
-            >
-              {getVisibleImages().map((item, index) => (
-                <motion.div
-                  key={`${item.index}-${index}`}
-                  initial={{ opacity: 0, y: 30, rotateY: -6 }}
-                  animate={{ opacity: 1, y: 0, rotateY: 0 }}
-                  transition={{ delay: index * 0.07, duration: 0.55, ease: 'easeOut' }}
-                  whileHover={{ y: -10, rotateX: 4, rotateY: index % 2 === 0 ? -5 : 5, scale: 1.02 }}
-                  className="relative aspect-[4/5] overflow-hidden border-r border-white last:border-0 group [transform-style:preserve-3d]"
-                >
-                  {/* Image */}
-                  <img 
-                    src={item.src} 
-                    alt={`Research ${index + 1}`}
-                    className="w-full h-full object-cover transition-all duration-700 ease-out group-hover:scale-110 group-hover:brightness-75"
-                  />
-                  
-                  {/* Hover Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#111111]/80 via-[#111111]/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 ease-out">
-                    <div className="absolute bottom-0 left-0 right-0 p-4 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
-                      <div className="w-12 h-1 bg-[#E8E8E8] mb-3"></div>
-                      <p className="text-white font-semibold text-sm md:text-base">
-                        Research & Development
-                      </p>
-                      <p className="text-white/80 text-xs mt-1">
-                        Advanced Laboratory
-                      </p>
-                    </div>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 w-full">
+            {getVisibleImages().map((item, index) => (
+              <motion.div
+                key={`${item.index}-${currentIndex}`}
+                initial={{ opacity: 0, x: 100 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ 
+                  delay: index * 0.1, 
+                  duration: 0.6, 
+                  ease: [0.25, 0.46, 0.45, 0.94] 
+                }}
+                whileHover={{ y: -10, rotateX: 4, rotateY: index % 2 === 0 ? -5 : 5, scale: 1.02 }}
+                className="relative aspect-[4/5] overflow-hidden border-r border-white last:border-0 group [transform-style:preserve-3d]"
+              >
+                {/* Image */}
+                <img 
+                  src={item.src} 
+                  alt={`Research ${index + 1}`}
+                  className="w-full h-full object-cover transition-all duration-700 ease-out group-hover:scale-110 group-hover:brightness-75"
+                />
+                
+                {/* Hover Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-[#111111]/80 via-[#111111]/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 ease-out">
+                  <div className="absolute bottom-0 left-0 right-0 p-4 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                    <div className="w-12 h-1 bg-[#E8E8E8] mb-3"></div>
+                    <p className="text-white font-semibold text-sm md:text-base">
+                      Research & Development
+                    </p>
+                    <p className="text-white/80 text-xs mt-1">
+                      Advanced Laboratory
+                    </p>
                   </div>
+                </div>
 
-                  {/* Corner Plus Icon on Hover */}
-                  <div className="absolute top-4 right-4 w-10 h-10 bg-white text-gray-700 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transform scale-0 group-hover:scale-100 transition-all duration-300 shadow-lg">
-                    <span className="text-gray-700 text-2xl font-light">+</span>
-                  </div>
-                </motion.div>
-              ))}
-            </motion.div>
-          </AnimatePresence>
+                {/* Corner Plus Icon on Hover */}
+                <div className="absolute top-4 right-4 w-10 h-10 bg-white text-gray-700 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transform scale-0 group-hover:scale-100 transition-all duration-300 shadow-lg">
+                  <span className="text-gray-700 text-2xl font-light">+</span>
+                </div>
+              </motion.div>
+            ))}
+          </div>
         </div>
 
         {/* Dots Indicator */}
