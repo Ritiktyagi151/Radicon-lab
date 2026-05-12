@@ -22,9 +22,12 @@ async function bootstrap() {
   });
 
   app.enableCors({
-    origin: process.env.FRONTEND_URL || 'http://localhost:3000',
-    credentials: true,
-  });
+  origin: [
+    'https://radicon-lab.vercel.app',  // ✅ Vercel URL
+    'http://localhost:3000',
+  ],
+  credentials: true,
+});
 
   app.useGlobalPipes(
     new ValidationPipe({
