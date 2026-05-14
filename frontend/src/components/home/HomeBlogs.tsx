@@ -13,7 +13,7 @@ const blogs = [
     views: 275,
     comments: 300,
     tags: ["Equipment", "Sass"],
-    image: "https://images.unsplash.com/photo-1581093458791-9f3c3250bb8b?q=80&w=800",
+    image: "/product-radicon/ACICLOCON 200.jpg",
   },
   {
     id: 2,
@@ -23,7 +23,7 @@ const blogs = [
     views: 275,
     comments: 300,
     tags: ["Equipment", "Sass"],
-    image: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?q=80&w=800",
+    image: "/product-radicon/Alumnicon-500.jpg",
   },
   {
     id: 3,
@@ -33,7 +33,7 @@ const blogs = [
     views: 275,
     comments: 300,
     tags: ["Equipment", "Sass"],
-    image: "https://images.unsplash.com/photo-1579684385127-1ef15d508118?q=80&w=800",
+    image: "/product-radicon/Losarad-50.jpg",
   }
 ]
 

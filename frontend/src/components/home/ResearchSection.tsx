@@ -5,14 +5,18 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { Phone, ChevronLeft, ChevronRight } from 'lucide-react'
 
 const researchImages = [
-  "https://images.unsplash.com/photo-1581093458791-9f3c3250bb8b?q=80&w=600",
-  "https://images.unsplash.com/photo-1579154233762-3ac979728c1d?q=80&w=600",
-  "https://images.unsplash.com/photo-1582719508461-905c673771fd?q=80&w=600",
-  "https://images.unsplash.com/photo-1576086213369-97a306d36557?q=80&w=600",
-  "https://images.unsplash.com/photo-1532187875605-7fe3584d090b?q=80&w=600",
-  "https://images.unsplash.com/photo-1631549916768-4119b2e5f926?q=80&w=600",
-  "https://images.unsplash.com/photo-1583912267550-bc72e7f8772e?q=80&w=600",
-  "https://images.unsplash.com/photo-1578496479914-7ef3b0193be3?q=80&w=600",
+  "/product-radicon/AZICON-250.jpg",
+  "/product-radicon/Levorad-500.jpg",
+  "/product-radicon/Montecon-LC.jpg",
+  "/product-radicon/MuscleRelax Forte.jpg",
+  "/product-radicon/Spasmorad-40.jpg",
+  "/product-radicon/OLAPiNE-5.jpg",
+  "/product-radicon/OLAPiNE-5.jpg",
+  "/product-radicon/VITARAD_C 500mg.jpg",
+  "/product-radicon/AZICON-250.jpg",
+  "/product-radicon/Levorad-500.jpg",
+  "/product-radicon/Montecon-LC.jpg",
+  "/product-radicon/MuscleRelax Forte.jpg"
 ]
 
 export default function ResearchSection() {
