@@ -17,6 +17,8 @@ const fadeInUp = {
   visible: { opacity: 1, y: 0 },
 }
 
+const companyProfileUrl = '/pdf/company_profile.pdf'
+
 export default function AboutPageClient({ pages, page }: AboutPageClientProps) {
   return (
     <main className="bg-white text-[#111111]">
@@ -40,6 +42,25 @@ export default function AboutPageClient({ pages, page }: AboutPageClientProps) {
             <motion.p variants={fadeInUp} className="mt-4 max-w-3xl text-base font-semibold leading-8 text-gray-600">
               {page.hero}
             </motion.p>
+            <motion.div variants={fadeInUp} className="mt-7 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+              <a
+                href={companyProfileUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex w-full items-center justify-center gap-2 bg-brand-600 px-6 py-3 text-sm font-black uppercase tracking-wide text-white transition hover:bg-brand-800 sm:w-auto"
+              >
+                Company Profile
+                <ArrowUpRight size={18} />
+              </a>
+              <a
+                href={companyProfileUrl}
+                download
+                className="inline-flex w-full items-center justify-center gap-2 border border-brand-200 bg-white px-6 py-3 text-sm font-black uppercase tracking-wide text-[#111111] transition hover:border-brand-600 hover:text-brand-600 sm:w-auto"
+              >
+                Download Profile
+                <ArrowUpRight size={18} />
+              </a>
+            </motion.div>
           </motion.div>
 
           <motion.div
@@ -88,21 +109,21 @@ export default function AboutPageClient({ pages, page }: AboutPageClientProps) {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: 0.55, ease: 'easeOut' }}
-            className="mb-8 border border-line bg-white p-3 shadow-sm"
+            className="mb-8 overflow-hidden border border-line bg-white p-2 shadow-sm sm:p-3"
             aria-label="About pages"
           >
-            <div className="flex gap-3 overflow-x-auto pb-1">
+            <div className="flex snap-x gap-2 overflow-x-auto pb-1 [-webkit-overflow-scrolling:touch] sm:gap-3">
               {pages.map((item) => (
                 <Link
                   key={item.slug || 'who-we-are'}
                   href={getAboutPath(item.slug)}
-                  className={`group flex min-w-max items-center justify-between gap-3 px-4 py-3 text-xs font-black uppercase leading-5 transition ${
+                  className={`group flex shrink-0 snap-start items-center justify-between gap-2 whitespace-nowrap px-3 py-3 text-[11px] font-black uppercase leading-5 transition sm:gap-3 sm:px-4 sm:text-xs ${
                     item.slug === page.slug
                       ? 'bg-brand-600 text-white'
                       : 'text-[#111111] hover:bg-brand-50 hover:text-brand-600'
                   }`}
                 >
-                  {item.title}
+                  <span>{item.title}</span>
                   <ArrowUpRight size={17} className="shrink-0 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                 </Link>
               ))}

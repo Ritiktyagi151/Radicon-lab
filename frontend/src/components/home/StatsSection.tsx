@@ -46,16 +46,16 @@ export default function StatsSection() {
       <div className="pointer-events-none absolute inset-0 opacity-[0.14] bg-[radial-gradient(ellipse_at_20%_20%,#FFFFFF_0_18%,transparent_19%),radial-gradient(ellipse_at_82%_54%,#FFFFFF_0_14%,transparent_15%)]" />
       
       {/* 1. COUNTER STATS SECTION */}
-      <section className="relative z-20 py-10">
+      <section className="relative z-20 py-8 sm:py-10">
         <div className="max-w-7xl mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: false, amount: 0.3 }}
             transition={{ duration: 0.65, ease: 'easeOut' }}
-            className="floating-panel rounded-lg p-8 lg:p-12 [perspective:1200px]"
+            className="floating-panel rounded-lg p-4 sm:p-8 lg:p-12 [perspective:1200px]"
           >
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4 lg:gap-8">
               {stats.map((stat, idx) => (
                 <motion.div
                   key={idx}
@@ -67,10 +67,10 @@ export default function StatsSection() {
                   className="flex items-center gap-4 border border-transparent p-3 transition hover:border-[#E8E8E8] hover:bg-[#F0F8FF] hover:shadow-lg [transform-style:preserve-3d]"
                 >
                   <div className="text-slate-500">
-                    <stat.icon size={45} strokeWidth={1.5} />
+                    <stat.icon className="h-9 w-9 sm:h-11 sm:w-11" strokeWidth={1.5} />
                   </div>
                   <div>
-                    <h3 className="text-4xl font-bold text-gray-900">
+                    <h3 className="text-3xl font-bold text-gray-900 sm:text-4xl">
                       <Counter to={stat.value} />
                     </h3>
                     <p className="text-gray-500 font-medium text-sm uppercase tracking-wider">{stat.label}</p>
@@ -97,18 +97,18 @@ export default function StatsSection() {
     <div className="  bg-[#0A1426]"></div>
   </div>
 
-  <div className="relative bg-[#0A1426]/70 px-4 pb-24 pt-16 shadow-[0_24px_70px_rgba(39,96,134,0.10)] sm:px-6 lg:pt-40 lg:pb-60">
+  <div className="relative bg-[#0A1426]/70 px-4 pb-20 pt-12 shadow-[0_24px_70px_rgba(39,96,134,0.10)] sm:px-6 sm:pb-24 sm:pt-16 lg:pt-40 lg:pb-60">
     <div className="max-w-7xl mx-auto lg:px-24">
       <motion.div 
         initial={{ opacity: 0, x: -50 }}
         whileInView={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.8 }}
       >
-        <h2 className="text-3xl lg:text-4xl font-bold text-white leading-tight">
+        <h2 className="text-2xl font-bold leading-tight text-white sm:text-3xl lg:text-4xl">
           Manufacturing Quality Medicines for a Healthier Future.
         </h2>
 
-        <p className="text-gray-300 text-lg mt-4">
+        <p className="mt-4 text-base text-gray-300 sm:text-lg">
           We are committed to delivering safe, effective, and affordable pharmaceutical products with global quality standards
         </p>
       </motion.div>
@@ -117,7 +117,7 @@ export default function StatsSection() {
 </section>
 
       {/* 3. OVERLAPPING CONTENT (PROGRESS & VIDEO) */}
-      <div className="max-w-7xl mx-auto z-[99] px-4 mt-[-56px] sm:mt-[-80px] lg:mt-[-180px] relative">
+      <div className="max-w-7xl mx-auto z-[99] px-4 mt-[-40px] sm:mt-[-80px] lg:mt-[-180px] relative">
         <div className="flex flex-col lg:flex-row gap-0 items-stretch">
           
           {/* LEFT BLOCK: Progress Bars */}
@@ -127,7 +127,7 @@ export default function StatsSection() {
             viewport={{ once: false, amount: 0.25 }}
             transition={{ duration: 0.7, ease: 'easeOut' }}
             whileHover={{ y: -6, rotateY: 2 }}
-            className="bg-white p-8 lg:p-12 lg:w-1/2 shadow-lg [transform-style:preserve-3d]"
+            className="bg-white p-5 shadow-lg sm:p-8 lg:w-1/2 lg:p-12 [transform-style:preserve-3d]"
           >
             <div className="space-y-8">
               {skills.map((skill, idx) => (
@@ -156,7 +156,7 @@ export default function StatsSection() {
             viewport={{ once: false, amount: 0.25 }}
             transition={{ duration: 0.7, ease: 'easeOut' }}
             whileHover={{ y: -8, rotateX: 2, rotateY: -3 }}
-            className="lg:w-1/2 lg:-inset-y-20 relative group overflow-hidden shadow-xl [transform-style:preserve-3d]"
+            className="relative group overflow-hidden shadow-xl lg:-inset-y-20 lg:w-1/2 [transform-style:preserve-3d]"
           >
             {/* Auto-playing Video */}
             <video
@@ -166,20 +166,11 @@ export default function StatsSection() {
               playsInline
               className="h-full min-h-[280px] w-full object-cover sm:min-h-[360px] lg:min-h-[400px]"
             >
-              <source src="https://videocdn.cdnpk.net/videos/12f0ce93-fcc6-5b1b-b510-5b6657235801/horizontal/previews/magnific_watermarked/large.mp4" type="video/mp4" />
+              <source src="https://d2j2uxe7jasn0r.cloudfront.net/watermarks/video/E6LxqQ1ixikssn79z/medicine-pills-tablets-rotating-on-green-background_bevjpxs3__2371880f1f476f681a8b16cc828f1872__P360.mp4" type="video/mp4" />
               Your browser does not support the video tag.
             </video>
 
-            {/* Static Play Button Overlay (As per Style) */}
-            {/* <div className="absolute inset-0 flex items-center justify-center bg-[#111111]/10 pointer-events-none">
-              <motion.button
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
-                className="w-20 h-20 bg-white rounded-full flex items-center justify-center text-slate-500 shadow-2xl transition-colors"
-              >
-                <Play fill="currentColor" size={30} className="ml-1" />
-              </motion.button>
-            </div> */}
+            
 
             {/* Decorative Border */}
             <div className="absolute top-0 right-0 w-full h-full border-[15px] border-white pointer-events-none group-hover:border-white/20 transition-all"></div>

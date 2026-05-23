@@ -32,7 +32,7 @@ const features = [
 
 export default function FeaturesSection() {
   return (
-    <section className="relative overflow-hidden bg-[#F5F5F5] px-4 py-16 sm:px-6 lg:px-8 lg:py-20 [perspective:1200px]">
+    <section className="relative overflow-hidden bg-[#F5F5F5] px-4 py-12 sm:px-6 sm:py-16 lg:px-8 lg:py-20 [perspective:1200px]">
       <div className="pointer-events-none absolute inset-0 opacity-[0.12] bg-[repeating-radial-gradient(ellipse_at_center,#9CA3AF_0_2px,transparent_3px_24px)]" />
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="floating-panel grid grid-cols-1 overflow-hidden rounded-lg md:grid-cols-2 lg:grid-cols-4">
@@ -44,7 +44,7 @@ export default function FeaturesSection() {
               viewport={{ once: false, amount: 0.28 }}
               transition={{ delay: index * 0.1, duration: 0.5 }}
               whileHover={{ y: -12, rotateX: 5, rotateY: index % 2 === 0 ? -5 : 5, scale: 1.02 }}
-              className={`group relative p-10 border border-gray-100 transition-all duration-500 cursor-pointer overflow-hidden
+              className={`group relative overflow-hidden border border-gray-100 p-6 transition-all duration-500 cursor-pointer sm:p-8 lg:p-10
                 ${feature.active ? 'bg-[#111111] text-white' : 'bg-white text-gray-900 hover:border-blue-100 hover:bg-[#F0F8FF]'}
                 [transform-style:preserve-3d] hover:z-10 hover:shadow-2xl hover:shadow-blue-100/70
               `}

@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { Phone, ChevronLeft, ChevronRight } from 'lucide-react'
 
 const researchImages = [
@@ -69,9 +69,9 @@ export default function ResearchSection() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: false, amount: 0.35 }}
         transition={{ duration: 0.65, ease: 'easeOut' }}
-        className="mx-auto max-w-7xl rounded-t-lg bg-white px-4 py-12 text-center shadow-[0_20px_60px_rgba(39,96,134,0.10)]"
+        className="mx-auto max-w-7xl rounded-t-lg bg-white px-4 py-10 text-center shadow-[0_20px_60px_rgba(39,96,134,0.10)] sm:py-12"
       >
-        <h2 className="text-3xl md:text-4xl font-bold text-[#111111] leading-tight">
+        <h2 className="text-2xl font-bold leading-tight text-[#111111] sm:text-3xl md:text-4xl">
           Delivering Quality Healthcare<br />
           Through Advanced Manufacturing
         </h2>
@@ -89,7 +89,7 @@ export default function ResearchSection() {
             prevSlide()
             setIsAutoPlaying(false)
           }}
-          className="absolute left-4 top-1/2 -translate-y-1/2 z-10 bg-white/90 hover:bg-white p-3 rounded-full shadow-lg transition-all hover:scale-110"
+          className="absolute left-2 top-1/2 z-10 -translate-y-1/2 rounded-full bg-white/90 p-2 shadow-lg transition-all hover:scale-110 hover:bg-white sm:left-4 sm:p-3"
           aria-label="Previous"
         >
           <ChevronLeft className="w-6 h-6 text-[#111111]" />
@@ -101,7 +101,7 @@ export default function ResearchSection() {
             nextSlide()
             setIsAutoPlaying(false)
           }}
-          className="absolute right-4 top-1/2 -translate-y-1/2 z-10 bg-white/90 hover:bg-white p-3 rounded-full shadow-lg transition-all hover:scale-110"
+          className="absolute right-2 top-1/2 z-10 -translate-y-1/2 rounded-full bg-white/90 p-2 shadow-lg transition-all hover:scale-110 hover:bg-white sm:right-4 sm:p-3"
           aria-label="Next"
         >
           <ChevronRight className="w-6 h-6 text-[#111111]" />
@@ -109,7 +109,7 @@ export default function ResearchSection() {
 
         {/* Images Grid - Smooth one-by-one slide */}
         <div className="relative w-full overflow-hidden">
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 w-full">
+          <div className="grid w-full grid-cols-1 min-[420px]:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
             {getVisibleImages().map((item, index) => (
               <motion.div
                 key={`${item.index}-${currentIndex}`}
@@ -153,7 +153,7 @@ export default function ResearchSection() {
         </div>
 
         {/* Dots Indicator */}
-        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-10">
+        <div className="absolute bottom-3 left-1/2 z-10 flex max-w-[92vw] -translate-x-1/2 flex-wrap justify-center gap-1.5 sm:bottom-4 sm:gap-2">
           {researchImages.map((_, index) => (
             <button
               key={index}

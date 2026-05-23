@@ -39,7 +39,7 @@ const blogs = [
 
 export default function BlogSection() {
   return (
-    <section className="px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
+    <section className="px-4 py-12 sm:px-6 sm:py-16 lg:px-8 lg:py-20">
       <div className="floating-panel mx-auto max-w-7xl rounded-lg px-4 py-12 sm:px-6 lg:px-8">
         
         {/* Header Section */}
@@ -50,7 +50,7 @@ export default function BlogSection() {
           transition={{ duration: 0.65, ease: 'easeOut' }}
           className="text-center mb-8"
         >
-          <h2 className="text-4xl font-bold text-[#111111] mb-4">
+          <h2 className="mb-4 text-3xl font-bold text-[#111111] sm:text-4xl">
             From our blog list <span className="text-gray-600">Latest News</span>
           </h2>
           <p className="text-gray-500 max-w-2xl mx-auto leading-relaxed">
@@ -94,7 +94,7 @@ export default function BlogSection() {
                 </h3>
 
                 {/* Meta Information (Icons) */}
-                <div className="flex items-center gap-4 text-gray-500 text-sm border-b border-gray-100 pb-6 mb-6">
+                <div className="mb-6 flex flex-wrap items-center gap-x-4 gap-y-2 border-b border-gray-100 pb-6 text-sm text-gray-500">
                   <div className="flex items-center gap-1.5">
                     <User size={16} className="text-blue-500" />
                     <span>{blog.author}</span>
@@ -110,8 +110,8 @@ export default function BlogSection() {
                 </div>
 
                 {/* Tags and Arrow Button */}
-                <div className="flex items-center justify-between">
-                  <div className="flex gap-2">
+                <div className="flex items-center justify-between gap-4">
+                  <div className="flex flex-wrap gap-2">
                     {blog.tags.map((tag, i) => (
                       <span 
                         key={i} 

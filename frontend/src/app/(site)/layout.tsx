@@ -1,4 +1,5 @@
 import Footer from '@/components/layout/Footer'
+import FloatingContactActions from '@/components/layout/FloatingContactActions'
 // import ChatBot from '@/components/chat/ChatBot'
 import CookieConsent from '@/components/layout/CookieConsent'
 import Navbar from '@/components/layout/Navbar'
@@ -16,6 +17,7 @@ export default async function SiteLayout({
       <Navbar initialRoutes={routes} />
       <main className="site-wave-bg">{children}</main>
       <Footer initialRoutes={routes} />
+      <FloatingContactActions />
       <CookieConsent />
       {/* <ChatBot /> */}
     </>

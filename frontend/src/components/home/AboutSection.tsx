@@ -32,9 +32,9 @@ export default function AboutSection() {
   }
 
   return (
-    <section className="overflow-hidden px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
-      <div className="floating-panel mx-auto max-w-7xl rounded-lg px-6 py-12 lg:px-10 lg:py-16">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+    <section className="overflow-hidden px-4 py-12 sm:px-6 sm:py-16 lg:px-8 lg:py-20">
+      <div className="floating-panel mx-auto max-w-7xl rounded-lg px-4 py-10 sm:px-6 sm:py-12 lg:px-10 lg:py-16">
+        <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-2 lg:gap-16">
           
           {/* Left Content - Slides from Left with Stagger Animation */}
           <motion.div
@@ -45,14 +45,14 @@ export default function AboutSection() {
           >
             <motion.h2 
               variants={itemVariants}
-              className="text-4xl lg:text-5xl font-bold text-[#111111] leading-tight mb-6"
+              className="mb-6 text-3xl font-bold leading-tight text-[#111111] sm:text-4xl lg:text-5xl"
             >
               Trusted Pharmaceutical <br /> Manufacturing Company
             </motion.h2>
             
             <motion.p 
               variants={itemVariants}
-              className="text-lg font-semibold text-[#111111] mb-4"
+              className="mb-4 text-base font-semibold text-[#111111] sm:text-lg"
             >
               Delivering quality medicines with global standards since 2007!
             </motion.p>
@@ -74,7 +74,7 @@ export default function AboutSection() {
             {/* Middle Info (Signature & List) */}
             <motion.div 
               variants={itemVariants}
-              className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-8"
+              className="mt-10 grid grid-cols-1 gap-8 md:grid-cols-2 lg:mt-12"
             >
               <motion.div
                 initial={{ opacity: 0, x: -30 }}
@@ -85,7 +85,7 @@ export default function AboutSection() {
                 <p className="text-gray-500 text-sm italic mb-4">
                   Modern manufacturing facilities with trusted quality assurance.
                 </p>
-                <h3 className="text-4xl text-[#111111] opacity-80" style={{ fontFamily: 'cursive' }}>
+                <h3 className="text-3xl text-[#111111] opacity-80 sm:text-4xl" style={{ fontFamily: 'cursive' }}>
                   Rakesh Kumar Khaneja
                 </h3>
               </motion.div>
@@ -143,7 +143,7 @@ export default function AboutSection() {
               <img 
                 src="/founder1.jpeg" 
                 alt="Doctor with clipboard" 
-                className="w-full h-125 object-fill rounded-sm shadow-lg"
+                className="h-[360px] w-full rounded-sm object-cover shadow-lg sm:h-[440px] lg:h-[500px] lg:object-fill"
               />
             </motion.div>
             
@@ -153,7 +153,7 @@ export default function AboutSection() {
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: false, amount: 0.3 }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="absolute -bottom-6 -right-6 w-full h-full border-2 border-blue-100 -z-0"
+              className="absolute -bottom-3 -right-3 h-full w-full border-2 border-blue-100 -z-0 sm:-bottom-6 sm:-right-6"
             ></motion.div>
           </motion.div>
 

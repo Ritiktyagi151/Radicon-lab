@@ -20,9 +20,9 @@ import {
 const quickLinks = [
   { href: '/about', label: 'About Us' },
   { href: '/contact', label: 'Contact Us' },
+  { href: '/pdf/company_profile.pdf', label: 'Company Profile' },
   { href: '/career', label: 'Career' },
-  { href: '/privacy', label: 'Privacy Policy' },
-  { href: '/terms', label: 'Terms & Condition' },
+ 
   { href: '/team', label: 'Our Team' },
 ]
 
@@ -73,14 +73,14 @@ export default function Footer({ initialRoutes }: { initialRoutes?: PublicSeoRou
 
       <div className="relative z-10">
         {/* ── Main Grid ── */}
-        <div className="relative mx-auto max-w-8xl grid gap-y-10 gap-x-8 px-5 pt-24 sm:pt-28 pb-10 sm:pb-12 grid-cols-1 xs:grid-cols-2 md:grid-cols-2 lg:grid-cols-[1.3fr_.6fr_.6fr_1.3fr_1.2fr] xl:px-12">
+        <div className="relative mx-auto grid max-w-8xl grid-cols-1 gap-x-8 gap-y-10 px-5 pb-10 pt-16 sm:grid-cols-2 sm:pb-12 sm:pt-24 md:grid-cols-2 lg:grid-cols-[1.3fr_.6fr_.6fr_1.3fr_1.2fr] lg:pt-28 xl:px-12">
           
           {/* Brand Column */}
-          <div className="group/col col-span-1 xs:col-span-2 md:col-span-2 lg:col-span-1">
+          <div className="group/col col-span-1 sm:col-span-2 md:col-span-2 lg:col-span-1">
             <Link href={hrefFor('/')} className="inline-flex items-center gap-2.5 mb-6" aria-label="Radicon Home">
               <img className="h-16 w-auto" src="/radicon-logo.png" alt="Radicon logo" />
             </Link>
-            <p className="text-[15px] leading-[1.8] text-gray-500 mb-6 max-w-xs">
+            <p className="text-[15px]  leading-[1.8] text-gray-600 mb-6 max-w-xs">
               Redicon Laboratories Ltd, a leading Pharmaceutical company in India offers a wide range of pharmaceutical finished formulations (FF) under various therapeutic categories in three different dosage form.
             </p>
             <div className="flex flex-wrap gap-2">
@@ -90,7 +90,7 @@ export default function Footer({ initialRoutes }: { initialRoutes?: PublicSeoRou
                   href={href}
                   target="_blank"
                   rel="noreferrer"
-                  className="flex h-9 w-9 items-center justify-center rounded-lg border border-gray-200 bg-white text-gray-400 transition-all duration-300 hover:-translate-y-1 hover:scale-110 hover:border-slate-300 hover:bg-[#F0F8FF] hover:text-slate-700 hover:shadow-lg hover:shadow-gray-300/30"
+                  className="flex h-9 w-9 items-center justify-center rounded-lg border border-gray-200 bg-white text-gray-700 transition-all duration-300 hover:-translate-y-1 hover:scale-110 hover:border-slate-300 hover:bg-[#F0F8FF] hover:text-slate-700 hover:shadow-lg hover:shadow-gray-300/30"
                   aria-label={label}
                 >
                   <Icon size={16} />
@@ -108,8 +108,10 @@ export default function Footer({ initialRoutes }: { initialRoutes?: PublicSeoRou
               {quickLinks.map((link) => (
                 <li key={link.href}>
                   <Link
-                    href={hrefFor(link.href)}
-                    className="group/link inline-flex items-center text-[16px] text-gray-500 transition-all duration-300 hover:text-slate-700 hover:pl-4"
+                    href={link.href.endsWith('.pdf') ? link.href : hrefFor(link.href)}
+                    target={link.href.endsWith('.pdf') ? '_blank' : undefined}
+                    rel={link.href.endsWith('.pdf') ? 'noreferrer' : undefined}
+                    className="group/link inline-flex items-center text-[16px] text-gray-600  transition-all duration-300 hover:text-slate-700 hover:pl-4"
                   >
                     <span className="opacity-0 -translate-x-2 text-[10px] text-slate-400 transition-all duration-200 group-hover/link:opacity-100 group-hover/link:translate-x-[-8px]">→</span>
                     {link.label}
@@ -126,25 +128,25 @@ export default function Footer({ initialRoutes }: { initialRoutes?: PublicSeoRou
             </h2>
             <ul className="space-y-[11px]">
               <li>
-                <Link href="/products/tablets" className="group/link inline-flex items-center text-[16px] text-gray-500 transition-all duration-300 hover:text-slate-700 hover:pl-4">
+                <Link href="/products/tablets" className="group/link inline-flex items-center text-[16px] text-gray-700  transition-all duration-300 hover:text-slate-700 hover:pl-4">
                   <span className="opacity-0 -translate-x-2 text-[10px] text-slate-400 transition-all duration-200 group-hover/link:opacity-100 group-hover/link:translate-x-[-8px]">→</span>
                   Tablets
                 </Link>
               </li>
               <li>
-                <Link href="/products/capsules" className="group/link inline-flex items-center text-[16px] text-gray-500 transition-all duration-300 hover:text-slate-700 hover:pl-4">
+                <Link href="/products/capsules" className="group/link inline-flex items-center text-[16px] text-gray-700 transition-all duration-300 hover:text-slate-700 hover:pl-4">
                   <span className="opacity-0 -translate-x-2 text-[10px] text-slate-400 transition-all duration-200 group-hover/link:opacity-100 group-hover/link:translate-x-[-8px]">→</span>
                   Capsules
                 </Link>
               </li>
               <li>
-                <Link href="/products/syrups" className="group/link inline-flex items-center text-[16px] text-gray-500 transition-all duration-300 hover:text-slate-700 hover:pl-4">
+                <Link href="/products/syrups" className="group/link inline-flex items-center text-[16px] text-gray-700  transition-all duration-300 hover:text-slate-700 hover:pl-4">
                   <span className="opacity-0 -translate-x-2 text-[10px] text-slate-400 transition-all duration-200 group-hover/link:opacity-100 group-hover/link:translate-x-[-8px]">→</span>
                   Ointments
                 </Link>
               </li>
               <li>
-                <Link href="/products/syrups" className="group/link inline-flex items-center text-[16px] text-gray-500 transition-all duration-300 hover:text-slate-700 hover:pl-4">
+                <Link href="/products/syrups" className="group/link inline-flex items-center text-[16px] text-gray-700  transition-all duration-300 hover:text-slate-700 hover:pl-4">
                   <span className="opacity-0 -translate-x-2 text-[10px] text-slate-400 transition-all duration-200 group-hover/link:opacity-100 group-hover/link:translate-x-[-8px]">→</span>
                   Orally-Disintegrating Strips
                 </Link>
@@ -162,7 +164,7 @@ export default function Footer({ initialRoutes }: { initialRoutes?: PublicSeoRou
                 <li key={service.slug}>
                   <Link
                     href={getServicePath(service.slug)}
-                    className="group/link inline-flex items-center text-[15px] text-gray-500 transition-all duration-300 hover:text-slate-700 hover:pl-4"
+                    className="group/link inline-flex items-center text-[15px] text-gray-700  transition-all duration-300 hover:text-slate-700 hover:pl-4"
                   >
                     <span className="opacity-0 -translate-x-2 text-[10px] text-slate-400 transition-all duration-200 group-hover/link:opacity-100 group-hover/link:translate-x-[-8px]">→</span>
                     {service.title}
@@ -181,14 +183,14 @@ export default function Footer({ initialRoutes }: { initialRoutes?: PublicSeoRou
               {contactInfo.map(({ icon: Icon, content, href, isLink }, idx) => (
                 <li key={idx} className="group/item flex items-start gap-3">
                   <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[#F0F8FF] transition-all duration-300 group-hover/item:bg-[#E8E8E8] group-hover/item:scale-110 group-hover/item:-rotate-6">
-                    <Icon className="text-slate-400 group-hover/item:text-slate-700 transition-colors duration-300 text-[14px]" />
+                    <Icon className="text-slate-700 group-hover/item:text-slate-700 transition-colors duration-300 text-[14px]" />
                   </div>
                   {isLink ? (
-                    <a href={href} className="mt-1 text-[16px] leading-[1.6] text-gray-500 hover:text-slate-700 transition-colors duration-200">
+                    <a href={href} className="mt-1 text-[16px] leading-[1.6] text-gray-700 hover:text-slate-700 transition-colors duration-200">
                       {content}
                     </a>
                   ) : (
-                    <span className="mt-1 text-[13px] leading-[1.6] text-gray-500">{content}</span>
+                    <span className="mt-1 text-[13px] leading-[1.6] text-gray-700">{content}</span>
                   )}
                 </li>
               ))}
@@ -198,16 +200,16 @@ export default function Footer({ initialRoutes }: { initialRoutes?: PublicSeoRou
 
         {/* ── Legal Links ── */}
         <div className="pb-8">
-          <div className="mx-auto max-w-8xl flex items-center justify-center gap-6 px-5 sm:px-8">
+          <div className="mx-auto flex max-w-8xl flex-wrap items-center justify-center gap-x-6 gap-y-3 px-5 sm:px-8">
             <Link 
               href={hrefFor('/privacy')} 
-              className="text-[16px] font-medium text-gray-500 hover:text-slate-700 transition-colors relative after:content-[''] after:absolute after:-right-3 after:top-1/2 after:-translate-y-1/2 after:w-[1px] after:h-3 after:bg-gray-300 last:after:hidden"
+              className="text-[16px]  text-gray-700 hover:text-slate-700 transition-colors relative after:content-[''] after:absolute after:-right-3 after:top-1/2 after:-translate-y-1/2 after:w-[1px] after:h-3 after:bg-gray-300 last:after:hidden"
             >
               Privacy Policy
             </Link>
             <Link 
               href={hrefFor('/terms')} 
-              className="text-[16px] font-medium text-gray-500 hover:text-slate-700 transition-colors"
+              className="text-[16px]  text-gray-700 hover:text-slate-700 transition-colors"
             >
               Terms & Conditions
             </Link>
@@ -217,15 +219,15 @@ export default function Footer({ initialRoutes }: { initialRoutes?: PublicSeoRou
         {/* ── Bottom Bar ── */}
         <div className="border-t border-gray-200 bg-white/50 backdrop-blur-sm">
           <div className="mx-auto max-w-8xl flex flex-col items-center gap-4 px-5 py-6 sm:flex-row sm:justify-between sm:px-8 xl:px-12">
-            <p className="text-[16px] text-gray-400 text-center sm:text-left order-2 sm:order-1">
+            <p className="text-[16px] text-gray-700 text-center sm:text-left order-2 sm:order-1">
               Copyright © {new Date().getFullYear()} <span className="font-semibold text-blue-500">Radicon</span>. All rights reserved.
             </p>
-            <div className="text-[16px] text-gray-400 text-center sm:text-right order-1 sm:order-2">
+            <div className="text-[16px] text-gray-700 text-center sm:text-right order-1 sm:order-2">
               Design & Development by{' '}
               <Link
                 href="https://jaikvik.com"
                 target="_blank"
-                className="text-slate-400 hover:text-blue-500 transition-colors font-semibold"
+                className="text-slate-700 hover:text-blue-500 transition-colors font-semibold"
               >
                 Jaikvik Technology India Pvt Ltd
               </Link>

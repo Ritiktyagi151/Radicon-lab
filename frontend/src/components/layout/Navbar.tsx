@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { 
@@ -130,6 +130,7 @@ const Navbar = ({ initialRoutes }: { initialRoutes?: PublicSeoRoute[] }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [categories, setCategories] = useState<Category[]>([]);
   const [isLanguageOpen, setIsLanguageOpen] = useState(false);
+  const [languageSearch, setLanguageSearch] = useState('');
   const [selectedLanguage, setSelectedLanguage] = useState(languages.find((language) => language.name === 'English (US)') || languages[0]);
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
   const [contactForm, setContactForm] = useState<ContactFormState>(initialContactForm);
@@ -137,6 +138,11 @@ const Navbar = ({ initialRoutes }: { initialRoutes?: PublicSeoRoute[] }) => {
   const [contactStatus, setContactStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
   const [contactMessage, setContactMessage] = useState('');
   const { hrefFor } = useSeoRoutes(initialRoutes);
+  const filteredLanguages = useMemo(() => {
+    const query = languageSearch.trim().toLowerCase();
+    if (!query) return languages;
+    return languages.filter((language) => language.name.toLowerCase().includes(query));
+  }, [languageSearch]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -264,11 +270,11 @@ const Navbar = ({ initialRoutes }: { initialRoutes?: PublicSeoRoute[] }) => {
 
           <div className="flex items-center">
             <div className="flex items-center space-x-3 px-6 border-r border-gray-200">
-              <Link href="#" className="hover:text-slate-700 transition-colors"><FaFacebookF /></Link>
-              <Link href="#" className="hover:text-slate-700 transition-colors"><FaXTwitter /></Link>
-              <Link href="#" className="hover:text-slate-700 transition-colors"><FaInstagram /></Link>
-              <Link href="#" className="hover:text-slate-700 transition-colors"><FaLinkedinIn /></Link>
-              <Link href="#" className="hover:text-slate-700 transition-colors"><FaYoutube /></Link>
+              <Link href="https://www.facebook.com/people/Radicon-Laboratories-Ltd/61570856968202/?rdid=r9luudJKmBIB0nLO&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F1CaBY4WqpT%2F" className="hover:text-slate-700 transition-colors"><FaFacebookF /></Link>
+              <Link href="https://x.com/radiconlabsltd?t=wHM92aoO5oyHsB25pQJJ5Q&s=09" className="hover:text-slate-700 transition-colors"><FaXTwitter /></Link>
+              <Link href="https://www.instagram.com/radiconlaboratoriesltd/?igshid=OGQ5ZDc2ODk2ZA%3D%3D" className="hover:text-slate-700 transition-colors"><FaInstagram /></Link>
+              <Link href="https://www.linkedin.com/company/radicon-laboratories-limited./" className="hover:text-slate-700 transition-colors"><FaLinkedinIn /></Link>
+              <Link href="https://www.youtube.com/@radiconlaboratoriesltd" className="hover:text-slate-700 transition-colors"><FaYoutube /></Link>
             </div>
             <div className="relative pl-6 font-medium">
               <button
@@ -286,8 +292,18 @@ const Navbar = ({ initialRoutes }: { initialRoutes?: PublicSeoRoute[] }) => {
                   isLanguageOpen ? 'visible translate-y-0 scale-100 opacity-100' : 'invisible -translate-y-2 scale-95 opacity-0'
                 }`}
               >
+                <div className="border-b border-[#E8E8E8] p-3">
+                  <label className="sr-only" htmlFor="desktop-language-search">Search language</label>
+                  <input
+                    id="desktop-language-search"
+                    value={languageSearch}
+                    onChange={(event) => setLanguageSearch(event.target.value)}
+                    placeholder="Search language"
+                    className="w-full rounded-sm border border-[#E8E8E8] bg-[#F0F8FF] px-3 py-2 text-sm font-semibold outline-none transition focus:border-[#DF1F26] focus:bg-white"
+                  />
+                </div>
                 <div className="max-h-80 overflow-y-auto py-2">
-                  {languages.map((language) => {
+                  {filteredLanguages.map((language) => {
                     const active = language.name === selectedLanguage.name;
                     return (
                       <button
@@ -296,6 +312,7 @@ const Navbar = ({ initialRoutes }: { initialRoutes?: PublicSeoRoute[] }) => {
                         onClick={() => {
                           setSelectedLanguage(language);
                           setIsLanguageOpen(false);
+                          setLanguageSearch('');
                         }}
                         className={`flex w-full items-center justify-between gap-3 px-4 py-2.5 text-left text-sm transition-colors ${
                           active ? 'bg-[#F0F8FF] font-bold text-slate-900' : 'text-gray-600 hover:bg-[#F0F8FF] hover:text-slate-800'
@@ -309,6 +326,9 @@ const Navbar = ({ initialRoutes }: { initialRoutes?: PublicSeoRoute[] }) => {
                       </button>
                     );
                   })}
+                  {!filteredLanguages.length ? (
+                    <p className="px-4 py-3 text-sm font-semibold text-gray-500">No language found</p>
+                  ) : null}
                 </div>
               </div>
             </div>
@@ -325,7 +345,7 @@ const Navbar = ({ initialRoutes }: { initialRoutes?: PublicSeoRoute[] }) => {
         }`}
       >
         <div className="container mx-auto px-3 sm:px-4 lg:px-8 xl:px-12 border-b border-line/70">
-          <nav className="flex items-center justify-between py-4">
+          <nav className="flex items-center justify-between py-3 sm:py-4">
             {/* Logo */}
             <Link href={hrefFor('/')} className="ml-0 flex-shrink-0 sm:ml-2 lg:ml-4">
               <Image 
@@ -333,8 +353,7 @@ const Navbar = ({ initialRoutes }: { initialRoutes?: PublicSeoRoute[] }) => {
                 alt="Logo" 
                 width={100} 
                 height={40} 
-                className="object-contain"
-                style={{ width: '100px', height: 'auto' }}
+                className="h-auto w-[88px] object-contain sm:w-[100px]"
                 priority
               />
             </Link>
@@ -392,7 +411,7 @@ const Navbar = ({ initialRoutes }: { initialRoutes?: PublicSeoRoute[] }) => {
 
             {/* Right Side Icons & CTA */}
             <div className="flex items-center space-x-4 lg:space-x-6">
-              <button className="p-2 hover:text-slate-600 transition-colors hidden sm:block">
+              <button className="hidden p-2 transition-colors hover:text-slate-600 sm:block">
                 <Search size={22} />
               </button>
               
@@ -419,9 +438,9 @@ const Navbar = ({ initialRoutes }: { initialRoutes?: PublicSeoRoute[] }) => {
       {/* 3. MOBILE MENU - Updated with onClick handlers */}
       <div className={`
         lg:hidden fixed inset-x-0 z-40 bg-white transition-all duration-[2000ms] ease-in-out border-b shadow-2xl
-        ${isMobileMenuOpen ? 'top-[72px] opacity-100 visible' : 'top-[-100%] opacity-0 invisible'}
+        ${isMobileMenuOpen ? 'top-[64px] opacity-100 visible sm:top-[72px]' : 'top-[-100%] opacity-0 invisible'}
       `}>
-        <div className="max-h-[calc(100vh-72px)] space-y-4 overflow-y-auto px-5 py-6 sm:px-6 sm:py-8">
+        <div className="max-h-[calc(100vh-64px)] space-y-4 overflow-y-auto px-5 py-6 sm:max-h-[calc(100vh-72px)] sm:px-6 sm:py-8">
           <Link href={hrefFor('/')} onClick={closeMobileMenu} className="block text-lg font-bold border-b pb-2 text-slate-900">Home</Link>
           <Link href={hrefFor('/about')} onClick={closeMobileMenu} className="block text-lg font-medium border-b pb-2">About Us</Link>
           {aboutLinks.slice(1).map((item) => (
@@ -457,8 +476,16 @@ const Navbar = ({ initialRoutes }: { initialRoutes?: PublicSeoRoute[] }) => {
             </button>
             <div className={`grid transition-all duration-300 ${isLanguageOpen ? 'mt-3 grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}>
               <div className="overflow-hidden">
+                <label className="sr-only" htmlFor="mobile-language-search">Search language</label>
+                <input
+                  id="mobile-language-search"
+                  value={languageSearch}
+                  onChange={(event) => setLanguageSearch(event.target.value)}
+                  placeholder="Search language"
+                  className="mb-3 w-full rounded-sm border border-[#E8E8E8] bg-[#F0F8FF] px-3 py-2 text-sm font-semibold outline-none transition focus:border-[#DF1F26] focus:bg-white"
+                />
                 <div className="max-h-72 space-y-1 overflow-y-auto pr-1">
-                  {languages.map((language) => {
+                  {filteredLanguages.map((language) => {
                     const active = language.name === selectedLanguage.name;
                     return (
                       <button
@@ -467,6 +494,7 @@ const Navbar = ({ initialRoutes }: { initialRoutes?: PublicSeoRoute[] }) => {
                         onClick={() => {
                           setSelectedLanguage(language);
                           setIsLanguageOpen(false);
+                          setLanguageSearch('');
                         }}
                         className={`flex w-full items-center justify-between px-3 py-2 text-left text-sm transition-colors ${
                           active ? 'bg-[#F0F8FF] font-bold text-slate-900' : 'text-gray-600 hover:bg-[#F0F8FF]'
@@ -480,6 +508,9 @@ const Navbar = ({ initialRoutes }: { initialRoutes?: PublicSeoRoute[] }) => {
                       </button>
                     );
                   })}
+                  {!filteredLanguages.length ? (
+                    <p className="px-3 py-2 text-sm font-semibold text-gray-500">No language found</p>
+                  ) : null}
                 </div>
               </div>
             </div>

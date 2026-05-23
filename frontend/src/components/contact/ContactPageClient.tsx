@@ -227,6 +227,47 @@ export default function ContactPageClient() {
         </motion.div>
       </section>
 
+      <section className="mx-auto max-w-7xl px-4 pb-14 sm:px-6 lg:px-8">
+        <motion.div
+          initial={{ opacity: 0, y: 28 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.6, ease: 'easeOut' }}
+          className="overflow-hidden border border-brand-100 bg-white shadow-sm"
+        >
+          <div className="grid gap-0 lg:grid-cols-[0.42fr_0.58fr]">
+            <div className="bg-[#F0F8FF] p-5 sm:p-7 lg:p-8">
+              <p className="text-sm font-black uppercase tracking-[0.24em] text-[#DF1F26]">Find Us</p>
+              <h2 className="mt-3 text-3xl font-black leading-tight text-black sm:text-4xl">
+                Visit Radicon Laboratories
+              </h2>
+              <p className="mt-4 text-base font-semibold leading-8 text-gray-600">
+                Industrial Plot No. 108-A Ecotech-XII Greater Noida, U.P. India-201306
+              </p>
+              <a
+                href="https://www.google.com/maps/search/?api=1&query=Industrial%20Plot%20No.%20108-A%20Ecotech-XII%20Greater%20Noida%20U.P.%20India%20201306"
+                target="_blank"
+                rel="noreferrer"
+                className="mt-6 inline-flex w-full items-center justify-center gap-2 bg-[#DF1F26] px-6 py-3 text-sm font-black uppercase tracking-wide text-white transition hover:bg-brand-800 sm:w-auto"
+              >
+                Open In Maps
+                <MapPin size={18} />
+              </a>
+            </div>
+            <div className="min-h-[320px] lg:min-h-[430px]">
+              <iframe
+                title="Radicon Laboratories location map"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3502.9490786249335!2d77.45488619999999!3d28.601304400000004!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390cee6242e0bb79%3A0x955b11d39c5eaad8!2sRadicon%20Laboratories%20Ltd!5e0!3m2!1sen!2sin!4v1779540730501!5m2!1sen!2sin"
+                className="h-[320px] w-full border-0 sm:h-[380px] lg:h-full"
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                allowFullScreen
+              />
+            </div>
+          </div>
+        </motion.div>
+      </section>
+
       <section className="bg-[#eaeef3] py-14 sm:py-16">
         <div className="mx-auto grid max-w-7xl gap-8 px-4 sm:px-6 lg:grid-cols-[0.9fr_1.1fr] lg:px-8">
           <motion.div

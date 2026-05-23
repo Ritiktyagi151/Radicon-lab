@@ -12,13 +12,13 @@ const MissionSection = () => {
   ];
 
   return (
-    <section className="py-20 px-6 md:px-12 lg:px-24 bg-white">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+    <section className="bg-white px-4 py-12 sm:px-6 sm:py-16 md:px-12 lg:px-24 lg:py-20">
+      <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-10 lg:grid-cols-2 lg:gap-16">
         
         {/* Left Side: Overlapping Images */}
-        <div className="relative h-[450px] md:h-[550px]">
+        <div className="relative h-[320px] sm:h-[450px] md:h-[550px]">
           {/* Back Image */}
-          <div className="absolute top-0 left-0 w-[85%] h-[80%] border-[10px] border-white shadow-lg z-0">
+          <div className="absolute left-0 top-0 z-0 h-[80%] w-[85%] border-[6px] border-white shadow-lg sm:border-[10px]">
             <Image 
               src="/homepage-images/missionsection.jpg" 
               alt="Our Mission Background"
@@ -28,7 +28,7 @@ const MissionSection = () => {
           </div>
           
           {/* Front Image */}
-          <div className="absolute bottom-0 right-0 w-[75%] h-[75%] border-[10px] border-white shadow-2xl z-10">
+          <div className="absolute bottom-0 right-0 z-10 h-[75%] w-[75%] border-[6px] border-white shadow-2xl sm:border-[10px]">
             <Image 
               src="/homepage-images/missionsection1.jpg" 
               alt="Our Vision Foreground"
@@ -44,12 +44,12 @@ const MissionSection = () => {
             <h4 className="text-blue-600 font-bold tracking-widest uppercase text-sm">
               GROW WITH US
             </h4>
-            <h2 className="text-4xl md:text-5xl font-extrabold text-[#1a1a1a] leading-[1.2]">
+            <h2 className="text-3xl font-extrabold leading-[1.2] text-[#1a1a1a] sm:text-4xl md:text-5xl">
               What Is Our Mission & Vision?
             </h2>
           </div>
           
-          <p className="text-gray-500 text-lg leading-relaxed">
+          <p className="text-base leading-relaxed text-gray-500 sm:text-lg">
             At Radicon Laboratories Ltd, our mission is to improve the quality of health life of every citizen by providing Best Quality Medicines at Affordable Cost.
           </p>
 
@@ -78,14 +78,14 @@ const MissionSection = () => {
           </div>
 
           {/* Action Area */}
-          <div className="flex items-center gap-10 pt-6">
+          <div className="flex flex-col items-start gap-5 pt-6 sm:flex-row sm:items-center sm:gap-10">
             {/* Brand Name */}
-            <div className="text-4xl font-serif italic text-gray-400 select-none">
+            <div className="select-none font-serif text-3xl italic text-gray-400 sm:text-4xl">
               Radicon Labs
             </div>
             
-            <button className="bg-[#DF1F26] hover:bg-[#c91b22] text-white px-10 py-4 font-bold flex items-center transition-all hover:shadow-lg hover:shadow-blue-200/50 group">
-              View Vision 
+            <button className="group flex w-full items-center justify-center bg-[#DF1F26] px-8 py-4 font-bold text-white transition-all hover:bg-[#c91b22] hover:shadow-lg hover:shadow-blue-200/50 sm:w-auto sm:px-10">
+               
               <span className="ml-3 w-8 h-[2px] bg-white inline-block group-hover:w-12 transition-all"></span>
             </button>
           </div>

@@ -50,7 +50,7 @@ export default function Hero() {
   }, [])
 
   return (
-    <section className="relative h-[560px] w-full overflow-hidden  sm:h-[640px] lg:h-[700px]">
+    <section className="relative h-[520px] w-full overflow-hidden sm:h-[640px] lg:h-[700px]">
       <AnimatePresence mode="wait">
         <motion.div
           key={current}
@@ -72,7 +72,7 @@ export default function Hero() {
       </AnimatePresence>
 
       <div className="relative z-10 mx-auto flex h-full max-w-7xl items-center px-4 sm:px-6 lg:px-8">
-        <div className="max-w-2xl pt-10 sm:pt-0">
+        <div className="max-w-2xl pt-16 sm:pt-0">
           <AnimatePresence mode="wait">
             <motion.div
               key={current}
@@ -81,11 +81,11 @@ export default function Hero() {
               exit={{ opacity: 0, x: 50 }}
               transition={{ duration: 0.8, ease: "easeOut" }}
             >
-              <p className="text-sm font-bold uppercase tracking-[0.2em] text-gray-500">
+              <p className="text-xs font-bold uppercase tracking-[0.16em] text-gray-500 sm:text-sm sm:tracking-[0.2em]">
                 {BANNERS[current].subtitle}
               </p>
               
-              <h1 className="mt-4 text-4xl font-extrabold leading-tight text-[#111111] sm:text-5xl lg:text-7xl">
+              <h1 className="mt-4 text-3xl font-extrabold leading-tight text-[#111111] min-[380px]:text-4xl sm:text-5xl lg:text-7xl">
                 {BANNERS[current].title}
               </h1>
               
@@ -93,14 +93,14 @@ export default function Hero() {
                 {BANNERS[current].desc}
               </p>
 
-              <div className="mt-10 flex flex-wrap gap-4 [perspective:900px]">
+              <div className="mt-8 flex flex-col gap-3 [perspective:900px] min-[420px]:flex-row min-[420px]:flex-wrap sm:mt-10 sm:gap-4">
                 <motion.div whileHover={{ y: -5, rotateX: 8, scale: 1.03 }} whileTap={{ scale: 0.97 }}>
-                  <Link href={hrefFor('/contact')} className="inline-flex rounded-full bg-[#DF1F26] px-6 py-3 text-xs font-bold uppercase text-white transition hover:opacity-95 hover:shadow-xl hover:shadow-blue-200/50 sm:px-8 sm:py-4 sm:text-sm">
+                  <Link href={hrefFor('/contact')} className="inline-flex w-full justify-center rounded-full bg-[#DF1F26] px-6 py-3 text-xs font-bold uppercase text-white transition hover:opacity-95 hover:shadow-xl hover:shadow-blue-200/50 min-[420px]:w-auto sm:px-8 sm:py-4 sm:text-sm">
                   Contact Us
                   </Link>
                 </motion.div>
                 <motion.div whileHover={{ y: -5, rotateX: 8, scale: 1.03 }} whileTap={{ scale: 0.97 }}>
-                  <Link href={hrefFor('/services')} className="inline-flex rounded-full border-2 border-[#E8E8E8] px-6 py-3 text-xs font-bold uppercase text-gray-700 transition hover:border-blue-200 hover:bg-[#F0F8FF] hover:text-blue-700 hover:shadow-xl hover:shadow-blue-100/70 sm:px-8 sm:py-4 sm:text-sm">
+                  <Link href={hrefFor('/services')} className="inline-flex w-full justify-center rounded-full border-2 border-[#E8E8E8] bg-white/80 px-6 py-3 text-xs font-bold uppercase text-gray-700 transition hover:border-blue-200 hover:bg-[#F0F8FF] hover:text-blue-700 hover:shadow-xl hover:shadow-blue-100/70 min-[420px]:w-auto sm:px-8 sm:py-4 sm:text-sm">
                   View Services
                   </Link>
                 </motion.div>
