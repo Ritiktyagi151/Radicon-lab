@@ -49,10 +49,10 @@ export default function BrandsSection() {
         >
           <p className="text-sm font-bold uppercase tracking-[0.22em] text-gray-500">Our Brands</p>
           <h2 className="mt-3 text-3xl font-bold leading-tight text-[#111111] sm:text-4xl">
-            Trusted Brands We Work With
+             Our Trusted Pharmaceutical Brands
           </h2>
           <p className="mt-4 text-base leading-7 text-gray-600">
-            We support healthcare companies with dependable manufacturing, quality systems, and consistent delivery.
+             Our in-house pharmaceutical brands are developed with advanced manufacturing standards, strict quality control, and a commitment to delivering safe and effective healthcare solutions trusted across the industry.
           </p>
         </motion.div>
         

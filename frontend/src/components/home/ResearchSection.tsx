@@ -193,8 +193,8 @@ export default function ResearchSection() {
           <div className="flex items-center gap-4">
             <div className="text-right text-gray-700 hidden sm:block">
               <p className="text-xs uppercase tracking-wider opacity-80">Support Available</p>
-              <a href="tel:+919971479938" className="text-xl md:text-2xl font-bold hover:underline">
-                +91 99714 79938
+              <a href="tel:+918796911105" className="text-xl md:text-2xl font-bold hover:underline">
+                +91 8796911105
               </a>
             </div>
             

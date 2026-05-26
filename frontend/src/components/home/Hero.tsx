@@ -8,7 +8,7 @@ import { useSeoRoutes } from '@/lib/admin/useSeoRoutes'
 const BANNERS = [
   {
     id: 1,
-    image: "/homepage-banner/b1.jpeg",
+    image: "/homepage-banner/b1modify.png",
     title: "Trusted pharmaceutical manufacturing partner in India.",
     subtitle: "Radicon Laboratories Ltd",
     desc: "Scalable pharma manufacturing solutions for tablets, capsules, and oral strips."
@@ -29,7 +29,7 @@ const BANNERS = [
   },
   {
     id: 4,
-    image: "https://www.healthychildren.org/SiteCollectionImagesArticleImages/dose-of-cough-syrup.jpg?RenditionID=3",
+    image: "/homepage-banner/b4.png",
     title: "Global Export & Distribution.",
     subtitle: "Our Presence",
     desc: "Delivering life-saving medicines across continents with precision."

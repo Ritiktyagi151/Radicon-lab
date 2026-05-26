@@ -86,7 +86,7 @@ export default function AboutSection() {
                   Modern manufacturing facilities with trusted quality assurance.
                 </p>
                 <h3 className="text-3xl text-[#111111] opacity-80 sm:text-4xl" style={{ fontFamily: 'cursive' }}>
-                  Rakesh Kumar Khaneja
+                  Sagar Khaneja
                 </h3>
               </motion.div>
 

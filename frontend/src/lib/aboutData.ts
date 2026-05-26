@@ -21,7 +21,7 @@ const aboutPages: AboutPageContent[] = [
     description: 'Improving Healthcare Healing Lives',
     hero: 'Radicon is a specialty pharmaceutical company incorporated in the year 2007 by Late Mr. Rakesh Kumar Khaneja, whose passion fuelled the company growth. Radicon is engaged in manufacturing and marketing quality finished dosage forms for healthcare needs worldwide.',
     images: [
-      'https://images.unsplash.com/photo-1582719471384-894fbb16e074?auto=format&fit=crop&w=1200&q=80',
+      '/company-img/factory-img.png',
       'https://images.unsplash.com/photo-1579154204601-01588f351e67?auto=format&fit=crop&w=1200&q=80',
     ],
     sections: [
@@ -47,7 +47,7 @@ const aboutPages: AboutPageContent[] = [
     description: 'Leaders in Pharmaceutical Excellence',
     hero: 'Radicon Laboratories Limited was established in the year 2007 and has carved a niche for itself in the pharmaceutical sector globally.',
     images: [
-      'https://images.unsplash.com/photo-1581093458791-9f3c3900df7b?auto=format&fit=crop&w=1200&q=80',
+      '/company-img/factory-img.png',
       'https://images.unsplash.com/photo-1581093588401-fbb62a02f120?auto=format&fit=crop&w=1200&q=80',
     ],
     sections: [
