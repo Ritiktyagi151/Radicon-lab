@@ -22,7 +22,7 @@ const aboutPages: AboutPageContent[] = [
     hero: 'Radicon is a specialty pharmaceutical company incorporated in the year 2007 by Late Mr. Rakesh Kumar Khaneja, whose passion fuelled the company growth. Radicon is engaged in manufacturing and marketing quality finished dosage forms for healthcare needs worldwide.',
     images: [
       '/company-img/factory-img.png',
-      'https://images.unsplash.com/photo-1579154204601-01588f351e67?auto=format&fit=crop&w=1200&q=80',
+      '/company-img/img1.png',
     ],
     sections: [
       {
@@ -47,8 +47,8 @@ const aboutPages: AboutPageContent[] = [
     description: 'Leaders in Pharmaceutical Excellence',
     hero: 'Radicon Laboratories Limited was established in the year 2007 and has carved a niche for itself in the pharmaceutical sector globally.',
     images: [
-      '/company-img/factory-img.png',
-      'https://images.unsplash.com/photo-1581093588401-fbb62a02f120?auto=format&fit=crop&w=1200&q=80',
+      '/company-img/img1.png',
+      '/company-img/img2.png',
     ],
     sections: [
       {
@@ -77,8 +77,8 @@ const aboutPages: AboutPageContent[] = [
     description: 'Radicon Laboratories Ltd',
     hero: 'Radicon Laboratories Ltd, a leading pharmaceutical company in India, offers a wide range of pharmaceutical finished formulations under various therapeutic categories.',
     images: [
-      'https://images.unsplash.com/photo-1587854692152-cbe660dbde88?auto=format&fit=crop&w=1200&q=80',
-      'https://images.unsplash.com/photo-1585435557343-3b092031a831?auto=format&fit=crop&w=1200&q=80',
+      '/company-img/img3.png',
+      '/company-img/img4.png',
     ],
     sections: [
       {

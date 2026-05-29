@@ -3,37 +3,60 @@ import { motion } from 'framer-motion'
 
 const brands = [
   {
-    name: 'Radicon Lab',
-    logo: 'https://www.radiconlab.com/assets/img/brands/brand3.png'
+    name: 'Orgie',
+    logo: '/brands/brand1.png'
   },
   {
-    name: 'MedNova',
-    logo: 'https://www.radiconlab.com/assets/img/brands/brand1.png' // Replace with actual logo URL
+    name: 'siezta',
+    logo: '/brands/brand2.png' // Replace with actual logo URL
   },
   {
-    name: 'CuraLife',
-    logo: 'https://www.radiconlab.com/assets/img/brands/brand2.png' // Replace with actual logo URL
+    name: 'vita-rad',
+    logo: '/brands/brand3.png' // Replace with actual logo URL
   },
   {
-    name: 'Zenith Rx',
-    logo: 'https://www.radiconlab.com/assets/img/brands/brand4.png' // Replace with actual logo URL
+    name: 'super filana',
+    logo: '/brands/brand4.png' // Replace with actual logo URL
   },
   {
-    name: 'VitaCore',
-    logo: 'https://www.radiconlab.com/assets/img/brands/brand5.png' // Replace with actual logo URL
+    name: 'levifil',
+    logo: '/brands/brand5.png' // Replace with actual logo URL
   },
   {
-    name: 'Healix',
-    logo: 'https://www.radiconlab.com/assets/img/brands/brand6.png' // Replace with actual logo URL
+    name: 'extra super filana ',
+    logo: '/brands/brand6.png' // Replace with actual logo URL
   },
   {
-    name: 'NexPharm',
-    logo: 'https://www.radiconlab.com/assets/img/brands/brand7.png' // Replace with actual logo URL
+    name: 'missopil',
+    logo: '/brands/brand7.png' // Replace with actual logo URL
   },
   {
-    name: 'PrimeWell',
-    logo: 'https://www.radiconlab.com/assets/img/brands/brand8.png' // Replace with actual logo URL
+    name: 'levifil super power',
+    logo: '/brands/brand8.png' // Replace with actual logo URL
   },
+  {
+    name : "stenagra",
+    logo: '/brands/brand9.png' // Replace with actual logo URL
+  },
+  {
+    name: 'panto rad DSR',
+    logo: '/brands/brand10.png' // Replace with actual logo URL
+  },{
+    name : "radiflame",
+    logo: '/brands/brand11.png' // Replace with actual logo URL
+  },{
+    name : "super zodeo",
+    logo: '/brands/brand12.png' // Replace with actual logo URL
+  },{
+    name : "rab con DSR",
+    logo: '/brands/brand13.png' // Replace with actual logo URL
+  },{
+    name : "tigour power",
+    logo: '/brands/brand14.png' // Replace with actual logo URL
+  },{
+    name : "fluxicon-20",
+    logo: '/brands/brand15.png' // Replace with actual logo URL
+  }
 ]
 
 export default function BrandsSection() {
