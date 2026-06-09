@@ -29,11 +29,11 @@ const quickLinks = [
 const services = getServices()
 
 const socialLinks = [
-  { href: 'https://facebook.com', label: 'Facebook', icon: FaFacebookF },
-  { href: 'https://twitter.com', label: 'Twitter', icon: FaXTwitter },
-  { href: 'https://instagram.com', label: 'Instagram', icon: FaInstagram },
-  { href: 'https://linkedin.com', label: 'LinkedIn', icon: FaLinkedinIn },
-  { href: 'https://youtube.com', label: 'YouTube', icon: FaYoutube },
+  { href: 'https://www.facebook.com/people/Radicon-Laboratories-Ltd/61570856968202/?rdid=t19GqIhfgGfM2bKj&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F1CaBY4WqpT%2F', label: 'Facebook', icon: FaFacebookF },
+  { href: 'https://x.com/radiconlabsltd?t=wHM92aoO5oyHsB25pQJJ5Q&s=09', label: 'Twitter', icon: FaXTwitter },
+  { href: 'https://www.instagram.com/radiconlaboratoriesltd/?igshid=OGQ5ZDc2ODk2ZA%3D%3D', label: 'Instagram', icon: FaInstagram },
+  { href: 'https://www.linkedin.com/company/radicon-laboratories-limited./', label: 'LinkedIn', icon: FaLinkedinIn },
+  { href: 'https://www.youtube.com/@radiconlaboratoriesltd', label: 'YouTube', icon: FaYoutube },
 ]
 
 const contactInfo = [
@@ -128,25 +128,25 @@ export default function Footer({ initialRoutes }: { initialRoutes?: PublicSeoRou
             </h2>
             <ul className="space-y-[11px]">
               <li>
-                <Link href="/products/tablets" className="group/link inline-flex items-center text-[16px] text-gray-700  transition-all duration-300 hover:text-slate-700 hover:pl-4">
+                <Link href="/product-tablets" className="group/link inline-flex items-center text-[16px] text-gray-700  transition-all duration-300 hover:text-slate-700 hover:pl-4">
                   <span className="opacity-0 -translate-x-2 text-[10px] text-slate-400 transition-all duration-200 group-hover/link:opacity-100 group-hover/link:translate-x-[-8px]">→</span>
                   Tablets
                 </Link>
               </li>
               <li>
-                <Link href="/products/capsules" className="group/link inline-flex items-center text-[16px] text-gray-700 transition-all duration-300 hover:text-slate-700 hover:pl-4">
+                <Link href="/product-capsules" className="group/link inline-flex items-center text-[16px] text-gray-700 transition-all duration-300 hover:text-slate-700 hover:pl-4">
                   <span className="opacity-0 -translate-x-2 text-[10px] text-slate-400 transition-all duration-200 group-hover/link:opacity-100 group-hover/link:translate-x-[-8px]">→</span>
                   Capsules
                 </Link>
               </li>
               <li>
-                <Link href="/products/syrups" className="group/link inline-flex items-center text-[16px] text-gray-700  transition-all duration-300 hover:text-slate-700 hover:pl-4">
+                <Link href="/product-ointments" className="group/link inline-flex items-center text-[16px] text-gray-700  transition-all duration-300 hover:text-slate-700 hover:pl-4">
                   <span className="opacity-0 -translate-x-2 text-[10px] text-slate-400 transition-all duration-200 group-hover/link:opacity-100 group-hover/link:translate-x-[-8px]">→</span>
                   Ointments
                 </Link>
               </li>
               <li>
-                <Link href="/products/syrups" className="group/link inline-flex items-center text-[16px] text-gray-700  transition-all duration-300 hover:text-slate-700 hover:pl-4">
+                <Link href="/product-orally-disintegrating-strips" className="group/link inline-flex items-center text-[16px] text-gray-700  transition-all duration-300 hover:text-slate-700 hover:pl-4">
                   <span className="opacity-0 -translate-x-2 text-[10px] text-slate-400 transition-all duration-200 group-hover/link:opacity-100 group-hover/link:translate-x-[-8px]">→</span>
                   Orally-Disintegrating Strips
                 </Link>

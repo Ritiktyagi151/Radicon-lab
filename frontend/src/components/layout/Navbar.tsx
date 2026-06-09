@@ -3,6 +3,7 @@
 import React, { useMemo, useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import Script from 'next/script';
 import { 
   FaFacebookF, 
   FaInstagram, 
@@ -16,6 +17,7 @@ import {
   Clock, 
   Search, 
   ChevronDown,
+  Globe2,
   Menu,
   X
 } from 'lucide-react';
@@ -23,10 +25,13 @@ import { useSeoRoutes } from '@/lib/admin/useSeoRoutes';
 import { API_BASE_URL } from '@/lib/admin/api';
 import type { PublicSeoRoute } from '@/lib/seoRoutes';
 import { getAboutPages, getAboutPath } from '@/lib/aboutData';
-import { getCategories } from '@/lib/productApi';
+import { getCategories, getProducts } from '@/lib/productApi';
 import { getCategoryPath } from '@/lib/categoryUrls';
+import { getProductPath } from '@/lib/productUrls';
 import { getServicePath, getServices } from '@/lib/serviceData';
-import type { Category } from '@/types/product';
+import { getAllPublishedBlogs } from '@/lib/blogApi';
+import type { Blog } from '@/types/blog';
+import type { Category, Product } from '@/types/product';
 
 
 const aboutLinks = getAboutPages();
@@ -107,6 +112,103 @@ const languages = [
   { name: 'Zulu', flag: '🇿🇦' },
 ];
 
+const googleLanguageCodes: Record<string, string> = {
+  Afrikaans: 'af',
+  Albanian: 'sq',
+  Amharic: 'am',
+  Arabic: 'ar',
+  Armenian: 'hy',
+  Azerbaijani: 'az',
+  Bengali: 'bn',
+  Bosnian: 'bs',
+  Bulgarian: 'bg',
+  Burmese: 'my',
+  Catalan: 'ca',
+  'Chinese (Simplified)': 'zh-CN',
+  'Chinese (Traditional)': 'zh-TW',
+  Croatian: 'hr',
+  Czech: 'cs',
+  Danish: 'da',
+  Dutch: 'nl',
+  'English (UK)': 'en',
+  'English (US)': 'en',
+  Estonian: 'et',
+  Filipino: 'tl',
+  Finnish: 'fi',
+  French: 'fr',
+  Georgian: 'ka',
+  German: 'de',
+  Greek: 'el',
+  Gujarati: 'gu',
+  Hebrew: 'iw',
+  Hindi: 'hi',
+  Hungarian: 'hu',
+  Icelandic: 'is',
+  Indonesian: 'id',
+  Irish: 'ga',
+  Italian: 'it',
+  Japanese: 'ja',
+  Kannada: 'kn',
+  Kazakh: 'kk',
+  Khmer: 'km',
+  Korean: 'ko',
+  Lao: 'lo',
+  Latvian: 'lv',
+  Lithuanian: 'lt',
+  Malay: 'ms',
+  Malayalam: 'ml',
+  Marathi: 'mr',
+  Mongolian: 'mn',
+  Nepali: 'ne',
+  Norwegian: 'no',
+  Persian: 'fa',
+  Polish: 'pl',
+  'Portuguese (Brazil)': 'pt',
+  'Portuguese (Portugal)': 'pt',
+  Punjabi: 'pa',
+  Romanian: 'ro',
+  Russian: 'ru',
+  Serbian: 'sr',
+  Sinhala: 'si',
+  Slovak: 'sk',
+  Slovenian: 'sl',
+  Spanish: 'es',
+  Swahili: 'sw',
+  Swedish: 'sv',
+  Tamil: 'ta',
+  Telugu: 'te',
+  Thai: 'th',
+  Turkish: 'tr',
+  Ukrainian: 'uk',
+  Urdu: 'ur',
+  Uzbek: 'uz',
+  Vietnamese: 'vi',
+  Welsh: 'cy',
+  Zulu: 'zu',
+};
+
+const googleTranslateLanguages = Array.from(new Set(Object.values(googleLanguageCodes))).join(',');
+
+type GoogleTranslateElementConstructor = new (
+  options: {
+    pageLanguage: string;
+    includedLanguages: string;
+    autoDisplay: boolean;
+  },
+  elementId: string
+) => unknown;
+
+declare global {
+  interface Window {
+    googleTranslateElementInit?: () => void;
+    google?: {
+      translate?: {
+        TranslateElement?: GoogleTranslateElementConstructor;
+      };
+    };
+  }
+}
+
 const subjectOptions = ['General Inquiry', 'Support', 'Sales', 'Partnership'];
 
 type ContactFormState = {
@@ -117,6 +219,14 @@ type ContactFormState = {
   message: string;
 };
 
+type SearchItem = {
+  title: string;
+  href: string;
+  type: 'Product' | 'Category' | 'Blog' | 'Service' | 'About' | 'Page';
+  description?: string;
+  keywords: string;
+};
+
 const initialContactForm: ContactFormState = {
   name: '',
   email: '',
@@ -125,6 +235,54 @@ const initialContactForm: ContactFormState = {
   message: '',
 };
 
+const coreSearchPages: SearchItem[] = [
+  {
+    title: 'Home',
+    href: '/',
+    type: 'Page',
+    description: 'Radicon Laboratories homepage',
+    keywords: 'home radicon laboratories pharmaceutical manufacturing healthcare',
+  },
+  {
+    title: 'Products',
+    href: '/categories',
+    type: 'Page',
+    description: 'Browse medicine categories and product range',
+    keywords: 'products medicines categories tablets capsules ointments oral strips range',
+  },
+  {
+    title: 'Services',
+    href: '/services',
+    type: 'Page',
+    description: 'Manufacturing and pharmaceutical services',
+    keywords: 'services manufacturing contract manufacturing regulatory research development',
+  },
+  {
+    title: 'Blogs',
+    href: '/blogs',
+    type: 'Page',
+    description: 'Healthcare and pharmaceutical articles',
+    keywords: 'blogs articles news healthcare pharmaceutical',
+  },
+  {
+    title: 'Contact',
+    href: '/contact',
+    type: 'Page',
+    description: 'Reach Radicon Laboratories',
+    keywords: 'contact phone email inquiry appointment address',
+  },
+  {
+    title: 'Career',
+    href: '/career',
+    type: 'Page',
+    description: 'Career opportunities at Radicon',
+    keywords: 'career jobs hiring opportunities',
+  },
+];
+
+const makeSearchText = (...parts: Array<string | string[] | undefined | null>) =>
+  parts.flatMap((part) => (Array.isArray(part) ? part : [part])).filter(Boolean).join(' ').toLowerCase();
+
 const Navbar = ({ initialRoutes }: { initialRoutes?: PublicSeoRoute[] }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -132,17 +290,30 @@ const Navbar = ({ initialRoutes }: { initialRoutes?: PublicSeoRoute[] }) => {
   const [isLanguageOpen, setIsLanguageOpen] = useState(false);
   const [languageSearch, setLanguageSearch] = useState('');
   const [selectedLanguage, setSelectedLanguage] = useState(languages.find((language) => language.name === 'English (US)') || languages[0]);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchItems, setSearchItems] = useState<SearchItem[]>(coreSearchPages);
+  const [isSearchLoading, setIsSearchLoading] = useState(false);
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
   const [contactForm, setContactForm] = useState<ContactFormState>(initialContactForm);
   const [contactErrors, setContactErrors] = useState<Partial<Record<keyof ContactFormState, string>>>({});
   const [contactStatus, setContactStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
   const [contactMessage, setContactMessage] = useState('');
+  const [pendingLanguageCode, setPendingLanguageCode] = useState('');
   const { hrefFor } = useSeoRoutes(initialRoutes);
   const filteredLanguages = useMemo(() => {
     const query = languageSearch.trim().toLowerCase();
     if (!query) return languages;
     return languages.filter((language) => language.name.toLowerCase().includes(query));
   }, [languageSearch]);
+  const searchResults = useMemo(() => {
+    const query = searchQuery.trim().toLowerCase();
+    const items = query
+      ? searchItems.filter((item) => item.keywords.includes(query))
+      : searchItems;
+
+    return items.slice(0, 18);
+  }, [searchItems, searchQuery]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -160,6 +331,184 @@ const Navbar = ({ initialRoutes }: { initialRoutes?: PublicSeoRoute[] }) => {
   useEffect(() => {
     getCategories().then(setCategories).catch(() => setCategories([]));
   }, []);
+
+  useEffect(() => {
+    if (!isSearchOpen || searchItems.length > coreSearchPages.length) return;
+
+    let isMounted = true;
+
+    Promise.all([
+      getProducts(),
+      getAllPublishedBlogs(),
+      getCategories(),
+    ])
+      .then(([products, blogs, loadedCategories]) => {
+        if (!isMounted) return;
+
+        const productItems = products.map((product: Product): SearchItem => {
+          const categoryName = typeof product.category === 'string' ? '' : product.category?.name;
+          return {
+            title: product.name,
+            href: getProductPath(product.slug),
+            type: 'Product',
+            description: product.shortDescription || product.description || categoryName || 'Product details',
+            keywords: makeSearchText(
+              product.name,
+              product.sku,
+              product.description,
+              product.shortDescription,
+              product.fullContent,
+              product.tags,
+              product.seoKeywords,
+              categoryName
+            ),
+          };
+        });
+
+        const categoryItems = loadedCategories.map((category: Category): SearchItem => ({
+          title: category.name,
+          href: getCategoryPath(category.slug),
+          type: 'Category',
+          description: category.description || 'Product category',
+          keywords: makeSearchText(category.name, category.description, category.metaTitle, category.metaDescription),
+        }));
+
+        const blogItems = blogs.map((blog: Blog): SearchItem => ({
+          title: blog.title,
+          href: `/blogs/${blog.slug}`,
+          type: 'Blog',
+          description: blog.excerpt,
+          keywords: makeSearchText(blog.title, blog.excerpt, blog.category, blog.tags, blog.seoTitle, blog.seoDescription),
+        }));
+
+        const serviceItems = serviceLinks.map((service): SearchItem => ({
+          title: service.title,
+          href: getServicePath(service.slug),
+          type: 'Service',
+          description: service.excerpt,
+          keywords: makeSearchText(service.title, service.excerpt, service.points),
+        }));
+
+        const aboutItems = aboutLinks.map((page): SearchItem => ({
+          title: page.title,
+          href: getAboutPath(page.slug),
+          type: 'About',
+          description: page.description,
+          keywords: makeSearchText(
+            page.title,
+            page.eyebrow,
+            page.description,
+            page.hero,
+            page.highlights,
+            page.sections.flatMap((section) => [section.heading, section.body, ...(section.points || [])])
+          ),
+        }));
+
+        setCategories(loadedCategories);
+        setSearchItems([
+          ...productItems,
+          ...categoryItems,
+          ...blogItems,
+          ...serviceItems,
+          ...aboutItems,
+          ...coreSearchPages,
+        ]);
+      })
+      .catch(() => {
+        if (isMounted) {
+          setSearchItems([
+            ...serviceLinks.map((service): SearchItem => ({
+              title: service.title,
+              href: getServicePath(service.slug),
+              type: 'Service',
+              description: service.excerpt,
+              keywords: makeSearchText(service.title, service.excerpt, service.points),
+            })),
+            ...aboutLinks.map((page): SearchItem => ({
+              title: page.title,
+              href: getAboutPath(page.slug),
+              type: 'About',
+              description: page.description,
+              keywords: makeSearchText(page.title, page.eyebrow, page.description, page.hero, page.highlights),
+            })),
+            ...coreSearchPages,
+          ]);
+        }
+      })
+      .finally(() => {
+        if (isMounted) setIsSearchLoading(false);
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, [isSearchOpen, searchItems.length]);
+
+  useEffect(() => {
+    window.googleTranslateElementInit = () => {
+      const TranslateElement = window.google?.translate?.TranslateElement;
+      if (!TranslateElement) return;
+
+      new TranslateElement(
+        {
+          pageLanguage: 'en',
+          includedLanguages: googleTranslateLanguages,
+          autoDisplay: false,
+        },
+        'google_translate_element'
+      );
+    };
+
+    return () => {
+      window.googleTranslateElementInit = undefined;
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!pendingLanguageCode) return;
+
+    const timer = window.setTimeout(() => {
+      const select = document.querySelector<HTMLSelectElement>('.goog-te-combo');
+      if (!select) return;
+
+      select.value = pendingLanguageCode;
+      select.dispatchEvent(new Event('change'));
+      setPendingLanguageCode('');
+    }, 250);
+
+    return () => window.clearTimeout(timer);
+  }, [pendingLanguageCode]);
+
+  const handleLanguageSelect = (language: (typeof languages)[number]) => {
+    const languageCode = googleLanguageCodes[language.name] || 'en';
+    const select = document.querySelector<HTMLSelectElement>('.goog-te-combo');
+
+    setSelectedLanguage(language);
+    setIsLanguageOpen(false);
+    setLanguageSearch('');
+    closeMobileMenu();
+
+    if (select) {
+      select.value = languageCode;
+      select.dispatchEvent(new Event('change'));
+      return;
+    }
+
+    setPendingLanguageCode(languageCode);
+  };
+
+  const openSearch = () => {
+    if (searchItems.length <= coreSearchPages.length) {
+      setIsSearchLoading(true);
+    }
+    setIsSearchOpen(true);
+    setIsMobileMenuOpen(false);
+  };
+
+  const closeSearch = () => {
+    setIsSearchOpen(false);
+    setSearchQuery('');
+  };
 
   // Function to close mobile menu
   const closeMobileMenu = () => {
@@ -235,6 +584,12 @@ const Navbar = ({ initialRoutes }: { initialRoutes?: PublicSeoRoute[] }) => {
 
   return (
     <header className="w-full">
+      <div id="google_translate_element" className="hidden" aria-hidden="true" />
+      <Script
+        src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
+        strategy="afterInteractive"
+      />
+
       {/* CSS for 2s Slide Down Animation */}
       <style jsx global>{`
         @keyframes headerSlideDown {
@@ -243,6 +598,14 @@ const Navbar = ({ initialRoutes }: { initialRoutes?: PublicSeoRoute[] }) => {
         }
         .header-animate {
           animation: headerSlideDown 2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .goog-te-banner-frame,
+        .goog-te-gadget,
+        .skiptranslate {
+          display: none !important;
+        }
+        body {
+          top: 0 !important;
         }
       `}</style>
 
@@ -283,7 +646,7 @@ const Navbar = ({ initialRoutes }: { initialRoutes?: PublicSeoRoute[] }) => {
                 className="flex items-center gap-1 cursor-pointer hover:text-slate-700 transition-colors"
                 aria-expanded={isLanguageOpen}
               >
-                <span className="text-base leading-none">{selectedLanguage.flag}</span>
+                <Globe2 size={15} className="text-slate-500" />
                 <span>{selectedLanguage.name}</span>
                 <ChevronDown size={12} className={`transition-transform duration-300 ${isLanguageOpen ? 'rotate-180' : ''}`} />
               </button>
@@ -310,16 +673,16 @@ const Navbar = ({ initialRoutes }: { initialRoutes?: PublicSeoRoute[] }) => {
                         key={language.name}
                         type="button"
                         onClick={() => {
-                          setSelectedLanguage(language);
-                          setIsLanguageOpen(false);
-                          setLanguageSearch('');
+                          handleLanguageSelect(language);
                         }}
                         className={`flex w-full items-center justify-between gap-3 px-4 py-2.5 text-left text-sm transition-colors ${
                           active ? 'bg-[#F0F8FF] font-bold text-slate-900' : 'text-gray-600 hover:bg-[#F0F8FF] hover:text-slate-800'
                         }`}
                       >
                         <span className="flex min-w-0 items-center gap-3">
-                          <span className="text-lg leading-none">{language.flag}</span>
+                          <span className="w-10 shrink-0 rounded-sm bg-[#F0F8FF] px-2 py-1 text-center text-[11px] font-bold uppercase text-slate-600">
+                            {googleLanguageCodes[language.name] || 'en'}
+                          </span>
                           <span className="truncate">{language.name}</span>
                         </span>
                         {active ? <span className="h-2 w-2 rounded-full bg-[#DF1F26]" /> : null}
@@ -411,7 +774,12 @@ const Navbar = ({ initialRoutes }: { initialRoutes?: PublicSeoRoute[] }) => {
 
             {/* Right Side Icons & CTA */}
             <div className="flex items-center space-x-4 lg:space-x-6">
-              <button className="hidden p-2 transition-colors hover:text-slate-600 sm:block">
+              <button
+                type="button"
+                onClick={openSearch}
+                className="hidden p-2 transition-colors hover:text-slate-600 sm:block"
+                aria-label="Open website search"
+              >
                 <Search size={22} />
               </button>
               
@@ -441,6 +809,14 @@ const Navbar = ({ initialRoutes }: { initialRoutes?: PublicSeoRoute[] }) => {
         ${isMobileMenuOpen ? 'top-[64px] opacity-100 visible sm:top-[72px]' : 'top-[-100%] opacity-0 invisible'}
       `}>
         <div className="max-h-[calc(100vh-64px)] space-y-4 overflow-y-auto px-5 py-6 sm:max-h-[calc(100vh-72px)] sm:px-6 sm:py-8">
+          <button
+            type="button"
+            onClick={openSearch}
+            className="flex w-full items-center gap-3 border border-[#E8E8E8] bg-[#F0F8FF] px-4 py-3 text-left text-base font-bold text-slate-800"
+          >
+            <Search size={18} className="text-slate-500" />
+            <span>Search products, blogs, services</span>
+          </button>
           <Link href={hrefFor('/')} onClick={closeMobileMenu} className="block text-lg font-bold border-b pb-2 text-slate-900">Home</Link>
           <Link href={hrefFor('/about')} onClick={closeMobileMenu} className="block text-lg font-medium border-b pb-2">About Us</Link>
           {aboutLinks.slice(1).map((item) => (
@@ -469,7 +845,7 @@ const Navbar = ({ initialRoutes }: { initialRoutes?: PublicSeoRoute[] }) => {
               aria-expanded={isLanguageOpen}
             >
               <span className="flex items-center gap-2">
-                <span>{selectedLanguage.flag}</span>
+                <Globe2 size={18} className="text-slate-500" />
                 <span>Language</span>
               </span>
               <ChevronDown size={18} className={`transition-transform duration-300 ${isLanguageOpen ? 'rotate-180' : ''}`} />
@@ -492,16 +868,16 @@ const Navbar = ({ initialRoutes }: { initialRoutes?: PublicSeoRoute[] }) => {
                         key={language.name}
                         type="button"
                         onClick={() => {
-                          setSelectedLanguage(language);
-                          setIsLanguageOpen(false);
-                          setLanguageSearch('');
+                          handleLanguageSelect(language);
                         }}
                         className={`flex w-full items-center justify-between px-3 py-2 text-left text-sm transition-colors ${
                           active ? 'bg-[#F0F8FF] font-bold text-slate-900' : 'text-gray-600 hover:bg-[#F0F8FF]'
                         }`}
                       >
                         <span className="flex min-w-0 items-center gap-3">
-                          <span className="text-lg leading-none">{language.flag}</span>
+                          <span className="w-10 shrink-0 rounded-sm bg-[#F0F8FF] px-2 py-1 text-center text-[11px] font-bold uppercase text-slate-600">
+                            {googleLanguageCodes[language.name] || 'en'}
+                          </span>
                           <span className="truncate">{language.name}</span>
                         </span>
                         {active ? <span className="h-2 w-2 rounded-full bg-[#DF1F26]" /> : null}
@@ -528,6 +904,80 @@ const Navbar = ({ initialRoutes }: { initialRoutes?: PublicSeoRoute[] }) => {
                 <span>Greater Noida, U.P.</span>
              </div>
           </div>
+        </div>
+      </div>
+
+      {isSearchOpen ? (
+        <button
+          type="button"
+          className="fixed inset-0 z-[55] cursor-default bg-transparent"
+          onClick={closeSearch}
+          aria-label="Close search"
+        />
+      ) : null}
+
+      <div
+        className={`fixed right-3 z-[60] w-[calc(100vw-24px)] max-w-md overflow-hidden rounded-sm border border-[#E8E8E8] bg-white shadow-2xl shadow-slate-900/15 transition-all duration-300 sm:right-6 lg:right-12 ${
+          isScrolled ? 'top-[76px]' : 'top-[84px] lg:top-[116px]'
+        } ${isSearchOpen ? 'visible translate-y-0 opacity-100' : 'invisible -translate-y-2 opacity-0'}`}
+      >
+        <div className="border-b border-[#E8E8E8] p-3">
+          <label className="sr-only" htmlFor="site-search-input">Search website</label>
+          <div className="flex items-center gap-2 border border-[#E8E8E8] bg-[#F0F8FF] px-3 py-2.5 transition focus-within:border-[#DF1F26] focus-within:bg-white">
+            <Search size={18} className="shrink-0 text-slate-500" />
+            <input
+              id="site-search-input"
+              value={searchQuery}
+              onChange={(event) => setSearchQuery(event.target.value)}
+              autoFocus={isSearchOpen}
+              placeholder="Search products, blogs, services..."
+              className="w-full bg-transparent text-sm font-semibold text-slate-900 outline-none placeholder:text-slate-400"
+            />
+            <button
+              type="button"
+              onClick={closeSearch}
+              className="shrink-0 rounded-sm p-1 text-slate-400 transition-colors hover:bg-white hover:text-slate-900"
+              aria-label="Close search"
+            >
+              <X size={17} />
+            </button>
+          </div>
+        </div>
+
+        <div className="max-h-[360px] overflow-y-auto p-2">
+          {isSearchLoading ? (
+            <p className="px-3 py-7 text-center text-sm font-bold text-slate-500">Loading search...</p>
+          ) : searchResults.length ? (
+            <div className="space-y-1">
+              {searchResults.map((item) => (
+                <Link
+                  key={`${item.type}-${item.href}-${item.title}`}
+                  href={item.href}
+                  onClick={closeSearch}
+                  className="group block rounded-sm border border-transparent px-3 py-2.5 transition hover:border-[#E8E8E8] hover:bg-[#F0F8FF]"
+                >
+                  <span className="flex items-center justify-between gap-3">
+                    <span className="min-w-0 truncate text-sm font-bold text-slate-950 group-hover:text-slate-700">
+                      {item.title}
+                    </span>
+                    <span className="shrink-0 rounded-sm bg-[#F0F8FF] px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-[#DF1F26]">
+                      {item.type}
+                    </span>
+                  </span>
+                  {item.description ? (
+                    <span className="mt-1 line-clamp-1 block text-xs leading-5 text-slate-500">
+                      {item.description}
+                    </span>
+                  ) : null}
+                </Link>
+              ))}
+            </div>
+          ) : (
+            <div className="px-3 py-8 text-center">
+              <p className="text-sm font-bold text-slate-900">No results found</p>
+              <p className="mt-1 text-xs text-slate-500">Try a product, category, service, or blog topic.</p>
+            </div>
+          )}
         </div>
       </div>
 

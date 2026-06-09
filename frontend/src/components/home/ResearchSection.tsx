@@ -37,26 +37,20 @@ export default function ResearchSection() {
     setIsAutoPlaying(false)
   }
 
-  // Auto-slide every 3 seconds - stops on hover
   useEffect(() => {
     if (!isAutoPlaying || isHovering) return
-    
     const interval = setInterval(() => {
       nextSlide()
     }, 3000)
-
     return () => clearInterval(interval)
   }, [isAutoPlaying, isHovering, currentIndex])
 
-  // Calculate visible images (5 at a time)
+  // 3 images visible at a time (landscape ke liye better)
   const getVisibleImages = () => {
     const visible: { src: string; index: number }[] = []
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 3; i++) {
       const imgIndex = (currentIndex + i) % researchImages.length
-      visible.push({
-        src: researchImages[imgIndex],
-        index: imgIndex
-      })
+      visible.push({ src: researchImages[imgIndex], index: imgIndex })
     }
     return visible
   }
@@ -78,17 +72,14 @@ export default function ResearchSection() {
       </motion.div>
 
       {/* Image Gallery Slider */}
-      <div 
+      <div
         className="relative w-full bg-gray-100 overflow-hidden"
         onMouseEnter={() => setIsHovering(true)}
         onMouseLeave={() => setIsHovering(false)}
       >
         {/* Previous Button */}
         <button
-          onClick={() => {
-            prevSlide()
-            setIsAutoPlaying(false)
-          }}
+          onClick={() => { prevSlide(); setIsAutoPlaying(false) }}
           className="absolute left-2 top-1/2 z-10 -translate-y-1/2 rounded-full bg-white/90 p-2 shadow-lg transition-all hover:scale-110 hover:bg-white sm:left-4 sm:p-3"
           aria-label="Previous"
         >
@@ -97,39 +88,36 @@ export default function ResearchSection() {
 
         {/* Next Button */}
         <button
-          onClick={() => {
-            nextSlide()
-            setIsAutoPlaying(false)
-          }}
+          onClick={() => { nextSlide(); setIsAutoPlaying(false) }}
           className="absolute right-2 top-1/2 z-10 -translate-y-1/2 rounded-full bg-white/90 p-2 shadow-lg transition-all hover:scale-110 hover:bg-white sm:right-4 sm:p-3"
           aria-label="Next"
         >
           <ChevronRight className="w-6 h-6 text-[#111111]" />
         </button>
 
-        {/* Images Grid - Smooth one-by-one slide */}
+        {/* Images Grid — landscape layout */}
         <div className="relative w-full overflow-hidden">
-          <div className="grid w-full grid-cols-1 min-[420px]:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
+          <div className="grid w-full grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
             {getVisibleImages().map((item, index) => (
               <motion.div
                 key={`${item.index}-${currentIndex}`}
                 initial={{ opacity: 0, x: 100 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ 
-                  delay: index * 0.1, 
-                  duration: 0.6, 
-                  ease: [0.25, 0.46, 0.45, 0.94] 
+                transition={{
+                  delay: index * 0.1,
+                  duration: 0.6,
+                  ease: [0.25, 0.46, 0.45, 0.94]
                 }}
-                whileHover={{ y: -10, rotateX: 4, rotateY: index % 2 === 0 ? -5 : 5, scale: 1.02 }}
-                className="relative aspect-[4/5] overflow-hidden border-r border-white last:border-0 group [transform-style:preserve-3d]"
+                whileHover={{ y: -8, scale: 1.02 }}
+                className="relative aspect-video overflow-hidden border-r border-white last:border-0 group"
               >
                 {/* Image */}
-                <img 
-                  src={item.src} 
-                  alt={`Research ${index + 1}`}
+                <img
+                  src={item.src}
+                  alt={`Product ${index + 1}`}
                   className="w-full h-full object-cover transition-all duration-700 ease-out group-hover:scale-110 group-hover:brightness-75"
                 />
-                
+
                 {/* Hover Overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-[#111111]/80 via-[#111111]/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 ease-out">
                   <div className="absolute bottom-0 left-0 right-0 p-4 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
@@ -144,9 +132,9 @@ export default function ResearchSection() {
                 </div>
 
                 {/* Corner Plus Icon on Hover */}
-                <div className="absolute top-4 right-4 w-10 h-10 bg-white text-gray-700 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transform scale-0 group-hover:scale-100 transition-all duration-300 shadow-lg">
+                {/* <div className="absolute top-4 right-4 w-10 h-10 bg-white text-gray-700 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transform scale-0 group-hover:scale-100 transition-all duration-300 shadow-lg">
                   <span className="text-gray-700 text-2xl font-light">+</span>
-                </div>
+                </div> */}
               </motion.div>
             ))}
           </div>
@@ -159,8 +147,8 @@ export default function ResearchSection() {
               key={index}
               onClick={() => goToSlide(index)}
               className={`h-2.5 rounded-full transition-all duration-300 ${
-                index === currentIndex 
-                  ? 'bg-white w-8' 
+                index === currentIndex
+                  ? 'bg-white w-8'
                   : 'bg-white/50 hover:bg-white/80 w-2.5'
               }`}
               aria-label={`Go to slide ${index + 1}`}
@@ -178,18 +166,15 @@ export default function ResearchSection() {
           transition={{ duration: 0.65, ease: 'easeOut' }}
           className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6"
         >
-          
-          {/* Left Text */}
           <div className="text-gray-800 text-center md:text-left">
             <h3 className="text-xl md:text-2xl font-bold mb-1">
               Looking for Trusted Pharmaceutical Solutions?
             </h3>
             <p className="text-lg md:text-xl font-semibold text-gray-600">
-               Contract Manufacturing & Healthcare Services
+              Contract Manufacturing & Healthcare Services
             </p>
           </div>
 
-          {/* Right Phone Info */}
           <div className="flex items-center gap-4">
             <div className="text-right text-gray-700 hidden sm:block">
               <p className="text-xs uppercase tracking-wider opacity-80">Support Available</p>
@@ -197,12 +182,10 @@ export default function ResearchSection() {
                 +91 8796911105
               </a>
             </div>
-            
             <div className="w-14 h-14 bg-white rounded-sm flex items-center justify-center shadow-lg hover:-translate-y-1 hover:rotate-6 hover:scale-110 transition-transform duration-300 cursor-pointer">
               <Phone className="text-slate-500 w-7 h-7 fill-slate-500/10" />
             </div>
           </div>
-
         </motion.div>
       </div>
     </section>

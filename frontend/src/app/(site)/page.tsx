@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { About, BrandsSection, Contact, Features, Hero, MissionSection, RadiconServices,  } from '@/components/home'
+import { About, BrandsSection, Contact, Features, Hero, MissionSection, RadiconServices, VideoReelsSection } from '@/components/home'
 import BlogSection from '@/components/home/HomeBlogs'
 import HomeScrollSection from '@/components/home/HomeScrollSection'
 import ResearchSection from '@/components/home/ResearchSection'
@@ -29,11 +29,15 @@ export default function HomePage() {
         <StatsSection/>
       </HomeScrollSection>
       <HomeScrollSection>
+        <VideoReelsSection />
+      </HomeScrollSection>
+      <HomeScrollSection>
         <MissionSection />
       </HomeScrollSection>
       <HomeScrollSection direction="left">
         <ResearchSection/>
       </HomeScrollSection>
+      
       <HomeScrollSection direction="right">
         <RadiconServices/>
       </HomeScrollSection>
