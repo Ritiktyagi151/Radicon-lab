@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import Image from 'next/image'
 import { CheckCircle2, PackageCheck } from 'lucide-react'
-import { buildSeoMetadata, getPublicSeoRoutes } from '@/lib/seoRoutes'
+import { buildSeoMetadata, findRouteByPath, getPublicSeoRoutes } from '@/lib/seoRoutes'
 import { getServiceBySlug, getServicePath, getServices } from '@/lib/serviceData'
 
 type ServicesPageProps = {
@@ -17,10 +17,21 @@ export async function generateMetadata(): Promise<Metadata> {
   })
 }
 
-export function generateServiceMetadata(serviceSlug: string): Metadata {
+export async function generateServiceMetadata(serviceSlug: string): Promise<Metadata> {
   const service = getServiceBySlug(serviceSlug)
 
   if (!service) return {}
+
+  const routes = await getPublicSeoRoutes()
+  const path = getServicePath(service.slug)
+  const route = findRouteByPath(routes, path)
+
+  if (route) {
+    return buildSeoMetadata(routes, path, {
+      title: service.title,
+      description: service.excerpt,
+    })
+  }
 
   return {
     title: `${service.title} | Radicon Lab`,

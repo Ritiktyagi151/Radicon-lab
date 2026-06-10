@@ -3,14 +3,27 @@ import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { ChevronRight, LayoutGrid } from 'lucide-react'
 import ProductListing from '@/components/products/ProductListing'
+import { getCategoryPath } from '@/lib/categoryUrls'
 import { getCategories, getCategoryBySlug, getProducts } from '@/lib/productApi'
+import { buildSeoMetadata, findRouteByPath, getPublicSeoRoutes } from '@/lib/seoRoutes'
 
 type PageProps = { params: Promise<{ slug: string }> }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params
-  const category = await getCategoryBySlug(slug)
+  const [category, routes] = await Promise.all([getCategoryBySlug(slug), getPublicSeoRoutes()])
   if (!category) return { title: 'Category Not Found' }
+
+  const path = getCategoryPath(category.slug)
+  const route = findRouteByPath(routes, path)
+
+  if (route) {
+    return buildSeoMetadata(routes, path, {
+      title: category.name,
+      description: category.description || '',
+    })
+  }
+
   return {
     title: `${category.metaTitle || category.name} | Radicon Lab`,
     description: category.metaDescription || category.description,

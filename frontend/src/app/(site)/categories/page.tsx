@@ -3,10 +3,15 @@ import Link from 'next/link'
 import { ArrowUpRight, Search } from 'lucide-react'
 import { getCategoryPath } from '@/lib/categoryUrls'
 import { getCategories } from '@/lib/productApi'
+import { buildSeoMetadata, getPublicSeoRoutes } from '@/lib/seoRoutes'
 
-export const metadata: Metadata = {
-  title: 'Product Categories | Radicon Lab',
-  description: 'Browse Radicon Lab product categories and pharmaceutical product ranges.',
+export async function generateMetadata(): Promise<Metadata> {
+  const routes = await getPublicSeoRoutes()
+
+  return buildSeoMetadata(routes, '/categories', {
+    title: 'Product Categories | Radicon Lab',
+    description: 'Browse Radicon Lab product categories and pharmaceutical product ranges.',
+  })
 }
 
 export default async function CategoriesPage() {

@@ -60,7 +60,7 @@ export async function generateMetadata({ params }: DynamicPageProps): Promise<Me
   }
 
   if (getServiceBySlug(serviceSlug)) {
-    return generateServiceMetadata(serviceSlug)
+    return await generateServiceMetadata(serviceSlug)
   }
 
   if (blogSlug) {
