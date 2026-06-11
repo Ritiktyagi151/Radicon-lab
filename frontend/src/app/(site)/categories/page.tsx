@@ -20,15 +20,15 @@ export default async function CategoriesPage() {
   return (
     <div className="min-h-screen font-sans">
       {/* 1. Top Image Banner Section */}
-      <section className="relative h-[340px] w-full overflow-hidden bg-brand-600 sm:h-[400px]">
+      <section className="relative h-[340px] w-full overflow-hidden  sm:h-[400px]">
         {/* Background Image with Overlay */}
         <div className="absolute inset-0">
           <img 
-            src="https://www.shutterstock.com/image-photo/long-banner-medical-utensils-advertising-260nw-1907184505.jpg" // Yahan apni banner image ka path lagayein
+            src="/homepage-banner/product-banner.png" // Yahan apni banner image ka path lagayein
             alt="Radicon Lab Banner"
-            className="h-full w-full object-cover opacity-40 mix-blend-luminosity"
+            className="h-full w-full object-cover "
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-brand-600 via-brand-600/80 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-brand-300 via-brand-100/80 to-transparent" />
         </div>
 
         {/* Content on Image */}

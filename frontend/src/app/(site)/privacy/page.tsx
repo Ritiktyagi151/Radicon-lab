@@ -63,7 +63,7 @@ const privacySections = [
   },
   {
     title: 'Contact for Privacy Questions',
-    body: 'For privacy-related questions, contact Radicon Laboratories at contact@radiconlab.com or bdm@radiconlab.com.',
+    body: 'For privacy-related questions, contact Radicon Laboratories at info@radiconlab.com.',
   },
 ]
 

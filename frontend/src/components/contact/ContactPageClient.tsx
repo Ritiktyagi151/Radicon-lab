@@ -1,11 +1,11 @@
 'use client'
 
 import { FormEvent, useState } from 'react'
+import Image from 'next/image'
 import { motion } from 'framer-motion'
 import {
   ArrowRight,
   CheckCircle2,
-  Clock3,
   Factory,
   Headphones,
   Mail,
@@ -56,15 +56,14 @@ const contactMethods = [
   },
   {
     label: 'Email Us',
-    value: 'contact@radiconlab.com',
-    detail: 'bdm@radiconlab.com',
-    href: 'mailto:contact@radiconlab.com',
+    value: 'info@radiconlab.com',
+    href: 'mailto:info@radiconlab.com',
     icon: Mail,
   },
   {
     label: 'Export Support',
     value: '+91 8796911105',
-    detail: '+0120-463-32-71 | Give us a free call 24/7',
+    detail: 'Give us a free call 24/7',
     href: 'tel:+918796911105',
     icon: Phone,
   },
@@ -74,12 +73,6 @@ const contactMethods = [
     href: 'https://wa.me/918796911105',
     icon: MessageSquareText,
   },
-]
-
-const inquirySteps = [
-  'Share product category, dosage form, and target market.',
-  'Mention batch quantity, packaging needs, and timeline.',
-  'Our team reviews feasibility and responds with the next steps.',
 ]
 
 const fadeInUp = {
@@ -124,24 +117,39 @@ export default function ContactPageClient() {
 
   return (
     <main className="bg-white text-[#111827]">
-      <section className="relative overflow-hidden border-b border-brand-100 bg-[#F0F8FF]">
+      <section className="relative min-h-[430px] overflow-hidden border-b border-brand-100 bg-[#F0F8FF] sm:min-h-[500px] lg:min-h-[560px]">
+        <Image
+          src="/homepage-banner/contactus.png"
+          alt="Contact Radicon Laboratories"
+          fill
+          priority
+          sizes="100vw"
+          className="absolute inset-0 h-full w-full object-cover object-[64%_center]"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-white via-white/90 to-white/20" />
+        <div className="absolute inset-y-0 left-0 w-full bg-gradient-to-t from-white/70 via-transparent to-transparent lg:hidden" />
         <motion.div
-          className="absolute left-0 top-0 h-1.5 w-full bg-[#DF1F26]"
+          className="absolute left-0 top-0 z-10 h-1.5 w-full bg-[#DF1F26]"
           initial={{ scaleX: 0 }}
           animate={{ scaleX: 1 }}
           transition={{ duration: 0.8, ease: 'easeOut' }}
           style={{ transformOrigin: 'left' }}
         />
 
-        <div className="mx-auto grid max-w-7xl items-center gap-10 px-4 py-16 sm:px-6 lg:grid-cols-[1.1fr_0.9fr] lg:px-8 lg:py-20">
-          <motion.div initial="hidden" animate="visible" transition={{ staggerChildren: 0.12 }}>
+        <div className="relative z-10 mx-auto flex min-h-[430px] max-w-7xl items-center px-4 py-14 sm:min-h-[500px] sm:px-6 lg:min-h-[560px] lg:px-8">
+          <motion.div
+            initial="hidden"
+            animate="visible"
+            transition={{ staggerChildren: 0.12 }}
+            className="max-w-2xl"
+          >
             <motion.p variants={fadeInUp} className="text-sm font-black uppercase tracking-[0.24em] text-[#DF1F26]">
               Contact Radicon Lab
             </motion.p>
-            <motion.h1 variants={fadeInUp} className="mt-4 max-w-4xl text-3xl font-black leading-tight text-black sm:text-5xl lg:text-6xl">
+            <motion.h1 variants={fadeInUp} className="mt-4 text-3xl font-black leading-tight text-black sm:text-4xl lg:text-5xl">
               Talk to our pharmaceutical manufacturing team
             </motion.h1>
-            <motion.p variants={fadeInUp} className="mt-5 max-w-3xl text-base font-semibold leading-8 text-gray-600">
+            <motion.p variants={fadeInUp} className="mt-5 max-w-xl text-base font-semibold leading-8 text-gray-700">
               Share your manufacturing, third party production, packaging, export, or product
               development requirement. We will route your inquiry to the right business desk.
             </motion.p>
@@ -161,39 +169,6 @@ export default function ContactPageClient() {
                 <Phone size={18} />
               </a>
             </motion.div>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, x: 40 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.7, ease: 'easeOut', delay: 0.15 }}
-            className="border border-brand-100 bg-white p-6 shadow-sm"
-          >
-            <div className="flex items-center gap-3 border-b border-brand-100 pb-5">
-              <div className="flex h-12 w-12 items-center justify-center bg-brand-50 text-[#DF1F26]">
-                <Clock3 size={24} />
-              </div>
-              <div>
-                <p className="text-sm font-black uppercase tracking-wide text-black">Inquiry Desk</p>
-                <p className="mt-1 text-sm font-semibold text-gray-600">Manufacturing and business support</p>
-              </div>
-            </div>
-            <div className="mt-5 space-y-4">
-              {inquirySteps.map((step, index) => (
-                <motion.div
-                  key={step}
-                  className="flex gap-3"
-                  initial={{ opacity: 0, x: 18 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.35 + index * 0.12 }}
-                >
-                  <span className="flex h-7 w-7 shrink-0 items-center justify-center bg-[#DF1F26] text-xs font-black text-white">
-                    {index + 1}
-                  </span>
-                  <p className="text-sm font-bold leading-6 text-gray-700">{step}</p>
-                </motion.div>
-              ))}
-            </div>
           </motion.div>
         </div>
       </section>

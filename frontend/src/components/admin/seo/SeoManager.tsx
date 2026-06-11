@@ -14,10 +14,12 @@ import {
   Share2,
   Trash2,
 } from 'lucide-react'
-import { FormEvent, useEffect, useMemo, useState } from 'react'
+import { FormEvent, useCallback, useEffect, useMemo, useState } from 'react'
 import { useToast } from '@/components/admin/providers/ToastProvider'
 import { apiRequest } from '@/lib/admin/api'
 import { useRealtimeUpdates } from '@/lib/admin/realtime'
+import { getProductPath } from '@/lib/productUrls'
+import { getBlogDetailPath } from '@/lib/seoRoutes'
 
 type SeoPage = {
   id: string
@@ -86,6 +88,18 @@ type ProductSearchItem = {
   name: string
   slug: string
   description: string
+  shortDescription?: string
+  metaTitle?: string
+  metaDescription?: string
+  seoKeywords?: string[]
+  canonicalUrl?: string
+}
+
+type QuickSeoTemplate = {
+  label: string
+  path: string
+  pageType: SeoPage['pageType']
+  description: string
 }
 
 type SeoSearchResult =
@@ -131,6 +145,47 @@ const schemaTemplates: Record<string, string> = {
   WebPage: '{\n  "@context": "https://schema.org",\n  "@type": "WebPage",\n  "name": "Page"\n}',
 }
 
+const quickSeoTemplates: QuickSeoTemplate[] = [
+  {
+    label: 'Home',
+    path: '/',
+    pageType: 'Website',
+    description: 'Main homepage metadata.',
+  },
+  {
+    label: 'About',
+    path: '/about',
+    pageType: 'WebPage',
+    description: 'Company profile and about page.',
+  },
+  {
+    label: 'Services',
+    path: '/services',
+    pageType: 'Product',
+    description: 'Manufacturing services page.',
+  },
+  {
+    label: 'Blogs',
+    path: '/blogs',
+    pageType: 'Article',
+    description: 'Blog listing page.',
+  },
+  {
+    label: 'Contact',
+    path: '/contact',
+    pageType: 'ContactPage',
+    description: 'Contact and inquiry page.',
+  },
+  {
+    label: 'Career',
+    path: '/career',
+    pageType: 'WebPage',
+    description: 'Jobs and HR applications page.',
+  },
+]
+
+const emptySeoPages: SeoPage[] = []
+
 export default function SeoManager() {
   const { showToast } = useToast()
   const [activeSection, setActiveSection] = useState<(typeof navItems)[number]['id']>('urls')
@@ -142,8 +197,9 @@ export default function SeoManager() {
   const [products, setProducts] = useState<ProductSearchItem[]>([])
   const [filter, setFilter] = useState('all')
   const [robotsPreview, setRobotsPreview] = useState(false)
+  const seoPages = settings?.pages || emptySeoPages
 
-  const loadSeo = async () => {
+  const loadSeo = useCallback(async () => {
     try {
       const [data, blogResponse, productResponse] = await Promise.all([
         apiRequest<SeoSettings>('/seo'),
@@ -157,11 +213,15 @@ export default function SeoManager() {
     } catch (error) {
       showToast(error instanceof Error ? error.message : 'Unable to load SEO settings', 'error')
     }
-  }
+  }, [showToast])
 
   useEffect(() => {
-    void loadSeo()
-  }, [])
+    const timeout = window.setTimeout(() => {
+      void loadSeo()
+    }, 0)
+
+    return () => window.clearTimeout(timeout)
+  }, [loadSeo])
 
   useRealtimeUpdates({
     resources: ['seo'],
@@ -181,7 +241,7 @@ export default function SeoManager() {
 
   const filteredPages = useMemo(() => {
     const query = search.toLowerCase()
-    return (settings?.pages || []).filter((page) => {
+    return seoPages.filter((page) => {
       const analysis = analysisByPage.get(page.id)
       const matchesSearch = `${page.pageName} ${page.url} ${page.customSlug} ${page.metaTitle}`.toLowerCase().includes(query)
       const matchesFilter =
@@ -191,13 +251,13 @@ export default function SeoManager() {
         page.pageType === filter
       return matchesSearch && matchesFilter
     })
-  }, [analysisByPage, filter, search, settings?.pages])
+  }, [analysisByPage, filter, search, seoPages])
 
   const instantSearchResults = useMemo(() => {
     const query = globalSeoSearch.trim().toLowerCase()
     if (!query) return []
 
-    const pageResults: SeoSearchResult[] = (settings?.pages || [])
+    const pageResults: SeoSearchResult[] = seoPages
       .filter((page) => searchableText([page.pageName, page.url, page.customSlug, page.metaTitle, page.pageType]).includes(query))
       .map((page) => ({
         kind: 'page',
@@ -212,23 +272,23 @@ export default function SeoManager() {
       .map((blog) => ({
         kind: 'blog',
         label: blog.title,
-        path: `/blogs/${blog.slug}`,
+        path: getBlogDetailPath([], blog.slug),
         metaTitle: blog.seoTitle || 'Blog post',
         blog,
       }))
 
     const productResults: SeoSearchResult[] = products
-      .filter((product) => searchableText([product.name, product.slug, product.description]).includes(query))
+      .filter((product) => searchableText([product.name, product.slug, product.description, product.metaTitle, product.metaDescription, product.seoKeywords?.join(' ')]).includes(query))
       .map((product) => ({
         kind: 'product',
         label: product.name,
-        path: `/services/${product.slug}`,
-        metaTitle: 'Product / Service',
+        path: getProductPath(product.slug),
+        metaTitle: product.metaTitle || 'Product SEO',
         product,
       }))
 
     return [...pageResults, ...blogResults, ...productResults].slice(0, 10)
-  }, [blogs, globalSeoSearch, products, settings?.pages])
+  }, [blogs, globalSeoSearch, products, seoPages])
 
   const openSearchResult = (result: SeoSearchResult) => {
     if (result.kind === 'page') {
@@ -250,6 +310,12 @@ export default function SeoManager() {
     setActiveSection('onpage')
   }
 
+  const startNewSeoPage = (page: SeoPage = { ...emptyPage, id: crypto.randomUUID() }) => {
+    setSelectedPage(page)
+    setGlobalSeoSearch('')
+    setActiveSection('onpage')
+  }
+
   const savePage = async (event?: FormEvent<HTMLFormElement>) => {
     event?.preventDefault()
     try {
@@ -258,6 +324,33 @@ export default function SeoManager() {
       await loadSeo()
     } catch (error) {
       showToast(error instanceof Error ? error.message : 'Unable to save SEO page', 'error')
+    }
+  }
+
+  const syncProductSeoPages = async () => {
+    if (!settings) return
+
+    const existingPaths = new Set(settings.pages.flatMap((page) => [page.url, page.customSlug]).filter(Boolean))
+    const missingProducts = products.filter((product) => !existingPaths.has(getProductPath(product.slug)))
+
+    if (!missingProducts.length) {
+      showToast('All product SEO URLs are already added')
+      return
+    }
+
+    try {
+      await Promise.all(
+        missingProducts.map((product) =>
+          apiRequest('/seo/pages', {
+            method: 'POST',
+            body: JSON.stringify(createSeoPageFromProduct(product)),
+          }),
+        ),
+      )
+      showToast(`${missingProducts.length} product SEO URL${missingProducts.length > 1 ? 's' : ''} added`)
+      await loadSeo()
+    } catch (error) {
+      showToast(error instanceof Error ? error.message : 'Unable to sync product SEO URLs', 'error')
     }
   }
 
@@ -391,10 +484,7 @@ export default function SeoManager() {
               ) : null}
             </div>
             <button
-              onClick={() => {
-                setSelectedPage({ ...emptyPage, id: crypto.randomUUID() })
-                setActiveSection('onpage')
-              }}
+              onClick={() => startNewSeoPage()}
               className="mt-3 w-fit rounded-2xl border border-brand-400/40 bg-brand-500 px-5 py-3 text-sm font-black text-white shadow-[0_0_28px_rgba(244,63,94,0.35)] transition hover:-translate-y-0.5"
             >
               <span className="inline-flex items-center gap-2">
@@ -430,11 +520,16 @@ export default function SeoManager() {
           {activeSection === 'urls' ? (
             <UrlManager
               pages={filteredPages}
+              allPages={settings.pages}
+              blogs={blogs}
+              products={products}
               analysisByPage={analysisByPage}
               search={search}
               filter={filter}
               onSearch={setSearch}
               onFilter={setFilter}
+              onCreate={startNewSeoPage}
+              onSyncProducts={syncProductSeoPages}
               onEdit={(page) => {
                 setSelectedPage(page)
                 setActiveSection('onpage')
@@ -485,30 +580,115 @@ export default function SeoManager() {
 
 function UrlManager({
   pages,
+  allPages,
+  blogs,
+  products,
   analysisByPage,
   search,
   filter,
   onSearch,
   onFilter,
+  onCreate,
+  onSyncProducts,
   onEdit,
   onDelete,
 }: {
   pages: SeoPage[]
+  allPages: SeoPage[]
+  blogs: BlogSearchItem[]
+  products: ProductSearchItem[]
   analysisByPage: Map<string, SeoAnalysis>
   search: string
   filter: string
   onSearch: (value: string) => void
   onFilter: (value: string) => void
+  onCreate: (page?: SeoPage) => void
+  onSyncProducts: () => void
   onEdit: (page: SeoPage) => void
   onDelete: (page: SeoPage) => void
 }) {
+  const existingPaths = useMemo(
+    () => new Set(allPages.flatMap((page) => [page.url, page.customSlug]).filter(Boolean)),
+    [allPages],
+  )
+  const suggestedBlogs = blogs.slice(0, 5)
+  const suggestedProducts = [...products]
+    .sort((first, second) => Number(hasProductSeo(second)) - Number(hasProductSeo(first)))
+    .slice(0, 5)
+  const missingProductCount = products.filter((product) => !existingPaths.has(getProductPath(product.slug))).length
+  const totalUrlCount = allPages.length
+  const visibleUrlCount = pages.length
+  const productUrlCount = allPages.filter((page) => page.url.startsWith('/product-details-') || page.customSlug.startsWith('/product-details-')).length
+
   return (
     <div>
-      <SectionTitle title="URL Manager" description="Search pages, set custom slugs, monitor canonical state, and open the full SEO editor." />
+      <SectionTitle title="Easy SEO Search & Add" description="Find existing SEO records or create one quickly for common pages, blogs, and products." />
+      <div className="mb-4 grid gap-3 sm:grid-cols-3">
+        <SeoCountCard label="Total SEO URLs" value={totalUrlCount} />
+        <SeoCountCard label="Showing Now" value={visibleUrlCount} />
+        <SeoCountCard label="Product URLs" value={productUrlCount} />
+      </div>
+      <div className="mb-4 flex flex-wrap items-center justify-between gap-3 rounded-3xl border border-brand-400/20 bg-brand-500/10 p-4">
+        <div>
+          <h3 className="text-base font-black text-white">Product SEO URL Sync</h3>
+          <p className="mt-1 text-sm font-bold text-brand-100">
+            Add product detail URLs from Product Manager SEO fields into this SEO URL list. Missing: {missingProductCount}
+          </p>
+        </div>
+        <button
+          type="button"
+          onClick={onSyncProducts}
+          className="rounded-2xl bg-brand-500 px-5 py-3 text-sm font-black text-white shadow-[0_0_24px_rgba(244,63,94,0.25)] transition hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-50"
+          disabled={!missingProductCount}
+        >
+          <span className="inline-flex items-center gap-2">
+            <Plus size={16} />
+            {missingProductCount ? `Sync ${missingProductCount} Product URLs` : 'All Products Added'}
+          </span>
+        </button>
+      </div>
+      <div className="mb-5 grid gap-4 xl:grid-cols-3">
+        <QuickAddBox
+          title="Common Pages"
+          items={quickSeoTemplates.map((template) => ({
+            key: template.path,
+            title: template.label,
+            subtitle: template.path,
+            disabled: existingPaths.has(template.path),
+            onClick: () => onCreate(createSeoPageFromTemplate(template)),
+          }))}
+        />
+        <QuickAddBox
+          title="Latest Blogs"
+          items={suggestedBlogs.map((blog) => {
+            const path = getBlogDetailPath([], blog.slug)
+            return {
+              key: blog.slug,
+              title: blog.title,
+              subtitle: path,
+              disabled: existingPaths.has(path) || existingPaths.has(`/blogs/${blog.slug}`),
+              onClick: () => onCreate(createSeoPageFromBlog(blog)),
+            }
+          })}
+        />
+        <QuickAddBox
+          title="Product SEO URLs"
+          items={suggestedProducts.map((product) => {
+            const path = getProductPath(product.slug)
+            return {
+              key: product.slug,
+              title: product.metaTitle || product.name,
+              subtitle: path,
+              disabled: existingPaths.has(path),
+              onClick: () => onCreate(createSeoPageFromProduct(product)),
+            }
+          })}
+        />
+      </div>
       <div className="mb-4 grid gap-3 md:grid-cols-[1fr_220px]">
         <label className="flex h-12 items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.04] px-4 text-sm text-slate-400">
           <Search size={16} className="text-brand-300" />
-          <input value={search} onChange={(event) => onSearch(event.target.value)} placeholder="Search URLs..." className="w-full bg-transparent font-semibold outline-none" />
+          <input value={search} onChange={(event) => onSearch(event.target.value)} placeholder="Search by page, URL, slug, title..." className="w-full bg-transparent font-semibold outline-none" />
         </label>
         <select value={filter} onChange={(event) => onFilter(event.target.value)} className="h-12 rounded-2xl border border-white/10 bg-slate-900 px-4 text-sm font-bold text-white outline-none">
           <option value="all">All URLs</option>
@@ -524,7 +704,7 @@ function UrlManager({
           <tr><Th>Page</Th><Th>URL</Th><Th>Custom Slug</Th><Th>Canonical</Th><Th>Score</Th><Th>Actions</Th></tr>
         </thead>
         <tbody>
-          {pages.map((page) => {
+          {pages.length ? pages.map((page) => {
             const analysis = analysisByPage.get(page.id)
             return (
               <tr key={page.id} className="border-t border-white/5 hover:bg-white/[0.03]">
@@ -541,9 +721,67 @@ function UrlManager({
                 </Td>
               </tr>
             )
-          })}
+          }) : (
+            <tr>
+              <td colSpan={6} className="px-5 py-8 text-center text-sm font-bold text-slate-500">
+                No SEO records found. Use the quick add boxes above or clear the search.
+              </td>
+            </tr>
+          )}
         </tbody>
       </DarkTable>
+    </div>
+  )
+}
+
+function SeoCountCard({ label, value }: { label: string; value: number }) {
+  return (
+    <div className="rounded-3xl border border-white/10 bg-white/[0.04] p-4">
+      <p className="text-xs font-black uppercase tracking-[0.18em] text-slate-500">{label}</p>
+      <p className="mt-2 text-3xl font-black text-white">{value}</p>
+    </div>
+  )
+}
+
+function QuickAddBox({
+  title,
+  items,
+}: {
+  title: string
+  items: Array<{
+    key: string
+    title: string
+    subtitle: string
+    disabled?: boolean
+    onClick: () => void
+  }>
+}) {
+  return (
+    <div className="rounded-3xl border border-white/10 bg-white/[0.03] p-4">
+      <h3 className="text-sm font-black uppercase tracking-[0.18em] text-slate-300">{title}</h3>
+      <div className="mt-4 grid gap-2">
+        {items.length ? items.map((item) => (
+          <button
+            key={item.key}
+            type="button"
+            disabled={item.disabled}
+            onClick={item.onClick}
+            className="flex min-h-16 items-center justify-between gap-3 rounded-2xl border border-white/10 bg-slate-900/70 px-3 py-2 text-left transition hover:border-brand-400/40 hover:bg-brand-500/10 disabled:cursor-not-allowed disabled:opacity-45"
+          >
+            <span className="min-w-0">
+              <span className="block truncate text-sm font-black text-white">{item.title}</span>
+              <span className="mt-1 block truncate text-xs font-bold text-slate-500">{item.subtitle}</span>
+            </span>
+            <span className="shrink-0 rounded-xl border border-white/10 px-2 py-1 text-[10px] font-black uppercase text-brand-200">
+              {item.disabled ? 'Added' : 'Add'}
+            </span>
+          </button>
+        )) : (
+          <p className="rounded-2xl border border-white/10 bg-slate-900/70 px-3 py-4 text-sm font-bold text-slate-500">
+            No items available.
+          </p>
+        )}
+      </div>
     </div>
   )
 }
@@ -696,13 +934,42 @@ function searchableText(values: Array<string | undefined>) {
   return values.filter(Boolean).join(' ').toLowerCase()
 }
 
+function hasProductSeo(product: ProductSearchItem) {
+  return Boolean(product.metaTitle || product.metaDescription || product.seoKeywords?.length || product.canonicalUrl)
+}
+
+function createSeoPageFromTemplate(template: QuickSeoTemplate): SeoPage {
+  return {
+    ...emptyPage,
+    id: crypto.randomUUID(),
+    pageName: template.label,
+    pageType: template.pageType,
+    url: template.path,
+    metaTitle: `${template.label} | Radicon Lab`,
+    metaDescription: template.description,
+    focusKeyword: template.label.toLowerCase(),
+    openGraph: {
+      title: `${template.label} | Radicon Lab`,
+      description: template.description,
+    },
+    twitter: {
+      title: `${template.label} | Radicon Lab`,
+      description: template.description,
+    },
+    schemaType: template.pageType === 'Article' ? 'Article' : template.pageType === 'Product' ? 'Product' : 'WebPage',
+    schemaJson: schemaTemplates[template.pageType] || schemaTemplates.WebPage,
+  }
+}
+
 function createSeoPageFromBlog(blog: BlogSearchItem): SeoPage {
+  const path = getBlogDetailPath([], blog.slug)
+
   return {
     ...emptyPage,
     id: crypto.randomUUID(),
     pageName: blog.title,
     pageType: 'Article',
-    url: `/blogs/${blog.slug}`,
+    url: path,
     customSlug: '',
     metaTitle: blog.seoTitle || blog.title,
     metaDescription: blog.seoDescription || blog.excerpt,
@@ -721,23 +988,27 @@ function createSeoPageFromBlog(blog: BlogSearchItem): SeoPage {
 }
 
 function createSeoPageFromProduct(product: ProductSearchItem): SeoPage {
+  const description = product.metaDescription || product.shortDescription || product.description
+  const title = product.metaTitle || product.name
+
   return {
     ...emptyPage,
     id: crypto.randomUUID(),
     pageName: product.name,
     pageType: 'Product',
-    url: `/services/${product.slug}`,
+    url: getProductPath(product.slug),
     customSlug: '',
-    metaTitle: product.name,
-    metaDescription: product.description,
-    focusKeyword: product.name.toLowerCase(),
+    canonicalUrl: product.canonicalUrl || '',
+    metaTitle: title,
+    metaDescription: description,
+    focusKeyword: product.seoKeywords?.length ? product.seoKeywords.join(', ') : product.name.toLowerCase(),
     openGraph: {
-      title: product.name,
-      description: product.description,
+      title,
+      description,
     },
     twitter: {
-      title: product.name,
-      description: product.description,
+      title,
+      description,
     },
     schemaType: 'Product',
     schemaJson: schemaTemplates.Product,

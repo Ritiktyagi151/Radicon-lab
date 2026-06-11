@@ -619,7 +619,7 @@ const Navbar = ({ initialRoutes }: { initialRoutes?: PublicSeoRoute[] }) => {
           <div className="flex items-center space-x-6 font-medium">
             <div className="flex items-center gap-2">
               <Phone size={14} className="text-slate-500" />
-              <span>Emergency Line: <a href="tel:+918796911105" className="text-black hover:text-slate-700 transition-colors">+91-8796911105</a></span>
+              <span>Emergency Line: <a href="tel:+918796911105" className="text-black hover:text-slate-700 transition-colors">+91 8796911105</a></span>
             </div>
             <div className="flex items-center gap-2 border-l pl-6 border-gray-200">
               <MapPin size={14} className="text-slate-500" />
@@ -742,10 +742,10 @@ const Navbar = ({ initialRoutes }: { initialRoutes?: PublicSeoRoute[] }) => {
               </li>
 
               <li className="group relative">
-                <Link href={hrefFor('/services')} className="flex items-center gap-1 transition-colors hover:text-slate-600">
+                <span className="flex items-center gap-1 transition-colors hover:text-slate-600 cursor-pointer">
                   Medicine Range
                   <ChevronDown size={14} />
-                </Link>
+                </span>
                 <div className="absolute top-[100%] left-0 hidden group-hover:block bg-white shadow-xl  w-[200px] py-3 rounded-b-md">
                   <Link href="/categories" className="block px-6 py-2 text-sm hover:text-slate-700">All Categories</Link>
                   {categories.map((category) => (
@@ -756,10 +756,10 @@ const Navbar = ({ initialRoutes }: { initialRoutes?: PublicSeoRoute[] }) => {
                 </div>
               </li>
                <li className="group relative">
-                <Link href={hrefFor('/services')} className="flex items-center gap-1 transition-colors hover:text-slate-600">
+                <span className="flex items-center gap-1 transition-colors hover:text-slate-600 cursor-pointer">
                   Services
                   <ChevronDown size={14} />
-                </Link>
+                </span>
                 <div className="absolute top-[100%] right-0 hidden group-hover:block bg-white shadow-xl  w-[450px] py-3 rounded-b-md xl:left-0 xl:right-auto">
                   {serviceLinks.map((service) => (
                     <Link key={service.slug} href={getServicePath(service.slug)} className="block px-6 py-2 text-sm hover:text-slate-700">
@@ -897,7 +897,7 @@ const Navbar = ({ initialRoutes }: { initialRoutes?: PublicSeoRoute[] }) => {
           <div className="pt-4 flex flex-col space-y-3 text-sm text-gray-600">
              <div className="flex items-center gap-3 font-medium">
                 <Phone size={18} className="text-slate-500" />
-                <span>+91-8796911105</span>
+                 <span>+91 8796911105</span>
              </div>
              <div className="flex items-center gap-3 font-medium">
                 <MapPin size={18} className="text-slate-500" />

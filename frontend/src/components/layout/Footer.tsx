@@ -38,10 +38,9 @@ const socialLinks = [
 
 const contactInfo = [
   { icon: FaLocationDot, content: '108-A Ecotech-XII Greater Noida, U.P. India 201306', isLink: false },
-  { icon: FaEnvelope, content: 'contact@radiconlab.com', href: 'mailto:contact@radiconlab.com', isLink: true },
-  { icon: FaEnvelope, content: 'bdm@radiconlab.com', href: 'mailto:bdm@radiconlab.com', isLink: true },
+  { icon: FaEnvelope, content: 'info@radiconlab.com', href: 'mailto:info@radiconlab.com', isLink: true },
   { icon: FaWhatsapp, content: '+91 8796911105', href: 'https://wa.me/918796911105', isLink: true },
-  { icon: FaPhoneVolume, content: '+0120-463-32-71', href: 'tel:+0120-463-32-71', isLink: true },
+  { icon: FaPhoneVolume, content: '+91 8796911105', href: 'tel:+918796911105', isLink: true },
 ]
 
 export default function Footer({ initialRoutes }: { initialRoutes?: PublicSeoRoute[] }) {

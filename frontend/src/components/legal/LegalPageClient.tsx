@@ -60,7 +60,7 @@ export default function LegalPageClient({
                 <ArrowRight size={18} />
               </a>
               <a
-                href="mailto:contact@radiconlab.com"
+                href="mailto:info@radiconlab.com"
                 className="inline-flex w-full items-center justify-center gap-2 border border-brand-200 bg-white px-6 py-3 text-sm font-black uppercase tracking-wide text-black transition hover:border-[#DF1F26] hover:text-[#DF1F26] sm:w-auto"
               >
                 Contact Us

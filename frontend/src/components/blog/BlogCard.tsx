@@ -30,7 +30,7 @@ export default function BlogCard({ blog }: { blog: Blog }) {
           <img
             src={blog.featuredImage}
             alt={blog.title}
-            className="h-[245px] w-full object-cover transition-transform duration-500 group-hover:scale-110"
+            className="h-[245px] w-full object-fill transition-transform duration-500 group-hover:scale-110"
           />
           <span className="absolute left-4 top-4 rounded-sm bg-brand-600 px-3 py-1.5 text-xs font-bold uppercase tracking-wide text-white shadow-md">
             {blog.category}

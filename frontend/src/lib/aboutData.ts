@@ -106,8 +106,8 @@ const aboutPages: AboutPageContent[] = [
     description: 'Code of Conduct',
     hero: 'At Radicon Laboratories Ltd, we are committed to the highest standards of ethical conduct and integrity in all our business activities.',
     images: [
-      'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1200&q=80',
-      'https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=1200&q=80',
+      '/company-img/code-of-conduct.png',
+      '/company-img/code-of-conduct2.jpg',
     ],
     sections: [
       {
@@ -136,7 +136,7 @@ const aboutPages: AboutPageContent[] = [
     hero: 'Our Board of Directors provides strategic leadership and oversight for Radicon Laboratories Ltd. Committed to excellence, the Board shapes the vision, values, and long-term growth strategy of the company.',
     images: [
       'https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1200&q=80',
-      'https://images.unsplash.com/photo-1556761175-4b46a572b786?auto=format&fit=crop&w=1200&q=80',
+      '/founder1.jpeg',
     ],
     sections: [
       {
@@ -162,8 +162,8 @@ const aboutPages: AboutPageContent[] = [
     description: 'Empowering Communities and Transforming Lives',
     hero: 'We follow the rationale that we are linked closely to the communities in which we operate locally, nationally, and globally. We cannot exist in isolation.',
     images: [
-      'https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&w=1200&q=80',
-      'https://images.unsplash.com/photo-1593113598332-cd288d649433?auto=format&fit=crop&w=1200&q=80',
+      '/company-img/csr3.png',
+      '/company-img/csr4.jfif',
     ],
     sections: [
       {
@@ -193,8 +193,8 @@ const aboutPages: AboutPageContent[] = [
     description: 'Frequently Asked Questions',
     hero: 'Find answers to common questions about Radicon Laboratories role, quality practices, certifications, manufacturing unit, and market reach.',
     images: [
-      'https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=1200&q=80',
-      'https://images.unsplash.com/photo-1581595219315-a187dd40c322?auto=format&fit=crop&w=1200&q=80',
+      '/company-img/faq.avif',
+      '/company-img/faq2.jpg',
     ],
     sections: [
       {

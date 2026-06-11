@@ -1,6 +1,7 @@
 import {
   BadRequestException,
   Controller,
+  Body,
   Post,
   Req,
   UploadedFile,
@@ -16,6 +17,12 @@ import { AdminAuthGuard } from '../auth/admin-auth.guard';
 import type { Request } from 'express';
 
 const allowedImageTypes = ['image/jpeg', 'image/png', 'image/webp'];
+const uploadFolders = {
+  products: 'products',
+  blogs: 'blogs',
+} as const;
+
+type UploadFolderType = keyof typeof uploadFolders;
 
 type UploadedImageFile = {
   originalname: string;
@@ -37,6 +44,10 @@ export class UploadsController {
         file: {
           type: 'string',
           format: 'binary',
+        },
+        type: {
+          type: 'string',
+          enum: ['products', 'blogs'],
         },
       },
     },
@@ -62,13 +73,19 @@ export class UploadsController {
   )
   async uploadImage(
     @UploadedFile() file: UploadedImageFile | undefined,
+    @Body('type') type: UploadFolderType = 'products',
     @Req() request: Request,
   ) {
     if (!file) {
       throw new BadRequestException('Image file is required.');
     }
 
-    const uploadDir = join(process.cwd(), 'uploads', 'images');
+    const folder = uploadFolders[type];
+    if (!folder) {
+      throw new BadRequestException('Invalid upload type.');
+    }
+
+    const uploadDir = join(process.cwd(), 'uploads', folder);
     await mkdir(uploadDir, { recursive: true });
 
     const extension = mimeToExtension(file.mimetype);
@@ -78,7 +95,8 @@ export class UploadsController {
     await writeFile(filePath, file.buffer);
 
     return {
-      url: `${getPublicOrigin(request)}/uploads/images/${filename}`,
+      url: `${getPublicOrigin(request)}/uploads/${folder}/${filename}`,
+      path: `uploads/${folder}/${filename}`,
     };
   }
 }

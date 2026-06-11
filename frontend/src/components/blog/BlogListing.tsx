@@ -1,6 +1,7 @@
 'use client'
 
 import { useMemo, useState } from 'react'
+import Image from 'next/image'
 import type { Blog, BlogListResponse } from '@/types/blog'
 import BlogCard from './BlogCard'
 import BlogFilter from './BlogFilter'
@@ -54,30 +55,39 @@ export default function BlogListing({ initialBlogs, featuredBlog }: BlogListingP
 
   return (
     <>
-      <section className="relative overflow-hidden bg-[#F0F8FF] py-20 sm:py-24">
-        <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-brand-600 via-brand-400 to-brand-600" />
-        <div className="mx-auto grid max-w-7xl items-center gap-10 px-4 sm:px-6 lg:grid-cols-[0.95fr_1.05fr] lg:px-8">
-          <div>
-            <p className="text-sm font-semibold uppercase tracking-wide text-brand-600">Radicon Lab Blog</p>
-            <h1 className="mt-4 text-4xl font-bold leading-tight text-[#111111] sm:text-5xl">
+      <section className="relative min-h-[430px] overflow-hidden bg-[#F0F8FF] sm:min-h-[500px] lg:min-h-[560px]">
+        <Image
+          src="/homepage-banner/blog-banner.png"
+          alt="Radicon Lab Blog"
+          fill
+          priority
+          sizes="100vw"
+          className="absolute inset-0 h-full w-full object-cover object-[64%_center]"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-white via-white/88 to-white/10" />
+        <div className="absolute inset-y-0 left-0 w-full bg-gradient-to-t from-white/70 via-transparent to-transparent lg:hidden" />
+        <div className="absolute inset-x-0 top-0 z-10 h-1 bg-gradient-to-r from-brand-600 via-brand-400 to-brand-600" />
+
+        <div className="relative z-10 mx-auto flex min-h-[430px] max-w-7xl items-center px-4 py-14 sm:min-h-[500px] sm:px-6 lg:min-h-[560px] lg:px-8">
+          <div className="max-w-2xl">
+            <p className="text-sm font-black uppercase tracking-[0.24em] text-brand-600">Radicon Lab Blog</p>
+            <h1 className="mt-4 text-4xl font-black leading-tight text-[#111111] sm:text-5xl">
               Practical pharma insights for quality-led manufacturing
             </h1>
-            <p className="mt-5 max-w-2xl text-base leading-7 text-gray-600">
+            <p className="mt-5 max-w-xl text-base font-semibold leading-7 text-gray-700">
               Explore useful articles on formulation, quality systems, documentation, research, and
               dependable pharmaceutical operations.
             </p>
-          </div>
-          <div className="grid gap-4 rounded-sm border border-brand-100 bg-white p-5 shadow-sm sm:grid-cols-3">
-            {[
-              ['Quality', 'Documentation and compliance'],
-              ['Research', 'Formulation and process notes'],
-              ['Operations', 'Manufacturing knowledge'],
-            ].map(([label, text]) => (
-              <div key={label} className="border-l-2 border-brand-600 pl-4">
-                <p className="text-sm font-bold uppercase tracking-wide text-[#111111]">{label}</p>
-                <p className="mt-2 text-sm leading-6 text-gray-500">{text}</p>
-              </div>
-            ))}
+            <div className="mt-7 flex flex-wrap gap-2">
+              {['Quality', 'Research', 'Operations'].map((label) => (
+                <span
+                  key={label}
+                  className="border border-brand-100 bg-white/85 px-4 py-2 text-xs font-black uppercase tracking-wide text-[#111111] shadow-sm backdrop-blur"
+                >
+                  {label}
+                </span>
+              ))}
+            </div>
           </div>
         </div>
       </section>

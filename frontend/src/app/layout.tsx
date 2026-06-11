@@ -59,7 +59,7 @@ const localBusinessSchema = {
     'Radicon Laboratories Ltd offers quality Sildenafil, Viagra, Kamagra, and Cenforce tablets. Trusted formulas, safe use, and competitive prices for every customer.',
   foundingDate: '2007',
   telephone: '+91 8796911105',
-  email: 'contact@radiconlab.com',
+  email: 'info@radiconlab.com',
   address: {
     '@type': 'PostalAddress',
     streetAddress: 'Shop No-1595/8, Ground Floor, Bhagirath Palace, Chandni Chowk, Near Diwan Hall',
@@ -85,13 +85,7 @@ const localBusinessSchema = {
       '@type': 'ContactPoint',
       contactType: 'customer support',
       telephone: '+91 8796911105',
-      email: 'contact@radiconlab.com',
-    },
-    {
-      '@type': 'ContactPoint',
-      contactType: 'business enquiries',
-      telephone: '+0120-463-3271',
-      email: 'bdm@radiconlab.com',
+      email: 'info@radiconlab.com',
     },
   ],
   sameAs: [

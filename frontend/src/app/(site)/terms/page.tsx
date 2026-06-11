@@ -63,7 +63,7 @@ const termsSections = [
   },
   {
     title: 'Contact',
-    body: 'For questions about these Terms and Conditions, contact Radicon Laboratories at contact@radiconlab.com or bdm@radiconlab.com.',
+    body: 'For questions about these Terms and Conditions, contact Radicon Laboratories at info@radiconlab.com.',
   },
 ]
 

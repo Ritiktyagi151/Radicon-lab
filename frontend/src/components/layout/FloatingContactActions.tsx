@@ -11,7 +11,7 @@ const actions = [
     className: 'bg-[#25D366] hover:bg-[#1fb85a]',
   },
   {
-    href: 'mailto:contact@radiconlab.com',
+    href: 'mailto:info@radiconlab.com',
     label: 'Email Radicon',
     icon: FaEnvelope,
     className: 'bg-[#DF1F26] hover:bg-brand-800',

@@ -31,7 +31,7 @@ export default function FeaturedBlog({ blog }: { blog: Blog }) {
         <img
           src={blog.featuredImage}
           alt={blog.title}
-          className="h-full min-h-[320px] w-full object-cover transition-transform duration-500 hover:scale-105"
+          className="h-full min-h-[320px] w-full object-fill transition-transform duration-500 hover:scale-105"
         />
         <span className="absolute bottom-5 left-5 rounded-sm bg-white px-4 py-2 text-sm font-bold text-[#111111] shadow-md">
           {formatDate(getBlogDate(blog))}

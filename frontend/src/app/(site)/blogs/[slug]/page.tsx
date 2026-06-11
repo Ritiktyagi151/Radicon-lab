@@ -159,7 +159,7 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
             <img
               src={blog.featuredImage}
               alt={blog.title}
-              className="h-[320px] w-full rounded-sm border border-brand-100 object-cover shadow-xl shadow-brand-100/50 sm:h-[460px] lg:h-[560px]"
+              className="h-[420px] w-full rounded-sm border border-brand-100 object-fill shadow-xl shadow-brand-100/50 sm:h-[460px] lg:h-[560px]"
             />
           </div>
         </section>

@@ -149,7 +149,7 @@ export default function BlogManager() {
     try {
       validateImageFile(file)
       setIsUploadingFeaturedImage(true)
-      const url = await uploadAdminImage(file)
+      const url = await uploadAdminImage(file, 'blogs')
       setForm((currentForm) => ({ ...currentForm, featuredImage: url }))
       showToast('Featured image uploaded')
     } catch (error) {
@@ -161,7 +161,7 @@ export default function BlogManager() {
 
   const uploadEditorImage = async (file: File) => {
     try {
-      const url = await uploadAdminImage(file)
+      const url = await uploadAdminImage(file, 'blogs')
       showToast('Image inserted')
       return url
     } catch (error) {

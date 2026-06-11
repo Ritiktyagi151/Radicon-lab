@@ -1,6 +1,7 @@
 import { apiRequest } from './api'
 
 const allowedImageTypes = ['image/jpeg', 'image/png', 'image/webp']
+export type AdminImageUploadType = 'products' | 'blogs'
 
 export function validateImageFile(file: File) {
   if (!allowedImageTypes.includes(file.type)) {
@@ -8,13 +9,14 @@ export function validateImageFile(file: File) {
   }
 }
 
-export async function uploadAdminImage(file: File) {
+export async function uploadAdminImage(file: File, type: AdminImageUploadType = 'products') {
   validateImageFile(file)
 
   const formData = new FormData()
   formData.append('file', file)
+  formData.append('type', type)
 
-  const response = await apiRequest<{ url: string }>('/uploads/images', {
+  const response = await apiRequest<{ url: string; path: string }>('/uploads/images', {
     method: 'POST',
     body: formData,
   })

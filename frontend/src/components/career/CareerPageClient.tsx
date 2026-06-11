@@ -41,7 +41,7 @@ const initialApplicationForm: ApplicationFormState = {
 }
 
 const hrEmail = 'garima_hr@radiconlab.com'
-const hrPhone = '+91 9289611885'
+const hrPhone = '+91 8796911105'
 
 const jobOpenings = [
   {
@@ -432,7 +432,7 @@ export default function CareerPageClient() {
                 <Mail size={18} className="mt-1 shrink-0 text-[#DF1F26]" />
                 {hrEmail}
               </a>
-              <a href="tel:+919289611885" className="flex gap-2 transition hover:text-[#DF1F26]">
+              <a href="tel:+918796911105" className="flex gap-2 transition hover:text-[#DF1F26]">
                 <Phone size={18} className="mt-1 shrink-0 text-[#DF1F26]" />
                 {hrPhone}
               </a>

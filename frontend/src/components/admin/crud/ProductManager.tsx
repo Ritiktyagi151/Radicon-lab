@@ -85,7 +85,7 @@ export default function ProductManager() {
 
   const uploadImage = async (file: File, setter: (url: string) => void) => {
     try {
-      const url = await uploadAdminImage(file)
+      const url = await uploadAdminImage(file, 'products')
       setter(url)
       showToast('Image uploaded successfully')
     } catch (error) {
@@ -94,7 +94,7 @@ export default function ProductManager() {
   }
 
   const uploadRichContentImage = async (file: File) => {
-    const url = await uploadAdminImage(file)
+    const url = await uploadAdminImage(file, 'products')
     showToast('Image uploaded successfully')
     return url
   }
