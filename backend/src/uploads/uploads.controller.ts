@@ -108,8 +108,20 @@ function mimeToExtension(mimeType: string) {
 }
 
 function getPublicOrigin(request: Request) {
-  return (
-    process.env.PUBLIC_API_ORIGIN ||
-    `${request.protocol}://${request.get('host')}`
-  );
+  const configuredOrigin = process.env.PUBLIC_API_ORIGIN;
+  if (configuredOrigin) {
+    return configuredOrigin.replace(/\/+$/, '');
+  }
+
+  const forwardedProtocol = getForwardedHeaderValue(request, 'x-forwarded-proto');
+  const forwardedHost = getForwardedHeaderValue(request, 'x-forwarded-host');
+  const protocol = forwardedProtocol || request.protocol;
+  const host = forwardedHost || request.get('host');
+
+  return `${protocol}://${host}`;
+}
+
+function getForwardedHeaderValue(request: Request, header: string) {
+  const value = request.get(header);
+  return value?.split(',')[0]?.trim();
 }
