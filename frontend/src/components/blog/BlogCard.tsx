@@ -4,6 +4,7 @@ import { motion } from 'framer-motion'
 import { ArrowRight, Clock, User } from 'lucide-react'
 import Link from 'next/link'
 import { useSeoRoutes } from '@/lib/admin/useSeoRoutes'
+import { resolveUploadUrl } from '@/lib/uploadUrls'
 import type { Blog } from '@/types/blog'
 
 const formatDate = (date: string) =>
@@ -28,7 +29,7 @@ export default function BlogCard({ blog }: { blog: Blog }) {
       <Link href={href} className="block">
         <div className="relative overflow-hidden">
           <img
-            src={blog.featuredImage}
+            src={resolveUploadUrl(blog.featuredImage)}
             alt={blog.title}
             className="h-[245px] w-full object-fill transition-transform duration-500 group-hover:scale-110"
           />

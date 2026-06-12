@@ -13,6 +13,7 @@ import {
   getBlogIndexPath,
   getPublicSeoRoutes,
 } from '@/lib/seoRoutes'
+import { resolveUploadUrl } from '@/lib/uploadUrls'
 
 type BlogDetailPageProps = {
   params: Promise<{ slug: string }>
@@ -44,10 +45,10 @@ export async function generateMetadata({ params }: BlogDetailPageProps): Promise
   const canonical = route?.canonicalUrl || detailPath
   const ogTitle = route?.openGraph?.title || title
   const ogDescription = route?.openGraph?.description || description
-  const ogImage = route?.openGraph?.image || blog.featuredImage
+  const ogImage = resolveUploadUrl(route?.openGraph?.image || blog.featuredImage)
   const twitterTitle = route?.twitter?.title || ogTitle
   const twitterDescription = route?.twitter?.description || ogDescription
-  const twitterImage = route?.twitter?.image || ogImage
+  const twitterImage = resolveUploadUrl(route?.twitter?.image || ogImage)
 
   return {
     title,
@@ -157,7 +158,7 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
         <section className="bg-white">
           <div className="mx-auto max-w-7xl px-4 pt-10 sm:px-6 lg:px-8">
             <img
-              src={blog.featuredImage}
+              src={resolveUploadUrl(blog.featuredImage)}
               alt={blog.title}
               className="h-[420px] w-full rounded-sm border border-brand-100 object-fill shadow-xl shadow-brand-100/50 sm:h-[460px] lg:h-[560px]"
             />

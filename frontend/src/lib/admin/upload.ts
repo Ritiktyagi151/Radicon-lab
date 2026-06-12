@@ -1,4 +1,5 @@
 import { apiRequest } from './api'
+import { stripUploadUrl } from '@/lib/uploadUrls'
 
 const allowedImageTypes = ['image/jpeg', 'image/png', 'image/webp']
 export type AdminImageUploadType = 'products' | 'blogs'
@@ -21,5 +22,5 @@ export async function uploadAdminImage(file: File, type: AdminImageUploadType = 
     body: formData,
   })
 
-  return response.url
+  return stripUploadUrl(response.path || response.url)
 }

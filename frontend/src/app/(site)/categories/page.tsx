@@ -4,6 +4,7 @@ import { ArrowUpRight, Search } from 'lucide-react'
 import { getCategoryPath } from '@/lib/categoryUrls'
 import { getCategories } from '@/lib/productApi'
 import { buildSeoMetadata, getPublicSeoRoutes } from '@/lib/seoRoutes'
+import { resolveUploadUrl } from '@/lib/uploadUrls'
 
 export async function generateMetadata(): Promise<Metadata> {
   const routes = await getPublicSeoRoutes()
@@ -73,7 +74,7 @@ export default async function CategoriesPage() {
                 <div className="mb-6 aspect-square w-full overflow-hidden bg-gray-50 border border-gray-50">
                   {category.image ? (
                     <img 
-                      src={category.image} 
+                      src={resolveUploadUrl(category.image)} 
                       alt={category.name} 
                       className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110" 
                     />

@@ -1,13 +1,14 @@
 'use client'
 
 import { ArrowDown, ArrowUp, Edit3, GripVertical, ImagePlus, Plus, Trash2, X } from 'lucide-react'
-import { FormEvent, useEffect, useState } from 'react'
+import { FormEvent, useCallback, useEffect, useState } from 'react'
 import { AdminButton, AdminPageHeader, StatusTag } from '@/components/admin/AdminPrimitives'
 import RichTextEditor from '@/components/admin/RichTextEditor'
 import { useToast } from '@/components/admin/providers/ToastProvider'
 import { apiRequest } from '@/lib/admin/api'
 import { uploadAdminImage } from '@/lib/admin/upload'
 import { useRealtimeUpdates } from '@/lib/admin/realtime'
+import { resolveUploadUrl } from '@/lib/uploadUrls'
 import type { Category, Product, ProductStatus } from '@/types/product'
 
 type ProductForm = Omit<Product, '_id' | 'category'> & { _id?: string; category: string }
@@ -56,7 +57,7 @@ export default function ProductManager() {
   const [draggingProductId, setDraggingProductId] = useState<string | null>(null)
   const [draggingCategoryId, setDraggingCategoryId] = useState<string | null>(null)
 
-  const loadData = async () => {
+  const loadData = useCallback(async () => {
     try {
       const [categoryData, productData] = await Promise.all([
         apiRequest<Category[]>('/categories', { auth: false }),
@@ -67,11 +68,15 @@ export default function ProductManager() {
     } catch (error) {
       showToast(error instanceof Error ? error.message : 'Unable to load product data', 'error')
     }
-  }
+  }, [showToast])
 
   useEffect(() => {
-    void loadData()
-  }, [])
+    const timeout = window.setTimeout(() => {
+      void loadData()
+    }, 0)
+
+    return () => window.clearTimeout(timeout)
+  }, [loadData])
 
   useRealtimeUpdates({
     resources: ['products', 'categories'],
@@ -318,7 +323,7 @@ export default function ProductManager() {
                     >
                       <GripVertical size={18} />
                     </span>
-                    <img src={product.image} alt={product.name} className="h-14 w-20 rounded-2xl object-cover" />
+                    <img src={resolveUploadUrl(product.image)} alt={product.name} className="h-14 w-20 rounded-2xl object-cover" />
                     <div>
                       <p className="font-black text-slate-950">{product.name}</p>
                       <p className="mt-1 max-w-md truncate text-sm font-semibold text-slate-500">{product.shortDescription || product.description}</p>
@@ -353,7 +358,7 @@ export default function ProductManager() {
                   >
                     <GripVertical size={18} />
                   </span>
-                  {category.image ? <img src={category.image} alt={category.name} className="h-14 w-20 rounded-2xl object-cover" /> : <span className="h-14 w-20 rounded-2xl bg-slate-100" />}
+                  {category.image ? <img src={resolveUploadUrl(category.image)} alt={category.name} className="h-14 w-20 rounded-2xl object-cover" /> : <span className="h-14 w-20 rounded-2xl bg-slate-100" />}
                   <div>
                     <p className="font-black text-slate-950">{category.name}</p>
                     <p className="mt-1 max-w-md truncate text-sm font-semibold text-slate-500">{category.description}</p>
@@ -408,7 +413,7 @@ export default function ProductManager() {
             <Input label="SEO Keywords (comma separated)" value={(productForm.seoKeywords || []).join(', ')} onChange={(value) => setProductForm({ ...productForm, seoKeywords: splitLines(value, ',') })} />
             <Input label="Canonical URL" value={productForm.canonicalUrl || ''} onChange={(value) => setProductForm({ ...productForm, canonicalUrl: value })} />
           </div>
-          {productForm.image ? <img src={productForm.image} alt="Preview" className="mt-5 h-52 w-full rounded-3xl object-cover" /> : null}
+          {productForm.image ? <img src={resolveUploadUrl(productForm.image)} alt="Preview" className="mt-5 h-52 w-full rounded-3xl object-cover" /> : null}
           <SubmitLabel label={editingProductId ? 'Update Product' : 'Create Product'} />
         </Modal>
       ) : null}

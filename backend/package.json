@@ -13,6 +13,7 @@
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
     "migrate:upload-base-url": "node scripts/migrate-upload-base-url.js",
+    "migrate:upload-paths": "node scripts/migrate-upload-base-url.js",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test": "jest --runInBand",
     "test:watch": "jest --watch",

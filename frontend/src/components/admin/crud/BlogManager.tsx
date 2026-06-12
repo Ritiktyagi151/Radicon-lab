@@ -9,6 +9,7 @@ import { apiRequest } from '@/lib/admin/api'
 import { useRealtimeUpdates } from '@/lib/admin/realtime'
 import { uploadAdminImage, validateImageFile } from '@/lib/admin/upload'
 import { useSeoRoutes } from '@/lib/admin/useSeoRoutes'
+import { resolveUploadUrl } from '@/lib/uploadUrls'
 import type { Blog } from '@/types/blog'
 
 type BlogForm = Omit<Blog, '_id' | 'createdAt' | 'updatedAt'>
@@ -219,7 +220,7 @@ export default function BlogManager() {
                   <tr key={blog.slug} className="transition hover:bg-brand-50/40">
                     <td className="px-6 py-5">
                       <div className="flex items-center gap-4">
-                        <img src={blog.featuredImage} alt={blog.title} className="h-14 w-20 rounded-2xl object-cover" />
+                        <img src={resolveUploadUrl(blog.featuredImage)} alt={blog.title} className="h-14 w-20 rounded-2xl object-cover" />
                         <div>
                           <p className="font-black text-slate-950">{blog.title}</p>
                           <p className="mt-1 max-w-md truncate text-sm font-semibold text-slate-500">{blog.excerpt}</p>
@@ -300,7 +301,7 @@ export default function BlogManager() {
                   </div>
                   <div className="min-h-40 overflow-hidden rounded-2xl border border-white bg-white shadow-sm">
                     {form.featuredImage ? (
-                      <img src={form.featuredImage} alt="Featured preview" className="h-full min-h-40 w-full object-cover" />
+                      <img src={resolveUploadUrl(form.featuredImage)} alt="Featured preview" className="h-full min-h-40 w-full object-cover" />
                     ) : (
                       <div className="grid h-full min-h-40 place-items-center px-5 text-center text-sm font-bold text-slate-400">
                         Image preview

@@ -3,7 +3,6 @@ import {
   Controller,
   Body,
   Post,
-  Req,
   UploadedFile,
   UseGuards,
   UseInterceptors,
@@ -14,7 +13,6 @@ import { mkdir, writeFile } from 'fs/promises';
 import { join } from 'path';
 import { randomUUID } from 'crypto';
 import { AdminAuthGuard } from '../auth/admin-auth.guard';
-import type { Request } from 'express';
 
 const allowedImageTypes = ['image/jpeg', 'image/png', 'image/webp'];
 const uploadFolders = {
@@ -74,7 +72,6 @@ export class UploadsController {
   async uploadImage(
     @UploadedFile() file: UploadedImageFile | undefined,
     @Body('type') type: UploadFolderType = 'products',
-    @Req() request: Request,
   ) {
     if (!file) {
       throw new BadRequestException('Image file is required.');
@@ -94,9 +91,11 @@ export class UploadsController {
 
     await writeFile(filePath, file.buffer);
 
+    const uploadPath = `/uploads/${folder}/${filename}`;
+
     return {
-      url: `${getPublicOrigin(request)}/uploads/${folder}/${filename}`,
-      path: `uploads/${folder}/${filename}`,
+      url: uploadPath,
+      path: uploadPath,
     };
   }
 }
@@ -105,23 +104,4 @@ function mimeToExtension(mimeType: string) {
   if (mimeType === 'image/png') return '.png';
   if (mimeType === 'image/webp') return '.webp';
   return '.jpg';
-}
-
-function getPublicOrigin(request: Request) {
-  const configuredOrigin = process.env.PUBLIC_API_ORIGIN;
-  if (configuredOrigin) {
-    return configuredOrigin.replace(/\/+$/, '');
-  }
-
-  const forwardedProtocol = getForwardedHeaderValue(request, 'x-forwarded-proto');
-  const forwardedHost = getForwardedHeaderValue(request, 'x-forwarded-host');
-  const protocol = forwardedProtocol || request.protocol;
-  const host = forwardedHost || request.get('host');
-
-  return `${protocol}://${host}`;
-}
-
-function getForwardedHeaderValue(request: Request, header: string) {
-  const value = request.get(header);
-  return value?.split(',')[0]?.trim();
 }

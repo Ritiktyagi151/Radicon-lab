@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { resolveUploadUrl } from '@/lib/uploadUrls'
 
 export const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api'
 
@@ -195,13 +196,13 @@ export function buildSeoMetadata(
       type: 'website',
       url: canonical,
       siteName: 'Radicon Lab',
-      images: route?.openGraph?.image ? [{ url: route.openGraph.image }] : undefined,
+      images: route?.openGraph?.image ? [{ url: resolveUploadUrl(route.openGraph.image) }] : undefined,
     },
     twitter: {
       card: 'summary_large_image',
       title: route?.twitter?.title || route?.openGraph?.title || title,
       description: route?.twitter?.description || route?.openGraph?.description || description,
-      images: route?.twitter?.image || route?.openGraph?.image ? [route.twitter?.image || route.openGraph?.image || ''] : undefined,
+      images: route?.twitter?.image || route?.openGraph?.image ? [resolveUploadUrl(route.twitter?.image || route.openGraph?.image || '')] : undefined,
     },
   }
 }

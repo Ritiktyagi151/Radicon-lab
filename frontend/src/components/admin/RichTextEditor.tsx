@@ -26,6 +26,7 @@ import { EditorContent, useEditor, type Editor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import { useEffect, useRef, useState } from 'react'
 import type { ReactNode } from 'react'
+import { resolveUploadHtml, stripUploadUrlHtml } from '@/lib/uploadUrls'
 
 type RichTextEditorProps = {
   label: string
@@ -71,7 +72,7 @@ export default function RichTextEditor({
         allowBase64: false,
       }),
     ],
-    content: value || '',
+    content: resolveUploadHtml(value || ''),
     editorProps: {
       attributes: {
         class:
@@ -79,13 +80,14 @@ export default function RichTextEditor({
       },
     },
     onUpdate: ({ editor: activeEditor }) => {
-      onChange(activeEditor.isEmpty ? '' : activeEditor.getHTML())
+      onChange(activeEditor.isEmpty ? '' : stripUploadUrlHtml(activeEditor.getHTML()))
     },
   })
 
   useEffect(() => {
-    if (!editor || editor.getHTML() === value) return
-    editor.commands.setContent(value || '', { emitUpdate: false })
+    const resolvedValue = resolveUploadHtml(value || '')
+    if (!editor || editor.getHTML() === resolvedValue) return
+    editor.commands.setContent(resolvedValue, { emitUpdate: false })
   }, [editor, value])
 
   const setLink = () => {

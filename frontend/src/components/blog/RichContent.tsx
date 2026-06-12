@@ -1,3 +1,5 @@
+import { resolveUploadHtml } from '@/lib/uploadUrls'
+
 const slugify = (value: string) =>
   value
     .toLowerCase()
@@ -52,7 +54,7 @@ export default function RichContent({ content }: { content: string }) {
     return (
       <div
         className="blog-rich-content"
-        dangerouslySetInnerHTML={{ __html: addHeadingIds(content) }}
+        dangerouslySetInnerHTML={{ __html: resolveUploadHtml(addHeadingIds(content)) }}
       />
     )
   }

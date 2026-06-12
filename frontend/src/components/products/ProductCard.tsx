@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { ArrowUpRight } from 'lucide-react'
 import { getProductPath } from '@/lib/productUrls'
+import { resolveUploadUrl } from '@/lib/uploadUrls'
 import type { Product } from '@/types/product'
 
 export default function ProductCard({ product }: { product: Product }) {
@@ -13,7 +14,7 @@ export default function ProductCard({ product }: { product: Product }) {
     >
       <div className="aspect-[4/3] overflow-hidden bg-[#F0F8FF]">
         <img
-          src={product.image}
+          src={resolveUploadUrl(product.image)}
           alt={product.name}
           className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
         />

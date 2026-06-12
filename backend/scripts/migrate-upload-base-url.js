@@ -10,14 +10,9 @@ const mongoUri = process.env.MONGODB_URI;
 const oldBaseUrl = normalizeBaseUrl(
   process.env.OLD_BASE_URL || DEFAULT_OLD_BASE_URL,
 );
-const newBaseUrl = normalizeBaseUrl(process.env.BASE_URL || '');
 
 if (!mongoUri) {
   fail('MONGODB_URI is required.');
-}
-
-if (!newBaseUrl) {
-  fail('BASE_URL is required. Example: BASE_URL=https://api.example.com');
 }
 
 async function main() {
@@ -35,7 +30,7 @@ async function main() {
     for await (const document of cursor) {
       scannedRecords += 1;
 
-      const updatedDocument = replaceUploadBaseUrl(document);
+      const updatedDocument = stripUploadBaseUrl(document);
       if (!updatedDocument.changed) {
         continue;
       }
@@ -59,22 +54,20 @@ async function main() {
   await mongoose.disconnect();
 }
 
-function replaceUploadBaseUrl(value) {
+function stripUploadBaseUrl(value) {
   if (typeof value === 'string') {
-    if (!value.includes(oldBaseUrl)) {
+    const nextValue = stripUploadOrigin(value);
+    if (nextValue === value) {
       return { value, changed: false };
     }
 
-    return {
-      value: value.replaceAll(oldBaseUrl, newBaseUrl),
-      changed: true,
-    };
+    return { value: nextValue, changed: true };
   }
 
   if (Array.isArray(value)) {
     let changed = false;
     const nextValue = value.map((item) => {
-      const result = replaceUploadBaseUrl(item);
+      const result = stripUploadBaseUrl(item);
       changed = changed || result.changed;
       return result.value;
     });
@@ -87,7 +80,7 @@ function replaceUploadBaseUrl(value) {
     const nextValue = {};
 
     for (const [key, item] of Object.entries(value)) {
-      const result = replaceUploadBaseUrl(item);
+      const result = stripUploadBaseUrl(item);
       changed = changed || result.changed;
       nextValue[key] = result.value;
     }
@@ -96,6 +89,13 @@ function replaceUploadBaseUrl(value) {
   }
 
   return { value, changed: false };
+}
+
+function stripUploadOrigin(value) {
+  const exactOldBasePattern = escapeRegExp(oldBaseUrl);
+  return value
+    .replace(new RegExp(`${exactOldBasePattern}(?=/uploads/)`, 'g'), '')
+    .replace(/https?:\/\/[^/"'\s<>]+(?=\/uploads\/)/g, '');
 }
 
 function isPlainObject(value) {
@@ -110,6 +110,10 @@ function isPlainObject(value) {
 
 function normalizeBaseUrl(value) {
   return value.trim().replace(/\/+$/, '');
+}
+
+function escapeRegExp(value) {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 
 function loadEnvFile(envPath) {

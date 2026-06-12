@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { AlertTriangle, ChevronRight, MessageCircle, ShieldCheck } from 'lucide-react'
 import InquiryModal from '@/components/InquiryModal'
 import { getCategoryPath } from '@/lib/categoryUrls'
+import { resolveUploadHtml, resolveUploadUrl } from '@/lib/uploadUrls'
 import type { Product } from '@/types/product'
 import ProductCard from './ProductCard'
 
@@ -49,7 +50,7 @@ export default function ProductDetailClient({ product, relatedProducts }: Produc
           <div>
             <div className="aspect-[4/3] overflow-hidden border border-[#DF1F26]/20 bg-white">
               <img
-                src={mainImage}
+                src={resolveUploadUrl(mainImage)}
                 alt={product.name}
                 className="h-full w-full object-contain p-3 sm:p-6"
               />
@@ -59,7 +60,7 @@ export default function ProductDetailClient({ product, relatedProducts }: Produc
               <div className="mt-3 grid grid-cols-4 gap-2 sm:grid-cols-5">
                 {images.slice(0, 5).map((image) => (
                   <div key={image} className="aspect-square border border-[#DF1F26]/25 bg-white p-2">
-                    <img src={image} alt={product.name} className="h-full w-full object-contain" />
+                    <img src={resolveUploadUrl(image)} alt={product.name} className="h-full w-full object-contain" />
                   </div>
                 ))}
               </div>
@@ -118,7 +119,7 @@ export default function ProductDetailClient({ product, relatedProducts }: Produc
           <section className="mt-10 border border-[#DF1F26]/20 bg-white p-5">
             <div
               className="blog-rich-content"
-              dangerouslySetInnerHTML={{ __html: product.fullContent }}
+              dangerouslySetInnerHTML={{ __html: resolveUploadHtml(product.fullContent) }}
             />
           </section>
         ) : null}
