@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { resolveUploadUrl } from '@/lib/uploadUrls'
 
-export const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api'
+export const API_BASE_URL = typeof window === 'undefined' ? (process.env.INTERNAL_API_URL || 'http://localhost:5004/api') : (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5004/api')
 
 export type PublicSeoRoute = {
   id: string

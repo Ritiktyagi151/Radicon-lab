@@ -1,6 +1,6 @@
 import type { Category, Product } from '@/types/product'
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api'
+const API_BASE_URL = typeof window === 'undefined' ? (process.env.INTERNAL_API_URL || 'http://localhost:5004/api') : (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5004/api')
 
 async function fetchJson<T>(path: string): Promise<T> {
   const response = await fetch(`${API_BASE_URL}${path}`, { cache: 'no-store' })
