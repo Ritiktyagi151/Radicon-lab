@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { Mail, MessageCircle, Package, Send, User, X } from 'lucide-react'
+import { API_BASE_URL } from '@/lib/admin/api'
 
 type InquiryModalProps = {
   isOpen: boolean
@@ -11,17 +12,49 @@ type InquiryModalProps = {
 
 export default function InquiryModal({ isOpen, onClose, productName }: InquiryModalProps) {
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [statusMessage, setStatusMessage] = useState('')
+  const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle')
 
   if (!isOpen) return null
 
-  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
     setIsSubmitting(true)
+    setStatus('idle')
+    setStatusMessage('')
 
-    window.setTimeout(() => {
+    const formData = new FormData(event.currentTarget)
+    const name = String(formData.get('name') || '')
+    const email = String(formData.get('email') || '')
+    const requirements = String(formData.get('requirements') || '')
+
+    try {
+      const response = await fetch(`${API_BASE_URL}/contacts`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name,
+          email,
+          company: 'Product inquiry',
+          subject: `Product Inquiry - ${productName}`,
+          message: requirements,
+        }),
+      })
+
+      if (!response.ok) {
+        const payload = await response.json().catch(() => null)
+        throw new Error(payload?.message || 'Unable to submit inquiry right now.')
+      }
+
+      event.currentTarget.reset()
+      setStatus('success')
+      setStatusMessage('Thank you. Your product inquiry has been sent to the Radicon team.')
+    } catch (error) {
+      setStatus('error')
+      setStatusMessage(error instanceof Error ? error.message : 'Unable to submit inquiry right now.')
+    } finally {
       setIsSubmitting(false)
-      onClose()
-    }, 700)
+    }
   }
 
   return (
@@ -118,6 +151,12 @@ export default function InquiryModal({ isOpen, onClose, productName }: InquiryMo
               className="w-full resize-none border border-[#DF1F26]/30 px-3 py-2.5 text-sm font-bold text-black outline-none placeholder:text-black/35 focus:border-[#DF1F26]"
             />
           </div>
+
+          {statusMessage ? (
+            <p className={`text-sm font-bold ${status === 'success' ? 'text-green-700' : 'text-red-700'}`}>
+              {statusMessage}
+            </p>
+          ) : null}
 
           <button
             type="submit"

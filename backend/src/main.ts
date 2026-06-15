@@ -25,8 +25,12 @@ async function bootstrap() {
 
   app.enableCors({
   origin: [
-    'https://radicon-lab.vercel.app',  // ✅ Vercel URL
-    'http://localhost:3000',
+   'https://radicon-lab.vercel.app',
+      'https://radiconlab.com',
+      'https://www.radiconlab.com',
+      'http://localhost:3000',
+      'http://localhost:3005',
+
   ],
   credentials: true,
 });

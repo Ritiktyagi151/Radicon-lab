@@ -177,9 +177,20 @@ export default function CareerPageClient() {
         throw new Error(payload?.message || 'Unable to submit application right now.')
       }
 
+      const mailResponse = await fetch('/api/career-mail', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(applicationForm),
+      })
+
+      if (!mailResponse.ok) {
+        const payload = await mailResponse.json().catch(() => null)
+        throw new Error(payload?.message || 'Application saved, but HR email could not be sent.')
+      }
+
       setApplicationForm(initialApplicationForm)
       setStatus('success')
-      setStatusMessage(`Thank you. Your application has been sent. Please email your updated resume to ${hrEmail}.`)
+      setStatusMessage(`Thank you for applying. Your details have been sent to HR. Please email your updated resume to ${hrEmail}.`)
     } catch (error) {
       setStatus('error')
       setStatusMessage(error instanceof Error ? error.message : 'Unable to submit application right now.')
