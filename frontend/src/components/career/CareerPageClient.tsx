@@ -1,6 +1,6 @@
 'use client'
 
-import { FormEvent, useState } from 'react'
+import { ChangeEvent, FormEvent, useRef, useState } from 'react'
 import { motion } from 'framer-motion'
 import {
   ArrowRight,
@@ -16,6 +16,7 @@ import {
   Phone,
   Send,
   ShieldCheck,
+  Upload,
   Users,
 } from 'lucide-react'
 import { API_BASE_URL } from '@/lib/admin/api'
@@ -42,6 +43,7 @@ const initialApplicationForm: ApplicationFormState = {
 
 const hrEmail = 'garima_hr@radiconlab.com'
 const hrPhone = '+91 8796911105'
+const maxCvSize = 5 * 1024 * 1024
 
 const jobOpenings = [
   {
@@ -128,8 +130,10 @@ const fadeInUp = {
 
 export default function CareerPageClient() {
   const [applicationForm, setApplicationForm] = useState<ApplicationFormState>(initialApplicationForm)
+  const [cvFile, setCvFile] = useState<File | null>(null)
   const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle')
   const [statusMessage, setStatusMessage] = useState('')
+  const cvInputRef = useRef<HTMLInputElement>(null)
 
   const updateApplicationField = (field: keyof ApplicationFormState, value: string) => {
     setApplicationForm((current) => ({ ...current, [field]: value }))
@@ -141,6 +145,37 @@ export default function CareerPageClient() {
 
   const selectRole = (role: string) => {
     setApplicationForm((current) => ({ ...current, role }))
+  }
+
+  const handleCvChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0] || null
+
+    if (!file) {
+      setCvFile(null)
+      return
+    }
+
+    if (file.type !== 'application/pdf') {
+      setCvFile(null)
+      event.target.value = ''
+      setStatus('error')
+      setStatusMessage('Please upload your CV as a PDF file.')
+      return
+    }
+
+    if (file.size > maxCvSize) {
+      setCvFile(null)
+      event.target.value = ''
+      setStatus('error')
+      setStatusMessage('CV PDF size should be 5 MB or less.')
+      return
+    }
+
+    setCvFile(file)
+    if (status !== 'sending') {
+      setStatus('idle')
+      setStatusMessage('')
+    }
   }
 
   const handleApplicationSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -155,7 +190,7 @@ export default function CareerPageClient() {
       '',
       applicationForm.message,
       '',
-      `Resume should be shared by candidate at ${hrEmail}.`,
+      cvFile ? `CV attached with HR email: ${cvFile.name}` : `CV not attached. Candidate can share resume at ${hrEmail}.`,
     ].join('\n')
 
     try {
@@ -177,10 +212,15 @@ export default function CareerPageClient() {
         throw new Error(payload?.message || 'Unable to submit application right now.')
       }
 
+      const careerMailForm = new FormData()
+      Object.entries(applicationForm).forEach(([key, value]) => {
+        careerMailForm.append(key, value)
+      })
+      if (cvFile) careerMailForm.append('cv', cvFile)
+
       const mailResponse = await fetch('/api/career-mail', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(applicationForm),
+        body: careerMailForm,
       })
 
       if (!mailResponse.ok) {
@@ -189,8 +229,10 @@ export default function CareerPageClient() {
       }
 
       setApplicationForm(initialApplicationForm)
+      setCvFile(null)
+      if (cvInputRef.current) cvInputRef.current.value = ''
       setStatus('success')
-      setStatusMessage(`Thank you for applying. Your details have been sent to HR. Please email your updated resume to ${hrEmail}.`)
+      setStatusMessage('Thank you for applying. Your details have been sent to HR.')
     } catch (error) {
       setStatus('error')
       setStatusMessage(error instanceof Error ? error.message : 'Unable to submit application right now.')
@@ -535,11 +577,36 @@ export default function CareerPageClient() {
                   placeholder="Share your current role, notice period, relevant skills, or training requirement."
                 />
               </label>
+              <label className="block sm:col-span-2">
+                <span className="text-sm font-black uppercase text-black">Upload CV</span>
+                <div className="mt-2 flex flex-col gap-3 border border-dashed border-brand-200 bg-[#F0F8FF] px-4 py-4 sm:flex-row sm:items-center sm:justify-between">
+                  <div className="flex min-w-0 items-center gap-3">
+                    <FileText size={22} className="shrink-0 text-[#DF1F26]" />
+                    <div className="min-w-0">
+                      <p className="truncate text-sm font-black text-black">
+                        {cvFile ? cvFile.name : 'PDF CV only'}
+                      </p>
+                      <p className="mt-1 text-xs font-bold text-gray-600">Maximum file size: 5 MB</p>
+                    </div>
+                  </div>
+                  <span className="relative inline-flex w-full cursor-pointer items-center justify-center gap-2 bg-white px-4 py-3 text-xs font-black uppercase tracking-wide text-black ring-1 ring-brand-100 transition hover:text-[#DF1F26] sm:w-auto">
+                    <Upload size={16} />
+                    Choose PDF
+                    <input
+                      ref={cvInputRef}
+                      type="file"
+                      accept="application/pdf,.pdf"
+                      onChange={handleCvChange}
+                      className="absolute inset-0 cursor-pointer opacity-0"
+                    />
+                  </span>
+                </div>
+              </label>
             </div>
 
             <div className="mt-4 flex gap-2 bg-[#F0F8FF] px-4 py-3 text-sm font-bold leading-6 text-gray-700">
               <FileText size={18} className="mt-1 shrink-0 text-[#DF1F26]" />
-              Please email your updated resume to {hrEmail} after submitting this form.
+              Attach your CV as a PDF, or email it to {hrEmail} after submitting this form.
             </div>
 
             {statusMessage ? (

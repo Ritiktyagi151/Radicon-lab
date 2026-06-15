@@ -11,7 +11,9 @@ import { RealtimeService } from '../realtime/realtime.service';
 export class ContactsService {
   private readonly logger = new Logger(ContactsService.name);
   private readonly transporter: nodemailer.Transporter | null;
+  private readonly hrTransporter: nodemailer.Transporter | null;
   private readonly mailFrom: string;
+  private readonly hrMailFrom: string;
   private readonly hrMailTo: string;
   private readonly infoMailTo: string;
 
@@ -23,8 +25,12 @@ export class ContactsService {
     const host = this.configService.get<string>('SMTP_HOST');
     const user = this.configService.get<string>('SMTP_USER');
     const pass = this.configService.get<string>('SMTP_PASS');
+    const hrUser = this.configService.get<string>('SMTP_HR_USER');
+    const hrPass = this.configService.get<string>('SMTP_HR_PASS');
 
     this.mailFrom = this.configService.get<string>('SMTP_FROM') || user || '';
+    this.hrMailFrom =
+      this.configService.get<string>('SMTP_HR_FROM') || hrUser || this.mailFrom;
     this.hrMailTo = this.configService.get<string>('SMTP_TO_HR') || user || '';
     this.infoMailTo = this.configService.get<string>('SMTP_TO_INFO') || this.configService.get<string>('SMTP_TO') || user || '';
 
@@ -43,6 +49,22 @@ export class ContactsService {
             },
           })
         : null;
+
+    this.hrTransporter =
+      host && hrUser && hrPass
+        ? nodemailer.createTransport({
+            host,
+            port: Number(this.configService.get<string>('SMTP_PORT') || 465),
+            secure: this.configService.get<string>('SMTP_SECURE') !== 'false',
+            auth: {
+              user: hrUser,
+              pass: hrPass,
+            },
+            tls: {
+              rejectUnauthorized: this.configService.get<string>('SMTP_TLS_REJECT_UNAUTHORIZED') !== 'false',
+            },
+          })
+        : this.transporter;
   }
 
   async create(createContactDto: CreateContactDto) {
@@ -71,19 +93,24 @@ export class ContactsService {
 
   private async sendContactEmails(contact: ContactDocument) {
     const mailTo = this.getNotificationRecipient(contact);
+    const transporter = this.getTransporter(contact);
+    const mailFrom = this.getMailFrom(contact);
 
-    if (!this.transporter || !this.mailFrom || !mailTo) {
+    if (!transporter || !mailFrom || !mailTo) {
       this.logger.warn('SMTP is not configured; contact notification email skipped.');
       return;
     }
 
-    await this.sendAdminNotification(contact, mailTo);
-    await this.sendSenderConfirmation(contact);
+    await this.sendAdminNotification(contact, mailTo, transporter, mailFrom);
+    await this.sendSenderConfirmation(contact, transporter, mailFrom);
   }
 
-  private async sendAdminNotification(contact: ContactDocument, mailTo: string) {
-    if (!this.transporter) return;
-
+  private async sendAdminNotification(
+    contact: ContactDocument,
+    mailTo: string,
+    transporter: nodemailer.Transporter,
+    mailFrom: string,
+  ) {
     const subject = `${this.isCareerInquiry(contact) ? 'Radicon Career Application' : 'Radicon Website Inquiry'}: ${contact.subject}`;
     const text = [
       'New inquiry received from Radicon website.',
@@ -98,8 +125,8 @@ export class ContactsService {
       contact.message,
     ].join('\n');
 
-    await this.transporter.sendMail({
-      from: this.mailFrom,
+    await transporter.sendMail({
+      from: mailFrom,
       to: mailTo,
       replyTo: contact.email,
       subject,
@@ -108,7 +135,11 @@ export class ContactsService {
     });
   }
 
-  private async sendSenderConfirmation(contact: ContactDocument) {
+  private async sendSenderConfirmation(
+    contact: ContactDocument,
+    transporter: nodemailer.Transporter,
+    mailFrom: string,
+  ) {
     const isCareerInquiry = this.isCareerInquiry(contact);
     const subject = isCareerInquiry
       ? 'Thank you for applying to Radicon Laboratories'
@@ -117,10 +148,8 @@ export class ContactsService {
       ? 'Thank you for applying to Radicon Laboratories. Our HR team has received your details and will review your application. If you have not already shared your resume, please send it to garima_hr@radiconlab.com.'
       : 'Thank you for contacting Radicon Laboratories. Our team has received your inquiry and will get back to you shortly.';
 
-    if (!this.transporter) return;
-
-    await this.transporter.sendMail({
-      from: this.mailFrom,
+    await transporter.sendMail({
+      from: mailFrom,
       to: contact.email,
       subject,
       text: [
@@ -141,6 +170,14 @@ export class ContactsService {
 
   private getNotificationRecipient(contact: ContactDocument) {
     return this.isCareerInquiry(contact) ? this.hrMailTo : this.infoMailTo;
+  }
+
+  private getTransporter(contact: ContactDocument) {
+    return this.isCareerInquiry(contact) ? this.hrTransporter : this.transporter;
+  }
+
+  private getMailFrom(contact: ContactDocument) {
+    return this.isCareerInquiry(contact) ? this.hrMailFrom : this.mailFrom;
   }
 
   private isCareerInquiry(contact: ContactDocument) {

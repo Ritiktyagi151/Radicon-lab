@@ -12,6 +12,7 @@ type CareerMailPayload = {
 }
 
 const hrEmail = process.env.SMTP_TO_HR || process.env.SMTP_USER || 'garima_hr@radiconlab.com'
+const maxCvSize = 5 * 1024 * 1024
 
 function escapeHtml(value: string) {
   return value
@@ -28,8 +29,8 @@ function requiredString(value: unknown) {
 
 function createTransporter() {
   const host = process.env.SMTP_HOST
-  const user = process.env.SMTP_USER
-  const pass = process.env.SMTP_PASS
+  const user = process.env.SMTP_HR_USER || process.env.SMTP_USER
+  const pass = process.env.SMTP_HR_PASS || process.env.SMTP_PASS
 
   if (!host || !user || !pass) return null
 
@@ -45,7 +46,42 @@ function createTransporter() {
 }
 
 export async function POST(request: Request) {
-  const payload = (await request.json().catch(() => null)) as CareerMailPayload | null
+  const contentType = request.headers.get('content-type') || ''
+  let payload: CareerMailPayload | null = null
+  let cvAttachment: { filename: string; content: Buffer; contentType: string } | null = null
+
+  if (contentType.includes('multipart/form-data')) {
+    const formData = await request.formData().catch(() => null)
+
+    if (formData) {
+      payload = Object.fromEntries(
+        ['name', 'email', 'phone', 'role', 'qualification', 'experience', 'message'].map((key) => [
+          key,
+          requiredString(formData.get(key)),
+        ]),
+      ) as CareerMailPayload
+
+      const cv = formData.get('cv')
+
+      if (cv instanceof File && cv.size > 0) {
+        if (cv.type !== 'application/pdf') {
+          return NextResponse.json({ message: 'Please upload your CV as a PDF file.' }, { status: 400 })
+        }
+
+        if (cv.size > maxCvSize) {
+          return NextResponse.json({ message: 'CV PDF size should be 5 MB or less.' }, { status: 400 })
+        }
+
+        cvAttachment = {
+          filename: cv.name || 'candidate-cv.pdf',
+          content: Buffer.from(await cv.arrayBuffer()),
+          contentType: cv.type,
+        }
+      }
+    }
+  } else {
+    payload = (await request.json().catch(() => null)) as CareerMailPayload | null
+  }
 
   const name = requiredString(payload?.name)
   const email = requiredString(payload?.email)
@@ -75,6 +111,7 @@ export async function POST(request: Request) {
     `Applying For: ${role}`,
     `Qualification: ${qualification || 'Not provided'}`,
     `Experience: ${experience || 'Not provided'}`,
+    `CV: ${cvAttachment ? cvAttachment.filename : 'Not attached'}`,
     '',
     'Message:',
     message,
@@ -91,6 +128,7 @@ export async function POST(request: Request) {
           ['Applying For', role],
           ['Qualification', qualification || 'Not provided'],
           ['Experience', experience || 'Not provided'],
+          ['CV', cvAttachment ? cvAttachment.filename : 'Not attached'],
         ]
           .map(
             ([label, value]) => `
@@ -118,16 +156,17 @@ export async function POST(request: Request) {
   ].join('\n')
 
   await transporter.sendMail({
-    from: process.env.SMTP_FROM || process.env.SMTP_USER,
+    from: process.env.SMTP_HR_FROM || process.env.SMTP_HR_USER || process.env.SMTP_FROM || process.env.SMTP_USER,
     to: hrEmail,
     replyTo: email,
     subject,
     text: adminText,
     html: adminHtml,
+    attachments: cvAttachment ? [cvAttachment] : undefined,
   })
 
   await transporter.sendMail({
-    from: process.env.SMTP_FROM || process.env.SMTP_USER,
+    from: process.env.SMTP_HR_FROM || process.env.SMTP_HR_USER || process.env.SMTP_FROM || process.env.SMTP_USER,
     to: email,
     subject: 'Thank you for applying to Radicon Laboratories',
     text: confirmationText,
