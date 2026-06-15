@@ -104,6 +104,13 @@ export const metadata: Metadata = {
   authors: [{ name: 'Radicon Lab' }],
   creator: 'Radicon Lab',
   publisher: 'Radicon Lab',
+  icons: {
+    icon: [
+      { url: '/favicon.ico', sizes: 'any' },
+      { url: '/icon.png', type: 'image/png' },
+    ],
+    apple: [{ url: '/apple-icon.png', type: 'image/png' }],
+  },
   verification: {
     google: googleSiteVerification,
   },
