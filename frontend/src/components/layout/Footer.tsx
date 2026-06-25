@@ -80,7 +80,7 @@ export default function Footer({ initialRoutes }: { initialRoutes?: PublicSeoRou
               <img className="h-16 w-auto" src="/radicon-logo.png" alt="Radicon logo" />
             </Link>
             <p className="text-[15px]  leading-[1.8] text-gray-600 mb-6 max-w-xs">
-              Redicon Laboratories Ltd, a leading Pharmaceutical company in India offers a wide range of pharmaceutical finished formulations (FF) under various therapeutic categories in three different dosage form.
+              Radicon Laboratories Ltd, a leading Pharmaceutical company in India offers a wide range of pharmaceutical finished formulations (FF) under various therapeutic categories in three different dosage form.
             </p>
             <div className="flex flex-wrap gap-2">
               {socialLinks.map(({ href, label, icon: Icon }) => (
