@@ -50,7 +50,7 @@ When teams maintain consistent records and calibrated equipment, decisions becom
   },
   {
     title: 'How Third Party Pharma Manufacturing Supports Faster Scale',
-    slug: 'third-party-pharma-manufacturing-scale',
+    slug: 'third-party-manufacturing-scale',
     excerpt:
       'Learn how specialized manufacturing partners help brands expand capacity while keeping attention on formulation, compliance, and delivery.',
     content: `## Scaling with the right partner
