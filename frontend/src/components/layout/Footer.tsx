@@ -22,8 +22,6 @@ const quickLinks = [
   { href: '/contact', label: 'Contact Us' },
   { href: '/pdf/company_profile.pdf', label: 'Company Profile' },
   { href: '/career', label: 'Career' },
- 
-  { href: '/team', label: 'Our Team' },
 ]
 
 const services = getServices()

@@ -39,7 +39,7 @@ export async function generateMetadata({ params }: BlogDetailPageProps): Promise
   }
 
   const detailPath = getBlogDetailPath(routes, blog.slug)
-  const route = findRouteByPath(routes, detailPath) || findRouteByPath(routes, `/blogs/${blog.slug}`)
+  const route = findRouteByPath(routes, detailPath) || findRouteByPath(routes, `/blog/${blog.slug}`)
   const title = route?.metaTitle || blog.seoTitle || blog.title
   const description = route?.metaDescription || blog.seoDescription || blog.excerpt
   const canonical = route?.canonicalUrl || detailPath

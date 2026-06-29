@@ -3,8 +3,8 @@ import { notFound } from 'next/navigation'
 import AboutPage from '@/app/(site)/about/page'
 import BlogDetailPage, {
   generateMetadata as generateBlogMetadata,
-} from '@/app/(site)/blogs/[slug]/page'
-import BlogsPage from '@/app/(site)/blogs/page'
+} from '@/app/(site)/blog/[slug]/page'
+import BlogPage from '@/app/(site)/blog/page'
 import CategoryDetailPage, {
   generateMetadata as generateCategoryMetadata,
 } from '@/app/(site)/categories/[slug]/page'
@@ -45,6 +45,11 @@ function getPageKey(pageName = '', pageType = '') {
 export async function generateMetadata({ params }: DynamicPageProps): Promise<Metadata> {
   const { slug } = await params
   const path = getPath(slug)
+
+  if (path === '/blogs' || path.startsWith('/blogs/')) {
+    return {}
+  }
+
   const routes = await getPublicSeoRoutes()
   const blogSlug = getBlogSlugFromPath(routes, path)
   const productSlug = getProductSlugFromPath(path)
@@ -80,6 +85,11 @@ export async function generateMetadata({ params }: DynamicPageProps): Promise<Me
 export default async function DynamicSitePage({ params }: DynamicPageProps) {
   const { slug } = await params
   const path = getPath(slug)
+
+  if (path === '/blogs' || path.startsWith('/blogs/')) {
+    notFound()
+  }
+
   const routes = await getPublicSeoRoutes()
   const blogIndexPath = getBlogIndexPath(routes)
   const blogSlug = getBlogSlugFromPath(routes, path)
@@ -100,7 +110,7 @@ export default async function DynamicSitePage({ params }: DynamicPageProps) {
   }
 
   if (path === blogIndexPath) {
-    return <BlogsPage />
+    return <BlogPage />
   }
 
   if (blogSlug) {
@@ -119,7 +129,7 @@ export default async function DynamicSitePage({ params }: DynamicPageProps) {
   if (pageKey.includes('privacy')) return <PrivacyPolicyPage />
   if (pageKey.includes('term')) return <TermsConditionsPage />
   if (pageKey.includes('service') || pageKey.includes('product')) return <ServicesPage />
-  if (pageKey.includes('blog') || pageKey.includes('article')) return <BlogsPage />
+  if (pageKey.includes('blog') || pageKey.includes('article')) return <BlogPage />
 
   return (
     <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">

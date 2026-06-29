@@ -10,7 +10,7 @@ const defaultSettings = {
   navLinks: [
     { label: 'Home', href: '/' },
     { label: 'Services', href: '/services' },
-    { label: 'Blog', href: '/blogs' },
+    { label: 'Blog', href: '/blog' },
     { label: 'Contact', href: '/contact' },
   ],
   socialLinks: {

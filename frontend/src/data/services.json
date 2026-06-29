@@ -1,11 +1,11 @@
 [
   {
-    "title": "Third Party Pharma Manufacturer",
+    "title": "Third Party Manufacturer",
     "slug": "third-party-manufacturer",
     "excerpt": "End-to-end pharmaceutical third party manufacturing support for quality focused brands.",
     "hero": "Radicon Laboratories provides reliable third party pharma manufacturing services with disciplined production planning, quality checks, documentation support, and scalable formulation capabilities.",
     "images": [
-      "https://images.unsplash.com/photo-1581093458791-9f3c3900df7b?auto=format&fit=crop&w=1200&q=80",
+      "/service-img/third-party-manufacturing.png",
       "https://images.unsplash.com/photo-1579154204601-01588f351e67?auto=format&fit=crop&w=1200&q=80"
     ],
     "points": [
@@ -15,7 +15,7 @@
     ]
   },
   {
-    "title": "Third Party Pharma Manufacturer For Avanafil",
+    "title": "Third Party Manufacturer For Avanafil",
     "slug": "third-party-manufacturer-for-avanafil",
     "excerpt": "Focused Avanafil manufacturing support with controlled process standards.",
     "hero": "Our Avanafil third party manufacturing service helps pharmaceutical businesses develop a dependable supply channel with attention to quality, packaging, and regulatory-ready documentation.",
@@ -30,7 +30,7 @@
     ]
   },
   {
-    "title": "Third Party Pharma Manufacturer For Sildenafil",
+    "title": "Third Party Manufacturer For Sildenafil",
     "slug": "third-party-manufacturer-for-sildenafil",
     "excerpt": "Sildenafil manufacturing service for pharma companies seeking reliable production partners.",
     "hero": "Radicon Laboratories supports Sildenafil third party manufacturing with compact production workflows, quality review, and dependable delivery coordination.",
@@ -45,7 +45,7 @@
     ]
   },
   {
-    "title": "Third Party Pharma Manufacturer For Tadalafil",
+    "title": "Third Party Manufacturer For Tadalafil",
     "slug": "third-party-manufacturer-for-tadalafil",
     "excerpt": "Tadalafil manufacturing solutions with practical, quality-focused execution.",
     "hero": "Our Tadalafil third party manufacturing service is designed for pharmaceutical companies that need consistent output, professional handling, and well-managed production support.",
@@ -60,7 +60,7 @@
     ]
   },
   {
-    "title": "Third Party Pharma Manufacturer For Vardenafil",
+    "title": "Third Party Manufacturer For Vardenafil",
     "slug": "third-party-manufacturer-for-vardenafil",
     "excerpt": "Vardenafil manufacturing support for brands looking for dependable third party production.",
     "hero": "Radicon Laboratories helps pharma brands manage Vardenafil third party manufacturing through structured production, quality attention, and responsive service coordination.",

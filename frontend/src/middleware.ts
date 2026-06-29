@@ -16,6 +16,19 @@ export function middleware(request: NextRequest) {
   const isLoginRoute = pathname === '/login'
   const legacyServicePath = legacyServiceRedirects[pathname]
 
+  if (pathname === '/blogs') {
+    const url = request.nextUrl.clone()
+    url.pathname = '/blog'
+    return NextResponse.redirect(url, 301)
+  }
+
+  if (pathname.startsWith('/blogs/')) {
+    const slug = pathname.slice('/blogs/'.length)
+    const url = request.nextUrl.clone()
+    url.pathname = slug ? `/blog-${slug}` : '/blog'
+    return NextResponse.redirect(url, 301)
+  }
+
   if (legacyServicePath) {
     const url = request.nextUrl.clone()
     url.pathname = legacyServicePath
@@ -59,5 +72,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/admin/:path*', '/login', '/product-:slug', '/product-details-:slug', '/products/:slug', '/services/:slug', '/third-party-pharma-manufacturer', '/third-party-pharma-manufacturer-for-:slug'],
+  matcher: ['/admin/:path*', '/login', '/blogs', '/blogs/:path*', '/product-:slug', '/product-details-:slug', '/products/:slug', '/services/:slug', '/third-party-pharma-manufacturer', '/third-party-pharma-manufacturer-for-:slug'],
 }

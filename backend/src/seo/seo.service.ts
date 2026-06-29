@@ -10,7 +10,7 @@ const defaultPages = [
   { pageName: 'Home', pageType: 'Website', url: '/', customSlug: '', schemaType: 'Website' },
   { pageName: 'About', pageType: 'WebPage', url: '/about', customSlug: '', schemaType: 'Breadcrumb' },
   { pageName: 'Services', pageType: 'Product', url: '/services', customSlug: '', schemaType: 'Product' },
-  { pageName: 'Blogs', pageType: 'Article', url: '/blogs', customSlug: '', schemaType: 'Article' },
+  { pageName: 'Blog', pageType: 'Article', url: '/blog', customSlug: '', schemaType: 'Article' },
   { pageName: 'Contact', pageType: 'ContactPage', url: '/contact', customSlug: '', schemaType: 'Breadcrumb' },
 ];
 

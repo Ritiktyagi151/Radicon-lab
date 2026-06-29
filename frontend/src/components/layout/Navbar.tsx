@@ -259,7 +259,7 @@ const coreSearchPages: SearchItem[] = [
   },
   {
     title: 'Blogs',
-    href: '/blogs',
+    href: '/blog',
     type: 'Page',
     description: 'Healthcare and pharmaceutical articles',
     keywords: 'blogs articles news healthcare pharmaceutical',
@@ -375,7 +375,7 @@ const Navbar = ({ initialRoutes }: { initialRoutes?: PublicSeoRoute[] }) => {
 
         const blogItems = blogs.map((blog: Blog): SearchItem => ({
           title: blog.title,
-          href: `/blogs/${blog.slug}`,
+          href: `/blog-${blog.slug}`,
           type: 'Blog',
           description: blog.excerpt,
           keywords: makeSearchText(blog.title, blog.excerpt, blog.category, blog.tags, blog.seoTitle, blog.seoDescription),
@@ -768,7 +768,7 @@ const Navbar = ({ initialRoutes }: { initialRoutes?: PublicSeoRoute[] }) => {
                   ))}
                 </div>
               </li>
-              <li><Link href={hrefFor('/blogs')} className="hover:text-slate-600 transition-colors">Blog</Link></li>
+              <li><Link href={hrefFor('/blog')} className="hover:text-slate-600 transition-colors">Blog</Link></li>
               <li><Link href={hrefFor('/contact')} className="hover:text-slate-600 transition-colors">Contact</Link></li>
             </ul>
 
@@ -836,7 +836,7 @@ const Navbar = ({ initialRoutes }: { initialRoutes?: PublicSeoRoute[] }) => {
               {service.title}
             </Link>
           ))}
-          <Link href={hrefFor('/blogs')} onClick={closeMobileMenu} className="block text-lg font-medium border-b pb-2">Blog</Link>
+          <Link href={hrefFor('/blog')} onClick={closeMobileMenu} className="block text-lg font-medium border-b pb-2">Blog</Link>
           <div className="border-b pb-4">
             <button
               type="button"

@@ -166,7 +166,7 @@ const quickSeoTemplates: QuickSeoTemplate[] = [
   },
   {
     label: 'Blogs',
-    path: '/blogs',
+    path: '/blog',
     pageType: 'Article',
     description: 'Blog listing page.',
   },
@@ -666,7 +666,7 @@ function UrlManager({
               key: blog.slug,
               title: blog.title,
               subtitle: path,
-              disabled: existingPaths.has(path) || existingPaths.has(`/blogs/${blog.slug}`),
+              disabled: existingPaths.has(path) || existingPaths.has(`/blog/${blog.slug}`),
               onClick: () => onCreate(createSeoPageFromBlog(blog)),
             }
           })}

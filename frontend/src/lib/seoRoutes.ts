@@ -34,7 +34,7 @@ const fallbackRoutes: PublicSeoRoute[] = [
   createFallbackRoute('home', 'Home', 'Website', '/'),
   createFallbackRoute('about', 'About', 'WebPage', '/about'),
   createFallbackRoute('services', 'Services', 'Product', '/services'),
-  createFallbackRoute('blogs', 'Blogs', 'Article', '/blogs', '/blog'),
+  createFallbackRoute('blog', 'Blog', 'Article', '/blog'),
   createFallbackRoute('contact', 'Contact', 'ContactPage', '/contact'),
   createFallbackRoute('career', 'Career', 'WebPage', '/career'),
   createFallbackRoute('privacy', 'Privacy Policy', 'WebPage', '/privacy'),
@@ -118,27 +118,26 @@ export function resolveHref(routes: PublicSeoRoute[], defaultPath: string) {
 }
 
 export function getBlogIndexPath(routes: PublicSeoRoute[]) {
-  return resolveHref(routes, '/blogs')
+  return resolveHref(routes, '/blog')
 }
 
 export function getBlogDetailPath(routes: PublicSeoRoute[], slug: string) {
-  const blogIndexPath = getBlogIndexPath(routes).replace(/\/$/, '').replace(/\/blogs$/, '/blog')
+  const blogIndexPath = getBlogIndexPath(routes).replace(/\/$/, '')
   return `${blogIndexPath || '/blog'}-${normalizePath(slug).replace(/^\//, '')}`
 }
 
 export function getBlogSlugFromPath(routes: PublicSeoRoute[], path: string) {
   const normalizedPath = normalizePath(path)
   const blogIndexPath = getBlogIndexPath(routes).replace(/\/$/, '')
-  const detailBasePath = blogIndexPath.replace(/\/blogs$/, '/blog')
-  const dashedPrefix = `${detailBasePath || '/blog'}-`
-  const legacySlashPrefix = `${blogIndexPath || '/blogs'}/`
+  const dashedPrefix = `${blogIndexPath || '/blog'}-`
+  const slashPrefix = `${blogIndexPath || '/blog'}/`
 
   if (normalizedPath.startsWith(dashedPrefix)) {
     return normalizedPath.slice(dashedPrefix.length)
   }
 
-  if (normalizedPath.startsWith(legacySlashPrefix)) {
-    return normalizedPath.slice(legacySlashPrefix.length)
+  if (normalizedPath.startsWith(slashPrefix)) {
+    return normalizedPath.slice(slashPrefix.length)
   }
 
   return null

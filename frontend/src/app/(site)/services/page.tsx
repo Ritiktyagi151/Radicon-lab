@@ -13,7 +13,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
   return buildSeoMetadata(routes, '/services', {
     title: 'Pharma Manufacturing Services',
-    description: 'Explore Radicon Lab third party pharma manufacturing services.',
+    description: 'Explore Radicon Lab third party manufacturing services.',
   })
 }
 
@@ -65,7 +65,7 @@ export default function ServicesPage({ serviceSlug }: ServicesPageProps) {
             Services
           </p>
           <h1 className="mt-3 max-w-4xl text-3xl font-black uppercase leading-tight text-black sm:text-5xl">
-            Third Party Pharma Manufacturing Services
+            Third Party Manufacturing Services
           </h1>
           <p className="mt-4 max-w-3xl text-base font-semibold leading-7 text-gray-600">
             Static service content for Radicon Laboratories with focused manufacturing pages and
