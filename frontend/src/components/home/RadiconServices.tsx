@@ -279,9 +279,9 @@ export default function RadiconServices() {
           <p className="text-gray-500 text-sm uppercase tracking-wider mb-3 font-semibold">
             ABOUT OUR SERVICES
           </p>
-          <h1 className="text-2xl sm:text-3xl md:text-5xl font-bold text-gray-900 mb-4">
+          <h2 className="text-2xl sm:text-3xl md:text-5xl font-bold text-gray-900 mb-4">
             TOP PHARMACEUTICAL MANUFACTURER COMPANY
-          </h1>
+          </h2>
           <p className="text-gray-600 max-w-3xl mx-auto text-lg">
             Manufacturing Quality Medicines for a Healthier Future
           </p>

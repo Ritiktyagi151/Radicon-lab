@@ -65,11 +65,11 @@ export default function ServicesPage({ serviceSlug }: ServicesPageProps) {
             Services
           </p>
           <h1 className="mt-3 max-w-4xl text-3xl font-black uppercase leading-tight text-black sm:text-5xl">
-            Third Party Manufacturing Services
+            {selectedService?.title || 'Third Party Manufacturing Services'}
           </h1>
           <p className="mt-4 max-w-3xl text-base font-semibold leading-7 text-gray-600">
-            Static service content for Radicon Laboratories with focused manufacturing pages and
-            clean SEO friendly URLs.
+            {selectedService?.excerpt ||
+              'Explore Radicon Laboratories third party manufacturing services with focused content and SEO friendly URLs.'}
           </p>
         </div>
       </section>
@@ -86,7 +86,7 @@ export default function ServicesPage({ serviceSlug }: ServicesPageProps) {
                       alt={selectedService.title}
                       fill
                       sizes="(min-width: 1024px) 34vw, 100vw"
-                      className="object-cover"
+                      className="object-fill"
                     />
                   </div>
 
@@ -95,16 +95,10 @@ export default function ServicesPage({ serviceSlug }: ServicesPageProps) {
                       Radicon Lab Service
                     </p>
                     <h2 className="mt-3 text-2xl font-black leading-tight text-black sm:text-4xl">
-                      Who Are Third Party Manufacturers?
+                      {selectedService.title}
                     </h2>
                     <p className="mt-5 text-base font-semibold leading-8 text-gray-600">
-                      We take pride in our extensive production capacity and wide range of products.
-                      With over 400 approved products and 600+ branded generics in the market, we
-                      strive to meet the diverse needs of our customers. Our annual production
-                      capacity speaks volumes about our dedication to delivering high-quality
-                      pharmaceuticals. Radicon Laboratories Ltd offers a wide range of pharmaceutical
-                      finished formulations under various therapeutic categories in different dosage
-                      forms including tablets, capsules, ointment, syrup, injectable, and oral strips.
+                      {selectedService.hero}
                     </p>
                   </div>
                 </div>
@@ -126,9 +120,10 @@ export default function ServicesPage({ serviceSlug }: ServicesPageProps) {
                       Our Production
                     </h2>
                     <p className="mt-4 text-base font-semibold leading-8 text-gray-600">
-                      <b>Radicon Laboratories</b> Ltd offers a wide range of pharmaceutical finished
-                      formulations under various therapeutic categories in dosage forms such as
-                      tablets, capsules, ointment, syrup, injectable, and oral strips.
+                      <b>Radicon Laboratories</b> supports {selectedService.title.toLowerCase()} with
+                      pharmaceutical finished formulation manufacturing, batch planning, quality
+                      checks, commercial packaging, and documentation support across dosage forms
+                      such as tablets, capsules, ointments, syrups, injectables, and oral strips.
                     </p>
 
                     <div className="mt-6 overflow-hidden border border-brand-100 bg-white shadow-sm">
