@@ -7,6 +7,10 @@ export type StaticService = {
   hero: string
   images: string[]
   points: string[]
+  sections?: {
+    title: string
+    content: string
+  }[]
 }
 
 export function getServices() {

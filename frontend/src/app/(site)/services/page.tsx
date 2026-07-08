@@ -104,6 +104,22 @@ export default function ServicesPage({ serviceSlug }: ServicesPageProps) {
                 </div>
               </section>
 
+              {selectedService.sections?.length ? (
+                <section className="mt-10 grid gap-8">
+                  {selectedService.sections.map((section) => (
+                    <div key={section.title}>
+                      <h2 className="text-2xl font-black leading-tight text-black sm:text-3xl">
+                        {section.title}
+                      </h2>
+                      <p
+                        className="mt-4 text-base font-semibold leading-8 text-gray-600"
+                        dangerouslySetInnerHTML={{ __html: section.content }}
+                      />
+                    </div>
+                  ))}
+                </section>
+              ) : null}
+
               <section className="relative mt-12 bg-[#eaeef3] py-12">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
