@@ -9,7 +9,7 @@ const livvic = Livvic({
   weight: ['400', '500', '600', '700'],
 })
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://radiconlab.com'
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.radiconlab.com'
 const gaMeasurementId = 'G-JGSGPQGP20'
 const googleSiteVerification = 'aDL7GwjoAZkJmmIejWoHJAkYbM77Zm26y1mqe-fGlJ8'
 
@@ -106,10 +106,10 @@ export const metadata: Metadata = {
   publisher: 'Radicon Lab',
   icons: {
     icon: [
-      { url: '/favicon.ico', sizes: 'any' },
-      { url: '/icon.png', type: 'image/png' },
+      { url: '/favicon.ico', sizes: '48x48', type: 'image/x-icon' },
+      { url: '/icon.png', sizes: '512x512', type: 'image/png' },
     ],
-    apple: [{ url: '/apple-icon.png', type: 'image/png' }],
+    apple: [{ url: '/apple-icon.png', sizes: '180x180', type: 'image/png' }],
   },
   verification: {
     google: googleSiteVerification,

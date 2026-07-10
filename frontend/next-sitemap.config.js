@@ -2,7 +2,7 @@
 const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api'
 
 module.exports = {
-  siteUrl: process.env.SITE_URL || 'https://radiconlab.com',
+  siteUrl: process.env.SITE_URL || 'https://www.radiconlab.com',
   generateRobotsTxt: true,
   sitemapSize: 7000,
   additionalPaths: async () => {
