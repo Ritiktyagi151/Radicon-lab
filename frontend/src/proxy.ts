@@ -9,12 +9,18 @@ const legacyServiceRedirects: Record<string, string> = {
   '/third-party-pharma-manufacturer-for-vardenafil': '/third-party-manufacturer-for-vardenafil',
 }
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   const token = request.cookies.get('admin_token')?.value
   const { pathname } = request.nextUrl
   const isAdminRoute = pathname.startsWith('/admin')
   const isLoginRoute = pathname === '/login'
   const legacyServicePath = legacyServiceRedirects[pathname]
+
+  if (pathname !== pathname.toLowerCase()) {
+    const url = request.nextUrl.clone()
+    url.pathname = pathname.toLowerCase()
+    return NextResponse.redirect(url, 301)
+  }
 
   if (pathname === '/blogs') {
     const url = request.nextUrl.clone()
@@ -72,5 +78,7 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/admin/:path*', '/login', '/blogs', '/blogs/:path*', '/product-:slug', '/product-details-:slug', '/products/:slug', '/services/:slug', '/third-party-pharma-manufacturer', '/third-party-pharma-manufacturer-for-:slug'],
+  matcher: [
+    '/((?!api|_next/static|_next/image|favicon.ico|icon.png|apple-icon.png|robots.txt|sitemap.xml|.*\\..*).*)',
+  ],
 }
