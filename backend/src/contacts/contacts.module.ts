@@ -4,6 +4,7 @@ import { AuthModule } from '../auth/auth.module';
 import { RealtimeModule } from '../realtime/realtime.module';
 import { ContactsController } from './contacts.controller';
 import { ContactsService } from './contacts.service';
+import { RecaptchaService } from './recaptcha.service';
 import { Contact, ContactSchema } from './schemas/contact.schema';
 
 @Module({
@@ -13,6 +14,6 @@ import { Contact, ContactSchema } from './schemas/contact.schema';
     MongooseModule.forFeature([{ name: Contact.name, schema: ContactSchema }]),
   ],
   controllers: [ContactsController],
-  providers: [ContactsService],
+  providers: [ContactsService, RecaptchaService],
 })
 export class ContactsModule {}

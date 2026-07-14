@@ -1,8 +1,9 @@
 'use client'
 
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { Mail, MessageCircle, Package, Send, User, X } from 'lucide-react'
 import { API_BASE_URL } from '@/lib/admin/api'
+import { RecaptchaCheckbox, type RecaptchaCheckboxHandle } from '@/lib/recaptcha'
 
 type InquiryModalProps = {
   isOpen: boolean
@@ -14,6 +15,8 @@ export default function InquiryModal({ isOpen, onClose, productName }: InquiryMo
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [statusMessage, setStatusMessage] = useState('')
   const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle')
+  const [recaptchaToken, setRecaptchaToken] = useState('')
+  const recaptchaRef = useRef<RecaptchaCheckboxHandle>(null)
 
   if (!isOpen) return null
 
@@ -29,6 +32,12 @@ export default function InquiryModal({ isOpen, onClose, productName }: InquiryMo
     const requirements = String(formData.get('requirements') || '')
 
     try {
+      if (!recaptchaToken) {
+        setStatus('error')
+        setStatusMessage('Please complete the reCAPTCHA verification.')
+        return
+      }
+
       const response = await fetch(`${API_BASE_URL}/contacts`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -38,6 +47,7 @@ export default function InquiryModal({ isOpen, onClose, productName }: InquiryMo
           company: 'Product inquiry',
           subject: `Product Inquiry - ${productName}`,
           message: requirements,
+          recaptchaToken,
         }),
       })
 
@@ -47,6 +57,8 @@ export default function InquiryModal({ isOpen, onClose, productName }: InquiryMo
       }
 
       event.currentTarget.reset()
+      setRecaptchaToken('')
+      recaptchaRef.current?.reset()
       setStatus('success')
       setStatusMessage('Thank you. Your product inquiry has been sent to the Radicon team.')
     } catch (error) {
@@ -151,6 +163,11 @@ export default function InquiryModal({ isOpen, onClose, productName }: InquiryMo
               className="w-full resize-none border border-[#DF1F26]/30 px-3 py-2.5 text-sm font-bold text-black outline-none placeholder:text-black/35 focus:border-[#DF1F26]"
             />
           </div>
+
+          <RecaptchaCheckbox
+            ref={recaptchaRef}
+            onVerify={setRecaptchaToken}
+          />
 
           {statusMessage ? (
             <p className={`text-sm font-bold ${status === 'success' ? 'text-green-700' : 'text-red-700'}`}>

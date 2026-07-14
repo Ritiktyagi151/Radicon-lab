@@ -1,6 +1,6 @@
 'use client'
 
-import { FormEvent, useState } from 'react'
+import { FormEvent, useRef, useState } from 'react'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
 import {
@@ -15,6 +15,7 @@ import {
   Send,
 } from 'lucide-react'
 import { API_BASE_URL } from '@/lib/admin/api'
+import { RecaptchaCheckbox, type RecaptchaCheckboxHandle } from '@/lib/recaptcha'
 
 type FormState = {
   name: string
@@ -84,6 +85,8 @@ export default function ContactPageClient() {
   const [form, setForm] = useState<FormState>(initialFormState)
   const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle')
   const [statusMessage, setStatusMessage] = useState('')
+  const [recaptchaToken, setRecaptchaToken] = useState('')
+  const recaptchaRef = useRef<RecaptchaCheckboxHandle>(null)
 
   const updateField = (field: keyof FormState, value: string) => {
     setForm((current) => ({ ...current, [field]: value }))
@@ -95,10 +98,16 @@ export default function ContactPageClient() {
     setStatusMessage('')
 
     try {
+      if (!recaptchaToken) {
+        setStatus('error')
+        setStatusMessage('Please complete the reCAPTCHA verification.')
+        return
+      }
+
       const response = await fetch(`${API_BASE_URL}/contacts`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form),
+        body: JSON.stringify({ ...form, recaptchaToken }),
       })
 
       if (!response.ok) {
@@ -107,6 +116,8 @@ export default function ContactPageClient() {
       }
 
       setForm(initialFormState)
+      setRecaptchaToken('')
+      recaptchaRef.current?.reset()
       setStatus('success')
       setStatusMessage('Thank you. Your inquiry has been sent to the Radicon team.')
     } catch (error) {
@@ -345,6 +356,12 @@ export default function ContactPageClient() {
                 />
               </label>
             </div>
+
+            <RecaptchaCheckbox
+              ref={recaptchaRef}
+              onVerify={setRecaptchaToken}
+              className="mt-5"
+            />
 
             {statusMessage ? (
               <motion.p

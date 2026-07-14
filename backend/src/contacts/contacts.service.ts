@@ -4,6 +4,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import nodemailer from 'nodemailer';
 import { CreateContactDto } from './dto/create-contact.dto';
+import { RecaptchaService } from './recaptcha.service';
 import { Contact, ContactDocument } from './schemas/contact.schema';
 import { RealtimeService } from '../realtime/realtime.service';
 
@@ -21,6 +22,7 @@ export class ContactsService {
     @InjectModel(Contact.name) private readonly contactModel: Model<ContactDocument>,
     private readonly realtimeService: RealtimeService,
     private readonly configService: ConfigService,
+    private readonly recaptchaService: RecaptchaService,
   ) {
     const host = this.configService.get<string>('SMTP_HOST');
     const user = this.configService.get<string>('SMTP_USER');
@@ -68,7 +70,9 @@ export class ContactsService {
   }
 
   async create(createContactDto: CreateContactDto) {
-    const contact = await this.contactModel.create(createContactDto);
+    await this.recaptchaService.verify(createContactDto.recaptchaToken);
+    const { recaptchaToken: _recaptchaToken, ...contactPayload } = createContactDto;
+    const contact = await this.contactModel.create(contactPayload);
     this.realtimeService.publish('contacts', 'created', `New inquiry from ${contact.name}`);
     void this.sendContactEmails(contact).catch((error: unknown) => {
       const message = error instanceof Error ? error.message : 'Unknown mail error';

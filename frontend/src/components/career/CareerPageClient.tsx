@@ -20,6 +20,7 @@ import {
   Users,
 } from 'lucide-react'
 import { API_BASE_URL } from '@/lib/admin/api'
+import { RecaptchaCheckbox, type RecaptchaCheckboxHandle } from '@/lib/recaptcha'
 
 type ApplicationFormState = {
   name: string
@@ -133,7 +134,9 @@ export default function CareerPageClient() {
   const [cvFile, setCvFile] = useState<File | null>(null)
   const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle')
   const [statusMessage, setStatusMessage] = useState('')
+  const [recaptchaToken, setRecaptchaToken] = useState('')
   const cvInputRef = useRef<HTMLInputElement>(null)
+  const recaptchaRef = useRef<RecaptchaCheckboxHandle>(null)
 
   const updateApplicationField = (field: keyof ApplicationFormState, value: string) => {
     setApplicationForm((current) => ({ ...current, [field]: value }))
@@ -194,6 +197,12 @@ export default function CareerPageClient() {
     ].join('\n')
 
     try {
+      if (!recaptchaToken) {
+        setStatus('error')
+        setStatusMessage('Please complete the reCAPTCHA verification.')
+        return
+      }
+
       const response = await fetch(`${API_BASE_URL}/contacts`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -204,6 +213,7 @@ export default function CareerPageClient() {
           company: 'Career application',
           subject: `Career Application - ${applicationForm.role}`,
           message,
+          recaptchaToken,
         }),
       })
 
@@ -230,6 +240,8 @@ export default function CareerPageClient() {
 
       setApplicationForm(initialApplicationForm)
       setCvFile(null)
+      setRecaptchaToken('')
+      recaptchaRef.current?.reset()
       if (cvInputRef.current) cvInputRef.current.value = ''
       setStatus('success')
       setStatusMessage('Thank you for applying. Your details have been sent to HR.')
@@ -603,6 +615,12 @@ export default function CareerPageClient() {
                 </div>
               </label>
             </div>
+
+            <RecaptchaCheckbox
+              ref={recaptchaRef}
+              onVerify={setRecaptchaToken}
+              className="mt-5"
+            />
 
             <div className="mt-4 flex gap-2 bg-[#F0F8FF] px-4 py-3 text-sm font-bold leading-6 text-gray-700">
               <FileText size={18} className="mt-1 shrink-0 text-[#DF1F26]" />

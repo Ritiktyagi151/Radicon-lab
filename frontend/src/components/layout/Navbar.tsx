@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo, useState, useEffect } from 'react';
+import React, { useMemo, useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import Script from 'next/script';
@@ -23,6 +23,7 @@ import {
 } from 'lucide-react';
 import { useSeoRoutes } from '@/lib/admin/useSeoRoutes';
 import { API_BASE_URL } from '@/lib/admin/api';
+import { RecaptchaCheckbox, type RecaptchaCheckboxHandle } from '@/lib/recaptcha';
 import type { PublicSeoRoute } from '@/lib/seoRoutes';
 import { getAboutPages, getAboutPath } from '@/lib/aboutData';
 import { getCategories, getProducts } from '@/lib/productApi';
@@ -299,6 +300,8 @@ const Navbar = ({ initialRoutes }: { initialRoutes?: PublicSeoRoute[] }) => {
   const [contactErrors, setContactErrors] = useState<Partial<Record<keyof ContactFormState, string>>>({});
   const [contactStatus, setContactStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
   const [contactMessage, setContactMessage] = useState('');
+  const [recaptchaToken, setRecaptchaToken] = useState('');
+  const recaptchaRef = useRef<RecaptchaCheckboxHandle>(null);
   const [pendingLanguageCode, setPendingLanguageCode] = useState('');
   const { hrefFor } = useSeoRoutes(initialRoutes);
   const filteredLanguages = useMemo(() => {
@@ -558,12 +561,19 @@ const Navbar = ({ initialRoutes }: { initialRoutes?: PublicSeoRoute[] }) => {
     setContactMessage('');
 
     try {
+      if (!recaptchaToken) {
+        setContactStatus('error');
+        setContactMessage('Please complete the reCAPTCHA verification.');
+        return;
+      }
+
       const response = await fetch(`${API_BASE_URL}/contacts`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           ...contactForm,
           company: 'Navbar modal inquiry',
+          recaptchaToken,
         }),
       });
 
@@ -574,6 +584,8 @@ const Navbar = ({ initialRoutes }: { initialRoutes?: PublicSeoRoute[] }) => {
 
       setContactForm(initialContactForm);
       setContactErrors({});
+      setRecaptchaToken('');
+      recaptchaRef.current?.reset();
       setContactStatus('success');
       setContactMessage('Thank you. Your inquiry has been sent successfully.');
     } catch (error) {
@@ -1071,6 +1083,11 @@ const Navbar = ({ initialRoutes }: { initialRoutes?: PublicSeoRoute[] }) => {
                 {contactErrors.message ? <span className="mt-1 block text-xs font-bold text-red-600">{contactErrors.message}</span> : null}
               </label>
             </div>
+
+            <RecaptchaCheckbox
+              ref={recaptchaRef}
+              onVerify={setRecaptchaToken}
+            />
 
             {contactMessage ? (
               <p className={`border px-4 py-3 text-sm font-bold ${

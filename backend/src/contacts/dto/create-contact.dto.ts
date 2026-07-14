@@ -30,4 +30,9 @@ export class CreateContactDto {
   @IsString()
   @IsNotEmpty()
   message: string;
+
+  @ApiPropertyOptional()
+  @IsString()
+  @IsOptional()
+  recaptchaToken?: string;
 }
