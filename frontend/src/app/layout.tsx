@@ -41,7 +41,7 @@ const organizationSchema = {
   sameAs: [
     'https://www.facebook.com/people/Radicon-Laboratories-Ltd/61554746195773/',
     'https://www.linkedin.com/company/radicon-laboratories-limited/',
-    'https://www.instagram.com/radiconlaboratoriesltd/?igshid=OGQ5ZDc2ODk2ZA%3D%3D',
+    'https://www.instagram.com/radiconlaboratorieslimited?igsh=MWowOGl4dHk3bzI4cw==',
     'https://twitter.com/radiconlabsltd?t=wHM92aoO5oyHsB25pQJJ5Q&s=09',
     'https://www.youtube.com/@radiconlaboratoriesltd',
   ],
@@ -91,7 +91,7 @@ const localBusinessSchema = {
   sameAs: [
     'https://www.facebook.com/people/Radicon-Laboratories-Ltd/61554746195773/',
     'https://www.linkedin.com/company/radicon-laboratories-limited/',
-    'https://www.instagram.com/radiconlaboratoriesltd/?igshid=OGQ5ZDc2ODk2ZA%3D%3D',
+    'https://www.instagram.com/radiconlaboratorieslimited?igsh=MWowOGl4dHk3bzI4cw==',
     'https://twitter.com/radiconlabsltd?t=wHM92aoO5oyHsB25pQJJ5Q&s=09',
     'https://www.youtube.com/@radiconlaboratoriesltd',
   ],

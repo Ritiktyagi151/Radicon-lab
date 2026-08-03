@@ -7,7 +7,6 @@ import {
   ArrowRight,
   CheckCircle2,
   Factory,
-  Headphones,
   Mail,
   MapPin,
   MessageSquareText,
@@ -49,30 +48,20 @@ const contactMethods = [
     icon: Factory,
   },
   {
-    label: 'Customer Support',
+    label: 'FOR EXPORT',
     value: '+91 8796911105',
-    detail: 'Give us a free call 24/7',
+    detail: 'info@radiconlab.com',
     href: 'tel:+918796911105',
-    icon: Headphones,
-  },
-  {
-    label: 'Email Us',
-    value: 'info@radiconlab.com',
-    href: 'mailto:info@radiconlab.com',
-    icon: Mail,
-  },
-  {
-    label: 'Export Support',
-    value: '+91 8796911105',
-    detail: 'Give us a free call 24/7',
-    href: 'tel:+918796911105',
+    emailHref: 'mailto:info@radiconlab.com',
     icon: Phone,
   },
   {
-    label: 'WhatsApp',
-    value: '+91 8796911105',
-    href: 'https://wa.me/918796911105',
-    icon: MessageSquareText,
+    label: 'For Merchant Exports',
+    value: '+91 9289611886',
+    detail: 'bdm@radiconlab.com',
+    href: 'tel:+919289611886',
+    emailHref: 'mailto:bdm@radiconlab.com',
+    icon: Mail,
   },
 ]
 
@@ -192,7 +181,7 @@ export default function ContactPageClient() {
           viewport={{ once: true, amount: 0.2 }}
           transition={{ staggerChildren: 0.08 }}
         >
-          {contactMethods.map(({ label, value, detail, href, icon: Icon }) => (
+          {contactMethods.map(({ label, value, detail, href, emailHref, icon: Icon }) => (
             <motion.a
               key={label}
               href={href}
@@ -207,7 +196,21 @@ export default function ContactPageClient() {
               </div>
               <p className="mt-5 text-xs font-black uppercase tracking-[0.2em] text-[#DF1F26]">{label}</p>
               <p className="mt-2 text-sm font-bold leading-6 text-black">{value}</p>
-              {detail ? <p className="mt-2 text-xs font-bold leading-5 text-gray-500">{detail}</p> : null}
+              {detail ? (
+                emailHref ? (
+                  <span
+                    onClick={(event) => {
+                      event.preventDefault()
+                      window.location.href = emailHref
+                    }}
+                    className="mt-2 block text-xs font-bold leading-5 text-gray-500 transition hover:text-[#DF1F26]"
+                  >
+                    {detail}
+                  </span>
+                ) : (
+                  <p className="mt-2 text-xs font-bold leading-5 text-gray-500">{detail}</p>
+                )
+              ) : null}
             </motion.a>
           ))}
         </motion.div>

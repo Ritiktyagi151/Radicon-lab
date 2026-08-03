@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { useSeoRoutes } from '@/lib/admin/useSeoRoutes'
 import type { PublicSeoRoute } from '@/lib/seoRoutes'
 import { getServicePath, getServices } from '@/lib/serviceData'
@@ -10,7 +11,6 @@ import {
   FaLinkedinIn, 
   FaYoutube, 
   FaXTwitter,
-  FaWhatsapp,
   FaPhoneVolume,
   FaEnvelope,
   FaLocationDot
@@ -29,16 +29,31 @@ const services = getServices()
 const socialLinks = [
   { href: 'https://www.facebook.com/people/Radicon-Laboratories-Ltd/61570856968202/?rdid=t19GqIhfgGfM2bKj&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F1CaBY4WqpT%2F', label: 'Facebook', icon: FaFacebookF },
   { href: 'https://x.com/radiconlabsltd?t=wHM92aoO5oyHsB25pQJJ5Q&s=09', label: 'Twitter', icon: FaXTwitter },
-  { href: 'https://www.instagram.com/radiconlaboratoriesltd/?igshid=OGQ5ZDc2ODk2ZA%3D%3D', label: 'Instagram', icon: FaInstagram },
+  { href: 'https://www.instagram.com/radiconlaboratorieslimited?igsh=MWowOGl4dHk3bzI4cw==', label: 'Instagram', icon: FaInstagram },
   { href: 'https://www.linkedin.com/company/radicon-laboratories-limited./', label: 'LinkedIn', icon: FaLinkedinIn },
   { href: 'https://www.youtube.com/@radiconlaboratoriesltd', label: 'YouTube', icon: FaYoutube },
 ]
 
 const contactInfo = [
   { icon: FaLocationDot, content: '108-A Ecotech-XII Greater Noida, U.P. India 201306', isLink: false },
-  { icon: FaEnvelope, content: 'info@radiconlab.com', href: 'mailto:info@radiconlab.com', isLink: true },
-  { icon: FaWhatsapp, content: '+91 8796911105', href: 'https://wa.me/918796911105', isLink: true },
-  { icon: FaPhoneVolume, content: '+91 8796911105', href: 'tel:+918796911105', isLink: true },
+  {
+    icon: FaPhoneVolume,
+    label: 'FOR EXPORT',
+    phone: '+91 8796911105',
+    phoneHref: 'tel:+918796911105',
+    email: 'info@radiconlab.com',
+    emailHref: 'mailto:info@radiconlab.com',
+    isContactGroup: true,
+  },
+  {
+    icon: FaEnvelope,
+    label: 'For Merchant Exports',
+    phone: '+91 9289611886',
+    phoneHref: 'tel:+919289611886',
+    email: 'bdm@radiconlab.com',
+    emailHref: 'mailto:bdm@radiconlab.com',
+    isContactGroup: true,
+  },
 ]
 
 export default function Footer({ initialRoutes }: { initialRoutes?: PublicSeoRoute[] }) {
@@ -75,7 +90,7 @@ export default function Footer({ initialRoutes }: { initialRoutes?: PublicSeoRou
           {/* Brand Column */}
           <div className="group/col col-span-1 sm:col-span-2 md:col-span-2 lg:col-span-1">
             <Link href={hrefFor('/')} className="inline-flex items-center gap-2.5 mb-6" aria-label="Radicon Home">
-              <img className="h-16 w-auto" src="/radicon-logo.png" alt="Radicon logo" />
+              <Image className="h-16 w-auto" src="/radicon-logo.png" alt="Radicon logo" width={160} height={64} />
             </Link>
             <p className="text-[15px]  leading-[1.8] text-gray-600 mb-6 max-w-xs">
               Radicon Laboratories Ltd, a leading Pharmaceutical company in India offers a wide range of pharmaceutical finished formulations (FF) under various therapeutic categories in three different dosage form.
@@ -177,20 +192,30 @@ export default function Footer({ initialRoutes }: { initialRoutes?: PublicSeoRou
               Get In Touch
             </h2>
             <ul className="space-y-4">
-              {contactInfo.map(({ icon: Icon, content, href, isLink }, idx) => (
+              {contactInfo.map((item, idx) => {
+                const Icon = item.icon
+
+                return (
                 <li key={idx} className="group/item flex items-start gap-3">
                   <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[#F0F8FF] transition-all duration-300 group-hover/item:bg-[#E8E8E8] group-hover/item:scale-110 group-hover/item:-rotate-6">
                     <Icon className="text-slate-700 group-hover/item:text-slate-700 transition-colors duration-300 text-[14px]" />
                   </div>
-                  {isLink ? (
-                    <a href={href} className="mt-1 text-[16px] leading-[1.6] text-gray-700 hover:text-slate-700 transition-colors duration-200">
-                      {content}
-                    </a>
+                  {'isContactGroup' in item && item.isContactGroup ? (
+                    <div className="mt-1 text-gray-700">
+                      <p className="text-[13px] font-bold uppercase leading-[1.4] text-gray-900">{item.label}</p>
+                      <a href={item.phoneHref} className="block text-[16px] leading-[1.6] transition-colors duration-200 hover:text-slate-700">
+                        {item.phone}
+                      </a>
+                      <a href={item.emailHref} className="block text-[16px] leading-[1.6] transition-colors duration-200 hover:text-slate-700">
+                        {item.email}
+                      </a>
+                    </div>
                   ) : (
-                    <span className="mt-1 text-[13px] leading-[1.6] text-gray-700">{content}</span>
+                    <span className="mt-1 text-[13px] leading-[1.6] text-gray-700">{item.content}</span>
                   )}
                 </li>
-              ))}
+                )
+              })}
             </ul>
           </div>
         </div>

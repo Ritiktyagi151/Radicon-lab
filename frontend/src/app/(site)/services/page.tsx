@@ -111,7 +111,7 @@ export default function ServicesPage({ serviceSlug }: ServicesPageProps) {
                       <h2 className="text-2xl font-black leading-tight text-black sm:text-3xl">
                         {section.title}
                       </h2>
-                      <p
+                      <div
                         className="mt-4 text-base font-semibold leading-8 text-gray-600"
                         dangerouslySetInnerHTML={{ __html: section.content }}
                       />

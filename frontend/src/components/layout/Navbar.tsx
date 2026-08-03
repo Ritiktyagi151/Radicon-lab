@@ -647,7 +647,7 @@ const Navbar = ({ initialRoutes }: { initialRoutes?: PublicSeoRoute[] }) => {
             <div className="flex items-center space-x-3 px-6 border-r border-gray-200">
               <Link href="https://www.facebook.com/people/Radicon-Laboratories-Ltd/61570856968202/?rdid=r9luudJKmBIB0nLO&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F1CaBY4WqpT%2F" className="hover:text-slate-700 transition-colors"><FaFacebookF /></Link>
               <Link href="https://x.com/radiconlabsltd?t=wHM92aoO5oyHsB25pQJJ5Q&s=09" className="hover:text-slate-700 transition-colors"><FaXTwitter /></Link>
-              <Link href="https://www.instagram.com/radiconlaboratoriesltd/?igshid=OGQ5ZDc2ODk2ZA%3D%3D" className="hover:text-slate-700 transition-colors"><FaInstagram /></Link>
+              <Link href="https://www.instagram.com/radiconlaboratorieslimited?igsh=MWowOGl4dHk3bzI4cw==" className="hover:text-slate-700 transition-colors"><FaInstagram /></Link>
               <Link href="https://www.linkedin.com/company/radicon-laboratories-limited./" className="hover:text-slate-700 transition-colors"><FaLinkedinIn /></Link>
               <Link href="https://www.youtube.com/@radiconlaboratoriesltd" className="hover:text-slate-700 transition-colors"><FaYoutube /></Link>
             </div>
