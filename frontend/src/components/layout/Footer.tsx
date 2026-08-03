@@ -249,6 +249,7 @@ export default function Footer({ initialRoutes }: { initialRoutes?: PublicSeoRou
               <Link
                 href="https://jaikvik.com"
                 target="_blank"
+                rel="noreferrer"
                 className="text-slate-700 hover:text-blue-500 transition-colors font-semibold"
               >
                 Jaikvik Technology India Pvt Ltd

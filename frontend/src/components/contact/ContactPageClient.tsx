@@ -162,7 +162,9 @@ export default function ContactPageClient() {
                 <ArrowRight size={18} />
               </a>
               <a
-                href="https://wa.me/918796911105"
+                href="https://wa.me/919289611886"
+                target="_blank"
+                rel="noreferrer"
                 className="inline-flex w-full items-center justify-center gap-2 border border-brand-200 bg-white px-6 py-3 text-sm font-black uppercase tracking-wide text-black transition hover:border-[#DF1F26] hover:text-[#DF1F26] sm:w-auto"
               >
                 WhatsApp

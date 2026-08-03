@@ -631,7 +631,7 @@ const Navbar = ({ initialRoutes }: { initialRoutes?: PublicSeoRoute[] }) => {
           <div className="flex items-center space-x-6 font-medium">
             <div className="flex items-center gap-2">
               <Phone size={14} className="text-slate-500" />
-              <span>Emergency Line: <a href="tel:+918796911105" className="text-black hover:text-slate-700 transition-colors">+91 8796911105</a></span>
+              <span>Emergency Line: <a href="tel:+919289611886" className="text-black hover:text-slate-700 transition-colors">+91 9289611886</a></span>
             </div>
             <div className="flex items-center gap-2 border-l pl-6 border-gray-200">
               <MapPin size={14} className="text-slate-500" />
@@ -645,11 +645,11 @@ const Navbar = ({ initialRoutes }: { initialRoutes?: PublicSeoRoute[] }) => {
 
           <div className="flex items-center">
             <div className="flex items-center space-x-3 px-6 border-r border-gray-200">
-              <Link href="https://www.facebook.com/people/Radicon-Laboratories-Ltd/61570856968202/?rdid=r9luudJKmBIB0nLO&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F1CaBY4WqpT%2F" className="hover:text-slate-700 transition-colors"><FaFacebookF /></Link>
-              <Link href="https://x.com/radiconlabsltd?t=wHM92aoO5oyHsB25pQJJ5Q&s=09" className="hover:text-slate-700 transition-colors"><FaXTwitter /></Link>
-              <Link href="https://www.instagram.com/radiconlaboratorieslimited?igsh=MWowOGl4dHk3bzI4cw==" className="hover:text-slate-700 transition-colors"><FaInstagram /></Link>
-              <Link href="https://www.linkedin.com/company/radicon-laboratories-limited./" className="hover:text-slate-700 transition-colors"><FaLinkedinIn /></Link>
-              <Link href="https://www.youtube.com/@radiconlaboratoriesltd" className="hover:text-slate-700 transition-colors"><FaYoutube /></Link>
+              <Link href="https://www.facebook.com/people/Radicon-Laboratories-Ltd/61570856968202/?rdid=r9luudJKmBIB0nLO&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F1CaBY4WqpT%2F" target="_blank" rel="noreferrer" className="hover:text-slate-700 transition-colors"><FaFacebookF /></Link>
+              <Link href="https://x.com/radiconlabsltd?t=wHM92aoO5oyHsB25pQJJ5Q&s=09" target="_blank" rel="noreferrer" className="hover:text-slate-700 transition-colors"><FaXTwitter /></Link>
+              <Link href="https://www.instagram.com/radiconlaboratorieslimited?igsh=MWowOGl4dHk3bzI4cw==" target="_blank" rel="noreferrer" className="hover:text-slate-700 transition-colors"><FaInstagram /></Link>
+              <Link href="https://www.linkedin.com/company/radicon-laboratories-limited./" target="_blank" rel="noreferrer" className="hover:text-slate-700 transition-colors"><FaLinkedinIn /></Link>
+              <Link href="https://www.youtube.com/@radiconlaboratoriesltd" target="_blank" rel="noreferrer" className="hover:text-slate-700 transition-colors"><FaYoutube /></Link>
             </div>
             <div className="relative pl-6 font-medium">
               <button
@@ -909,7 +909,7 @@ const Navbar = ({ initialRoutes }: { initialRoutes?: PublicSeoRoute[] }) => {
           <div className="pt-4 flex flex-col space-y-3 text-sm text-gray-600">
              <div className="flex items-center gap-3 font-medium">
                 <Phone size={18} className="text-slate-500" />
-                 <span>+91 8796911105</span>
+                 <span>+91 9289611886</span>
              </div>
              <div className="flex items-center gap-3 font-medium">
                 <MapPin size={18} className="text-slate-500" />

@@ -5,19 +5,19 @@ import { FaEnvelope, FaPhoneVolume, FaWhatsapp } from 'react-icons/fa6'
 
 const actions = [
   {
-    href: 'https://wa.me/918796911105',
+    href: 'https://wa.me/919289611886',
     label: 'Chat on WhatsApp',
     icon: FaWhatsapp,
     className: 'bg-[#25D366] hover:bg-[#1fb85a]',
   },
   {
-    href: 'mailto:info@radiconlab.com',
+    href: 'mailto:bdm@radiconlab.com',
     label: 'Email Radicon',
     icon: FaEnvelope,
     className: 'bg-[#DF1F26] hover:bg-brand-800',
   },
   {
-    href: 'tel:+918796911105',
+    href: 'tel:+919289611886',
     label: 'Call Radicon',
     icon: FaPhoneVolume,
     className: 'bg-slate-800 hover:bg-slate-950',

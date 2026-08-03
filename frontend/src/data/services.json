@@ -15,51 +15,6 @@
     ]
   },
   {
-    "title": "Third Party Manufacturer For Avanafil",
-    "slug": "third-party-manufacturer-for-avanafil",
-    "excerpt": "Third party manufacturer for Avanafil formulations with quality-led production, packaging, and supply coordination.",
-    "hero": "Radicon Laboratories offers third party manufacturing for Avanafil products with a focus on controlled formulation handling, batch consistency, commercial packaging, and regulatory-ready documentation. Our Avanafil manufacturing service is designed for pharma companies that need a dependable production partner for quality-focused supply.",
-    "images": [
-      "/service-img/third-party-manufacturer-for-avanafil.png",
-      "/service-img/avanafil-production.avif"
-    ],
-    "points": [
-      "Avanafil third party manufacturing support for pharmaceutical brands and marketers",
-      "Controlled production workflow with batch consistency, packaging, and quality checks",
-      "Documentation and supply planning support for Avanafil contract manufacturing requirements"
-    ]
-  },
-  {
-    "title": "Third Party Manufacturer For Sildenafil",
-    "slug": "third-party-manufacturer-for-sildenafil",
-    "excerpt": "Third party manufacturer for Sildenafil products with dependable formulation, quality, and packaging support.",
-    "hero": "Radicon Laboratories supports Sildenafil third party manufacturing for pharma businesses seeking a professional contract manufacturing partner. Our Sildenafil manufacturing service focuses on formulation consistency, quality review, production planning, packaging coordination, and reliable delivery support for commercial pharmaceutical supply.",
-    "images": [
-      "/service-img/third-party-manufacturer-for -sildenafil.png",
-      "/service-img/sidanafil-production.png"
-    ],
-    "points": [
-      "Sildenafil third party manufacturing for pharma companies and branded medicine suppliers",
-      "Organized quality control, formulation handling, and commercial packaging workflow",
-      "Contract manufacturing assistance for consistent Sildenafil product supply"
-    ]
-  },
-  {
-    "title": "Third Party Manufacturer For Tadalafil",
-    "slug": "third-party-manufacturer-for-tadalafil",
-    "excerpt": "Third party manufacturer for Tadalafil formulations with scalable production, quality checks, and packaging support.",
-    "hero": "Radicon Laboratories provides Tadalafil third party manufacturing services for pharmaceutical companies that need consistent product output, professional formulation handling, quality-focused production, and well-managed packaging support. Our Tadalafil contract manufacturing workflow helps brands maintain dependable supply with practical documentation and coordination.",
-    "images": [
-      "/service-img/third-party-manufacturer-for-tadalafil.png",
-      "/service-img/tadanafil-production.avif"
-    ],
-    "points": [
-      "Tadalafil third party manufacturing service for quality-focused pharmaceutical brands",
-      "Consistent formulation process, quality checks, and commercial packing support",
-      "Scalable contract manufacturing coordination for Tadalafil product supply"
-    ]
-  },
-  {
     "title": "Third Party Manufacturer For Udenafil",
     "slug": "third-party-manufacturer-for-udenafil",
     "excerpt": "The need for Udenafil-based medicines of quality is growing in the local and global market.",
@@ -121,6 +76,21 @@
     ]
   },
   {
+    "title": "Third Party Manufacturer For Avanafil",
+    "slug": "third-party-manufacturer-for-avanafil",
+    "excerpt": "Third party manufacturer for Avanafil formulations with quality-led production, packaging, and supply coordination.",
+    "hero": "Radicon Laboratories offers third party manufacturing for Avanafil products with a focus on controlled formulation handling, batch consistency, commercial packaging, and regulatory-ready documentation. Our Avanafil manufacturing service is designed for pharma companies that need a dependable production partner for quality-focused supply.",
+    "images": [
+      "/service-img/third-party-manufacturer-for-avanafil.png",
+      "/service-img/avanafil-production.avif"
+    ],
+    "points": [
+      "Avanafil third party manufacturing support for pharmaceutical brands and marketers",
+      "Controlled production workflow with batch consistency, packaging, and quality checks",
+      "Documentation and supply planning support for Avanafil contract manufacturing requirements"
+    ]
+  },
+  {
     "title": "Third Party Manufacturer For Vardenafil",
     "slug": "third-party-manufacturer-for-vardenafil",
     "excerpt": "Pharmaceutical firms seeking to diversify their product lines with quality pharmaceutical products need a reliable Third Party Manufacturer for Vardenafil.",
@@ -159,6 +129,36 @@
       "Reliable Third Party Manufacturer for Vardenafil with modern infrastructure and a trained quality team",
       "WHO-GMP approved factory support with quality checks for safety, efficacy, and uniformity",
       "Formulation, tablet manufacturing, private labeling, documentation support, and blister packaging services"
+    ]
+  },
+  {
+    "title": "Third Party Manufacturer For Tadalafil",
+    "slug": "third-party-manufacturer-for-tadalafil",
+    "excerpt": "Third party manufacturer for Tadalafil formulations with scalable production, quality checks, and packaging support.",
+    "hero": "Radicon Laboratories provides Tadalafil third party manufacturing services for pharmaceutical companies that need consistent product output, professional formulation handling, quality-focused production, and well-managed packaging support. Our Tadalafil contract manufacturing workflow helps brands maintain dependable supply with practical documentation and coordination.",
+    "images": [
+      "/service-img/third-party-manufacturer-for-tadalafil.png",
+      "/service-img/tadanafil-production.avif"
+    ],
+    "points": [
+      "Tadalafil third party manufacturing service for quality-focused pharmaceutical brands",
+      "Consistent formulation process, quality checks, and commercial packing support",
+      "Scalable contract manufacturing coordination for Tadalafil product supply"
+    ]
+  },
+  {
+    "title": "Third Party Manufacturer For Sildenafil",
+    "slug": "third-party-manufacturer-for-sildenafil",
+    "excerpt": "Third party manufacturer for Sildenafil products with dependable formulation, quality, and packaging support.",
+    "hero": "Radicon Laboratories supports Sildenafil third party manufacturing for pharma businesses seeking a professional contract manufacturing partner. Our Sildenafil manufacturing service focuses on formulation consistency, quality review, production planning, packaging coordination, and reliable delivery support for commercial pharmaceutical supply.",
+    "images": [
+      "/service-img/third-party-manufacturer-for -sildenafil.png",
+      "/service-img/sidanafil-production.png"
+    ],
+    "points": [
+      "Sildenafil third party manufacturing for pharma companies and branded medicine suppliers",
+      "Organized quality control, formulation handling, and commercial packaging workflow",
+      "Contract manufacturing assistance for consistent Sildenafil product supply"
     ]
   }
 ]
