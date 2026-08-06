@@ -1,0 +1,29 @@
+<svg width="1600" height="900" viewBox="0 0 1600 900" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">IPHEX 2026 promotional banner</title>
+  <desc id="desc">Premium pharmaceutical event banner for Radicon Lab at IPHEX 2026.</desc>
+  <rect width="1600" height="900" fill="#0F172A"/>
+  <path d="M0 0H1600V900H0V0Z" fill="url(#paint0_linear)"/>
+  <path d="M1100 -120C1378 -120 1603 105 1603 383C1603 661 1378 886 1100 886C822 886 597 661 597 383C597 105 822 -120 1100 -120Z" fill="#DF1F26" fill-opacity="0.14"/>
+  <path d="M136 670C332 520 494 548 642 660C807 784 1002 788 1218 606C1342 502 1462 475 1600 534V900H0V786C42 754 87 708 136 670Z" fill="#FFFFFF" fill-opacity="0.08"/>
+  <path d="M1010 223H1388C1432.18 223 1468 258.817 1468 303V681C1468 725.183 1432.18 761 1388 761H1010C965.817 761 930 725.183 930 681V303C930 258.817 965.817 223 1010 223Z" fill="#FFFFFF" fill-opacity="0.96"/>
+  <path d="M1040 283H1338C1354.57 283 1368 296.431 1368 313V611C1368 627.569 1354.57 641 1338 641H1040C1023.43 641 1010 627.569 1010 611V313C1010 296.431 1023.43 283 1040 283Z" fill="#F8FAFC"/>
+  <path d="M1128 382C1128 349.967 1153.97 324 1186 324C1218.03 324 1244 349.967 1244 382V542C1244 574.033 1218.03 600 1186 600C1153.97 600 1128 574.033 1128 542V382Z" fill="#DF1F26"/>
+  <path d="M1088 462H1284" stroke="#0F172A" stroke-width="52" stroke-linecap="round"/>
+  <path d="M1113 462H1259" stroke="#FFFFFF" stroke-width="24" stroke-linecap="round"/>
+  <path d="M1010 684H1368" stroke="#DF1F26" stroke-width="14" stroke-linecap="round"/>
+  <text x="118" y="182" fill="#FFFFFF" font-family="Arial, Helvetica, sans-serif" font-size="34" font-weight="700" letter-spacing="8">RADICON LAB</text>
+  <text x="118" y="312" fill="#FFFFFF" font-family="Arial, Helvetica, sans-serif" font-size="132" font-weight="900" letter-spacing="2">IPHEX</text>
+  <text x="118" y="430" fill="#DF1F26" font-family="Arial, Helvetica, sans-serif" font-size="124" font-weight="900" letter-spacing="4">2026</text>
+  <text x="126" y="512" fill="#E2E8F0" font-family="Arial, Helvetica, sans-serif" font-size="42" font-weight="700">Global Pharmaceutical Exhibition</text>
+  <text x="126" y="588" fill="#CBD5E1" font-family="Arial, Helvetica, sans-serif" font-size="30" font-weight="500">Meet our team for contract manufacturing, exports,</text>
+  <text x="126" y="632" fill="#CBD5E1" font-family="Arial, Helvetica, sans-serif" font-size="30" font-weight="500">private label solutions and pharmaceutical partnerships.</text>
+  <rect x="126" y="704" width="488" height="72" rx="8" fill="#DF1F26"/>
+  <text x="166" y="751" fill="#FFFFFF" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="800" letter-spacing="1">VISIT US AT IPHEX 2026</text>
+  <defs>
+    <linearGradient id="paint0_linear" x1="0" y1="0" x2="1600" y2="900" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#111827"/>
+      <stop offset="0.48" stop-color="#0F172A"/>
+      <stop offset="1" stop-color="#450A0A"/>
+    </linearGradient>
+  </defs>
+</svg>

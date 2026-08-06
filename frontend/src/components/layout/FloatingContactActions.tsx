@@ -1,7 +1,8 @@
 'use client'
 
-import { Download } from 'lucide-react'
+import { CalendarDays, Download } from 'lucide-react'
 import { FaEnvelope, FaPhoneVolume, FaWhatsapp } from 'react-icons/fa6'
+import { EVENT_POPUP_OPEN_EVENT } from '@/components/event/EventPopup'
 
 const actions = [
   {
@@ -25,8 +26,27 @@ const actions = [
 ]
 
 export default function FloatingContactActions() {
+  const openEventPopup = () => {
+    window.dispatchEvent(new Event(EVENT_POPUP_OPEN_EVENT))
+  }
+
   return (
     <div className="fixed bottom-5 right-4 z-[60] flex flex-col items-end gap-3 sm:bottom-6 sm:right-5">
+      <button
+        type="button"
+        onClick={openEventPopup}
+        aria-label="Open IPHEX 2026 event popup"
+        title="Open IPHEX 2026 event"
+        className="group relative inline-flex h-12 w-12 items-center justify-center rounded-full bg-white text-[#DF1F26] shadow-2xl shadow-brand-950/20 ring-2 ring-[#DF1F26]/20 transition hover:-translate-y-1 hover:bg-[#DF1F26] hover:text-white focus:outline-none focus:ring-4 focus:ring-[#DF1F26]/30"
+      >
+        <span className="absolute inset-0 animate-ping rounded-full bg-[#DF1F26]/30" />
+        <span className="absolute inset-1 animate-pulse rounded-full border border-[#DF1F26]/35" />
+        <span className="relative flex flex-col items-center justify-center leading-none">
+          <CalendarDays size={17} />
+          <span className="mt-0.5 text-[9px] font-black uppercase tracking-tight">Event</span>
+        </span>
+      </button>
+
       <a
         href="/pdf/company_profile.pdf"
         download

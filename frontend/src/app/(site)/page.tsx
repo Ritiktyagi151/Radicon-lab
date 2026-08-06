@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import EventPopup from '@/components/event/EventPopup'
 import { About, BrandsSection, Contact, Features, Hero, MissionSection, RadiconServices, VideoReelsSection } from '@/components/home'
 import BlogSection from '@/components/home/HomeBlogs'
 import HomeScrollSection from '@/components/home/HomeScrollSection'
@@ -18,6 +19,7 @@ export async function generateMetadata(): Promise<Metadata> {
 export default function HomePage() {
   return (
     <>
+      <EventPopup image="/event/events.jpeg" maxShows={2} reopenDelay={15000} useNextImage={false} />
       <Hero />
       <HomeScrollSection direction="left">
         <About />
