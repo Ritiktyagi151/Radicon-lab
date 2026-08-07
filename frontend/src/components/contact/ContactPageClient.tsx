@@ -57,9 +57,9 @@ const contactMethods = [
   },
   {
     label: 'For Merchant Exports',
-    value: '+91 9289611886',
+    value: '+91 8796911105',
     detail: 'bdm@radiconlab.com',
-    href: 'tel:+919289611886',
+    href: 'tel:+918796911105',
     emailHref: 'mailto:bdm@radiconlab.com',
     icon: Mail,
   },

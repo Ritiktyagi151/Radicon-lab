@@ -48,8 +48,8 @@ const contactInfo = [
   {
     icon: FaEnvelope,
     label: 'For Merchant Exports',
-    phone: '+91 9289611886',
-    phoneHref: 'tel:+919289611886',
+    phone: '+91 8796911105',
+    phoneHref: 'tel:+918796911105',
     email: 'bdm@radiconlab.com',
     emailHref: 'mailto:bdm@radiconlab.com',
     isContactGroup: true,
