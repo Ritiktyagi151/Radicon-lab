@@ -13,7 +13,8 @@ import {
   FaXTwitter,
   FaPhoneVolume,
   FaEnvelope,
-  FaLocationDot
+  FaLocationDot,
+  FaWhatsapp
 } from 'react-icons/fa6'
 
 // ── Data (No changes made here) ──
@@ -35,24 +36,25 @@ const socialLinks = [
 ]
 
 const contactInfo = [
-  { icon: FaLocationDot, content: '108-A Ecotech-XII Greater Noida, U.P. India 201306', isLink: false },
   {
-    icon: FaPhoneVolume,
-    label: 'FOR EXPORT',
-    phone: '+91 8796911105',
-    phoneHref: 'tel:+918796911105',
-    email: 'info@radiconlab.com',
-    emailHref: 'mailto:info@radiconlab.com',
-    isContactGroup: true,
+    icon: FaLocationDot,
+    label: '108-A Ecotech-XII Greater Noida, U.P. India 201306',
+    href: null,
   },
   {
     icon: FaEnvelope,
-    label: 'For Merchant Exports',
-    phone: '+91 8796911105',
-    phoneHref: 'tel:+918796911105',
-    email: 'bdm@radiconlab.com',
-    emailHref: 'mailto:bdm@radiconlab.com',
-    isContactGroup: true,
+    label: 'info@radiconlab.com',
+    href: 'mailto:info@radiconlab.com',
+  },
+  {
+    icon: FaWhatsapp,
+    label: '+91 8796911105',
+    href: 'https://wa.me/918796911105',
+  },
+  {
+    icon: FaPhoneVolume,
+    label: '+91 8796911105',
+    href: 'tel:+918796911105',
   },
 ]
 
@@ -196,22 +198,16 @@ export default function Footer({ initialRoutes }: { initialRoutes?: PublicSeoRou
                 const Icon = item.icon
 
                 return (
-                <li key={idx} className="group/item flex items-start gap-3">
-                  <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[#F0F8FF] transition-all duration-300 group-hover/item:bg-[#E8E8E8] group-hover/item:scale-110 group-hover/item:-rotate-6">
-                    <Icon className="text-slate-700 group-hover/item:text-slate-700 transition-colors duration-300 text-[14px]" />
+                <li key={idx} className="group/item flex items-center gap-4">
+                  <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-[#F0F8FF] transition-all duration-300 group-hover/item:bg-[#E8E8E8] group-hover/item:scale-105">
+                    <Icon className="text-slate-700 transition-colors duration-300 text-[15px]" />
                   </div>
-                  {'isContactGroup' in item && item.isContactGroup ? (
-                    <div className="mt-1 text-gray-700">
-                      <p className="text-[13px] font-bold uppercase leading-[1.4] text-gray-900">{item.label}</p>
-                      <a href={item.phoneHref} className="block text-[16px] leading-[1.6] transition-colors duration-200 hover:text-slate-700">
-                        {item.phone}
-                      </a>
-                      <a href={item.emailHref} className="block text-[16px] leading-[1.6] transition-colors duration-200 hover:text-slate-700">
-                        {item.email}
-                      </a>
-                    </div>
+                  {item.href ? (
+                    <a href={item.href} target={item.href.startsWith('http') ? '_blank' : undefined} rel={item.href.startsWith('http') ? 'noreferrer' : undefined} className="text-[20px] leading-[1.4] text-gray-600 transition-colors duration-200 hover:text-slate-900">
+                      {item.label}
+                    </a>
                   ) : (
-                    <span className="mt-1 text-[13px] leading-[1.6] text-gray-700">{item.content}</span>
+                    <span className="text-[16px] leading-[1.6] text-gray-600">{item.label}</span>
                   )}
                 </li>
                 )

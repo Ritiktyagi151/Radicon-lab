@@ -18,7 +18,7 @@ export default async function SiteLayout({
       <Navbar initialRoutes={routes} />
       <main className="site-wave-bg">{children}</main>
       <Footer initialRoutes={routes} />
-      <EventPopup image="/event/events.png" maxShows={2} reopenDelay={15000} useNextImage={false} />
+      <EventPopup image="/event/events.jpeg" maxShows={2} reopenDelay={15000} useNextImage={false} />
       <FloatingContactActions />
       <CookieConsent />
       {/* <ChatBot /> */}

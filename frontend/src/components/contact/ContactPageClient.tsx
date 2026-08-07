@@ -48,21 +48,21 @@ const contactMethods = [
     icon: Factory,
   },
   {
-    label: 'FOR EXPORT',
+    label: 'Contact ',
     value: '+91 8796911105',
     detail: 'info@radiconlab.com',
     href: 'tel:+918796911105',
     emailHref: 'mailto:info@radiconlab.com',
     icon: Phone,
   },
-  {
-    label: 'For Merchant Exports',
-    value: '+91 8796911105',
-    detail: 'bdm@radiconlab.com',
-    href: 'tel:+918796911105',
-    emailHref: 'mailto:bdm@radiconlab.com',
-    icon: Mail,
-  },
+  // {
+  //   label: 'For Merchant Exports',
+  //   value: '+91 8796911105',
+  //   detail: 'bdm@radiconlab.com',
+  //   href: 'tel:+918796911105',
+  //   emailHref: 'mailto:bdm@radiconlab.com',
+  //   icon: Mail,
+  // },
 ]
 
 const fadeInUp = {
