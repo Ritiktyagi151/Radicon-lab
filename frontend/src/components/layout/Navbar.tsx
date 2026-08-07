@@ -631,7 +631,7 @@ const Navbar = ({ initialRoutes }: { initialRoutes?: PublicSeoRoute[] }) => {
           <div className="flex items-center space-x-6 font-medium">
             <div className="flex items-center gap-2">
               <Phone size={14} className="text-slate-500" />
-              <span>Emergency Line: <a href="tel:+919289611886" className="text-black hover:text-slate-700 transition-colors">+91 9289611886</a></span>
+              <span>Emergency Line: <a href="tel:+918796911105" className="text-black hover:text-slate-700 transition-colors">+91 8796911105</a></span>
             </div>
             <div className="flex items-center gap-2 border-l pl-6 border-gray-200">
               <MapPin size={14} className="text-slate-500" />
