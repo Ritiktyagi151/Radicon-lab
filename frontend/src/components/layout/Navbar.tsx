@@ -909,7 +909,7 @@ const Navbar = ({ initialRoutes }: { initialRoutes?: PublicSeoRoute[] }) => {
           <div className="pt-4 flex flex-col space-y-3 text-sm text-gray-600">
              <div className="flex items-center gap-3 font-medium">
                 <Phone size={18} className="text-slate-500" />
-                 <span>+91 9289611886</span>
+                 <span>+91 8796911105</span>
              </div>
              <div className="flex items-center gap-3 font-medium">
                 <MapPin size={18} className="text-slate-500" />
