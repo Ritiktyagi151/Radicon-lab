@@ -94,9 +94,9 @@ export default function ServicesPage({ serviceSlug }: ServicesPageProps) {
                     <p className="text-xs font-black uppercase tracking-[0.24em] text-brand-600">
                       Radicon Lab Service
                     </p>
-                    <h2 className="mt-3 text-2xl font-black leading-tight text-black sm:text-4xl">
+                    {/* <h2 className="mt-3 text-2xl font-black leading-tight text-black sm:text-4xl">
                       {selectedService.title}
-                    </h2>
+                    </h2> */}
                     <p
                       className="mt-5 text-base font-semibold leading-8 text-gray-600"
                       dangerouslySetInnerHTML={{ __html: selectedService.hero }}

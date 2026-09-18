@@ -1012,7 +1012,7 @@ const Navbar = ({ initialRoutes }: { initialRoutes?: PublicSeoRoute[] }) => {
           <div className="flex items-start justify-between border-b border-[#E8E8E8] px-5 py-4 sm:px-7">
             <div>
               <p className="text-xs font-bold uppercase tracking-[0.22em] text-[#DF1F26]">Contact Form</p>
-              <h2 id="navbar-contact-title" className="mt-2 text-2xl font-bold text-slate-950">Send an inquiry</h2>
+              <p id="navbar-contact-title" className="mt-2 text-2xl font-bold text-slate-950">Send an inquiry</p>
             </div>
             <button
               type="button"
