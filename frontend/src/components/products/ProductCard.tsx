@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import ContentImage from '@/components/ContentImage'
 import { ArrowUpRight } from 'lucide-react'
 import { getProductPath } from '@/lib/productUrls'
 import { resolveUploadUrl } from '@/lib/uploadUrls'
@@ -13,7 +14,7 @@ export default function ProductCard({ product }: { product: Product }) {
       className="group block overflow-hidden rounded-sm border border-brand-100 bg-white shadow-sm transition-all hover:-translate-y-1 hover:shadow-lg hover:shadow-brand-100/70"
     >
       <div className="aspect-[4/3] overflow-hidden bg-[#F0F8FF]">
-        <img
+        <ContentImage width={640} height={480} sizes="(max-width: 639px) 100vw, (max-width: 1023px) 50vw, 33vw"
           src={resolveUploadUrl(product.image)}
           alt={product.name}
           className="h-full w-full object-cover transition duration-500 group-hover:scale-105"

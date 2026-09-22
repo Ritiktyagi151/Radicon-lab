@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion'
 import { ArrowRight, Clock, User } from 'lucide-react'
 import Link from 'next/link'
+import ContentImage from '@/components/ContentImage'
 import { useSeoRoutes } from '@/lib/admin/useSeoRoutes'
 import { resolveUploadUrl } from '@/lib/uploadUrls'
 import type { Blog } from '@/types/blog'
@@ -29,7 +30,7 @@ export default function FeaturedBlog({ blog }: { blog: Blog }) {
       className="grid overflow-hidden rounded-sm border border-brand-100 bg-white shadow-lg shadow-brand-100/50 lg:grid-cols-[1.08fr_0.92fr]"
     >
       <Link href={href} className="relative block overflow-hidden">
-        <img
+        <ContentImage width={800} height={500} sizes="(max-width: 1023px) 100vw, 50vw" loading="eager" fetchPriority="high"
           src={resolveUploadUrl(blog.featuredImage)}
           alt={blog.title}
           className="h-full min-h-[320px] w-full object-fill transition-transform duration-500 hover:scale-105"

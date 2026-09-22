@@ -1,4 +1,6 @@
 'use client'
+
+import Image from 'next/image'
 import { motion } from 'framer-motion'
 
 const brands = [
@@ -66,7 +68,7 @@ export default function BrandsSection() {
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: false, amount: 0.35 }}
+          viewport={{ once: true, amount: 0.35 }}
           transition={{ duration: 0.6, ease: 'easeOut' }}
           className="mx-auto max-w-3xl text-center"
         >
@@ -85,13 +87,14 @@ export default function BrandsSection() {
               key={brand.name}
               initial={{ opacity: 0, y: 18 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: false, amount: 0.25 }}
+              viewport={{ once: true, amount: 0.25 }}
               transition={{ delay: index * 0.04, duration: 0.45, ease: 'easeOut' }}
               whileHover={{ y: -6, scale: 1.02 }}
               className="group flex h-28 items-center justify-center rounded-sm border border-[#E8E8E8] bg-white px-4 shadow-sm transition-all duration-300 hover:border-blue-200 hover:bg-[#F0F8FF] hover:shadow-xl hover:shadow-blue-100/70 sm:h-32"
             >
               <div className="flex h-16 w-full items-center justify-center rounded-sm bg-[#F5F5F5] px-3 transition-all duration-300 group-hover:bg-white">
-                <img
+                <Image
+                  width={240} height={64} sizes="(max-width: 639px) 50vw, (max-width: 1023px) 33vw, 240px"
                   src={brand.logo}
                   alt={brand.name}
                   className="max-h-full max-w-full object-contain  transition-all duration-300 group-hover:scale-105 group-hover:grayscale-0"

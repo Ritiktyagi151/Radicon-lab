@@ -1,5 +1,7 @@
 'use client'
 
+import Image from 'next/image'
+
 import React from 'react'
 import { motion } from 'framer-motion'
 import { User, Eye, MessageSquare, ArrowRight } from 'lucide-react'
@@ -46,7 +48,7 @@ export default function BlogSection() {
         <motion.div
           initial={{ opacity: 0, y: 28 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: false, amount: 0.35 }}
+          viewport={{ once: true, amount: 0.35 }}
           transition={{ duration: 0.65, ease: 'easeOut' }}
           className="text-center mb-8"
         >
@@ -65,7 +67,7 @@ export default function BlogSection() {
               key={blog.id}
               initial={{ opacity: 0, y: 34, rotateY: -4 }}
               whileInView={{ opacity: 1, y: 0, rotateY: 0 }}
-              viewport={{ once: false, amount: 0.25 }}
+              viewport={{ once: true, amount: 0.25 }}
               transition={{ delay: index * 0.1, duration: 0.55, ease: 'easeOut' }}
               whileHover={{ y: -12, rotateX: 4, rotateY: index % 2 === 0 ? -4 : 4, scale: 1.02 }}
               // overflow-hidden yahan move kiya hai taaki image zoom card se bahar na jaye
@@ -74,7 +76,8 @@ export default function BlogSection() {
               {/* Image Container - overflow-hidden yahan se hata diya hai taaki date upar dikhe */}
               <div className="relative">
                 <div className="overflow-hidden"> {/* Image zoom ke liye extra wrapper */}
-                    <img 
+                    <Image
+                      width={600} height={400} sizes="(max-width: 767px) 100vw, (max-width: 1023px) 50vw, 33vw"
                       src={blog.image} 
                       alt={blog.title} 
                       className="w-full h-[250px] object-cover group-hover:scale-110 transition-transform duration-500"

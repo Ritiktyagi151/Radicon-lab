@@ -99,12 +99,6 @@ export class BlogsService {
 
     if (!blog) throw new NotFoundException('Blog not found');
 
-    this.realtimeService.publish(
-      'blogs',
-      'updated',
-      `Blog updated: ${blog.title}`,
-    );
-
     return blog;
   }
 
@@ -122,6 +116,12 @@ export class BlogsService {
       .exec();
 
     if (!blog) throw new NotFoundException('Blog not found');
+
+    this.realtimeService.publish(
+      'blogs',
+      'updated',
+      `Blog updated: ${blog.title}`,
+    );
 
     return blog;
   }

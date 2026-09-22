@@ -1,5 +1,7 @@
 'use client'
 
+import ViewportVideo from '@/components/ViewportVideo'
+
 import { useRef } from 'react'
 import { motion } from 'framer-motion'
 import { Volume2 } from 'lucide-react'
@@ -33,7 +35,7 @@ export default function VideoReelsSection() {
     video.currentTime = 0
     video.muted = false
     video.volume = 1
-    void video.play()
+    void video.play().catch(() => {})
   }
 
   const playMuted = (index: number) => {
@@ -52,7 +54,7 @@ export default function VideoReelsSection() {
         <motion.div
           initial={{ opacity: 0, y: 28 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: false, amount: 0.35 }}
+          viewport={{ once: true, amount: 0.35 }}
           transition={{ duration: 0.65, ease: 'easeOut' }}
           className="mb-8 text-center sm:mb-10"
         >
@@ -73,29 +75,25 @@ export default function VideoReelsSection() {
               key={reel.src}
               initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: false, amount: 0.25 }}
+              viewport={{ once: true, amount: 0.25 }}
               transition={{ delay: index * 0.08, duration: 0.55, ease: 'easeOut' }}
               whileHover={{ y: -8, rotateX: 2, rotateY: index % 2 === 0 ? -3 : 3 }}
               className="group relative aspect-[9/16] overflow-hidden rounded-lg border border-line bg-white shadow-[0_20px_60px_rgba(39,96,134,0.13)] [transform-style:preserve-3d]"
             >
-              <video
+              <ViewportVideo
                 ref={(node) => {
                   videoRefs.current[index] = node
                 }}
-                autoPlay
                 loop
                 muted
                 playsInline
-                preload="metadata"
                 onMouseEnter={() => playWithSound(index)}
                 onMouseLeave={() => playMuted(index)}
                 onFocus={() => playWithSound(index)}
                 onBlur={() => playMuted(index)}
                 className="h-full w-full object-cover transition duration-700 group-hover:scale-105"
-              >
-                <source src={reel.src} type="video/mp4" />
-                Your browser does not support the video tag.
-              </video>
+                src={reel.src}
+              />
 
               <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#0A1426]/80 via-[#0A1426]/10 to-transparent opacity-85 transition duration-500 group-hover:opacity-55" />
 

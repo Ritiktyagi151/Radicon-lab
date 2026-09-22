@@ -1,5 +1,7 @@
 'use client'
 
+import Image from 'next/image'
+
 import { motion } from 'framer-motion'
 import type { Variants } from 'framer-motion'
 import { Check } from 'lucide-react'
@@ -40,7 +42,7 @@ export default function AboutSection() {
           <motion.div
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: false, amount: 0.3 }}
+            viewport={{ once: true, amount: 0.3 }}
             variants={containerVariants}
           >
             <motion.h2 
@@ -79,7 +81,7 @@ export default function AboutSection() {
               <motion.div
                 initial={{ opacity: 0, x: -30 }}
                 whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: false, amount: 0.3 }}
+                viewport={{ once: true, amount: 0.3 }}
                 transition={{ duration: 0.6, delay: 0.4 }}
               >
                 <p className="text-gray-500 text-sm italic mb-4">
@@ -94,7 +96,7 @@ export default function AboutSection() {
                 className="space-y-4"
                 initial="hidden"
                 whileInView="visible"
-                viewport={{ once: false, amount: 0.3 }}
+                viewport={{ once: true, amount: 0.3 }}
                 variants={{
                   hidden: { opacity: 0 },
                   visible: {
@@ -131,7 +133,7 @@ export default function AboutSection() {
           <motion.div
             initial={{ opacity: 0, x: 100, scale: 0.9 }}
             whileInView={{ opacity: 1, x: 0, scale: 1 }}
-            viewport={{ once: false, amount: 0.3 }}
+            viewport={{ once: true, amount: 0.3 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
             className="relative [perspective:1200px]"
           >
@@ -140,7 +142,8 @@ export default function AboutSection() {
               whileHover={{ scale: 1.03, y: -8, rotateX: 4, rotateY: -5 }}
               transition={{ type: 'spring', stiffness: 220, damping: 18 }}
             >
-              <img 
+              <Image
+                width={700} height={700} sizes="(max-width: 1023px) 100vw, 50vw"
                 src="/founder1.jpeg" 
                 alt="Doctor with clipboard" 
                 className="h-[360px] w-full rounded-sm object-cover shadow-lg sm:h-[440px] lg:h-[500px] lg:object-fill"
@@ -151,7 +154,7 @@ export default function AboutSection() {
             <motion.div 
               initial={{ opacity: 0, scale: 0.8 }}
               whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: false, amount: 0.3 }}
+              viewport={{ once: true, amount: 0.3 }}
               transition={{ duration: 0.8, delay: 0.2 }}
               className="absolute -bottom-3 -right-3 h-full w-full border-2 border-blue-100 -z-0 sm:-bottom-6 sm:-right-6"
             ></motion.div>

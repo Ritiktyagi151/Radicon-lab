@@ -1,7 +1,9 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
+import { useViewportActivity } from '@/lib/useViewportActivity'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useSeoRoutes } from '@/lib/admin/useSeoRoutes'
 
@@ -39,19 +41,22 @@ const BANNERS = [
 export default function Hero() {
   const { hrefFor } = useSeoRoutes()
 
+  const sectionRef = useRef<HTMLElement>(null)
+  const active = useViewportActivity(sectionRef)
   const [current, setCurrent] = useState(0)
 
   // Auto-slide logic (every 5 seconds)
   useEffect(() => {
+    if (!active) return
     const timer = setInterval(() => {
       setCurrent((prev) => (prev === BANNERS.length - 1 ? 0 : prev + 1))
     }, 8000)
     return () => clearInterval(timer)
-  }, [])
+  }, [active])
 
   return (
-    <section className="relative h-[520px] w-full overflow-hidden sm:h-[640px] lg:h-[700px]">
-      <AnimatePresence mode="wait">
+    <section ref={sectionRef} className="relative h-[520px] w-full overflow-hidden sm:h-[640px] lg:h-[700px]">
+      <AnimatePresence mode="wait" initial={false}>
         <motion.div
           key={current}
           initial={{ opacity: 0, scale: 1.06 }}
@@ -61,9 +66,13 @@ export default function Hero() {
           className="absolute inset-0"
         >
           {/* Background Image */}
-          <img
+          <Image
             src={BANNERS[current].image}
-            alt="Banner"
+            alt={BANNERS[current].subtitle}
+            fill
+            sizes="100vw"
+            loading="eager"
+            fetchPriority={current === 0 ? 'high' : 'auto'}
             className="h-full w-full object-cover"
           />
           {/* <div className="absolute inset-0 bg-gradient-to-r from-white via-white/50 to-white/5" /> */}
@@ -73,7 +82,7 @@ export default function Hero() {
 
       <div className="relative z-10 mx-auto flex h-full max-w-7xl items-center px-4 sm:px-6 lg:px-8">
         <div className="max-w-2xl pt-16 sm:pt-0">
-          <AnimatePresence mode="wait">
+          <AnimatePresence mode="wait" initial={false}>
             <motion.div
               key={current}
               initial={{ opacity: 0, x: -100 }}
@@ -115,6 +124,8 @@ export default function Hero() {
         {BANNERS.map((_, index) => (
           <button
             key={index}
+            aria-label={`Show slide ${index + 1}`}
+            aria-pressed={current === index}
             onClick={() => setCurrent(index)}
             className={`h-2 transition-all duration-300 rounded-full ${
               current === index ? "w-8 bg-blue-500" : "w-2 bg-gray-300 hover:bg-blue-200"

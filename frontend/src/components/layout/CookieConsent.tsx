@@ -56,18 +56,14 @@ function deleteCookie(name: string) {
   })
 }
 
-function clearNonEssentialCookies() {
-  [
-    '_ga',
-    '_gid',
-    '_gat',
-    '_gcl_au',
-    '_fbp',
-    '_fbc',
-    'fr',
-    'analytics_storage',
-    'marketing_storage',
-  ].forEach(deleteCookie)
+function clearNonEssentialCookies(preferences: ConsentPreferences) {
+  const names = document.cookie.split(';').map((cookie) => cookie.trim().split('=')[0])
+  const analyticsCookies = ['_ga', '_gid', '_gat', 'analytics_storage']
+  const marketingCookies = ['_gcl_au', '_fbp', '_fbc', 'fr', 'marketing_storage']
+  for (const name of names) {
+    if ((!preferences.analytics && (analyticsCookies.includes(name) || name.startsWith('_ga_') || name.startsWith('_gat_')))
+      || (!preferences.marketing && marketingCookies.includes(name))) deleteCookie(name)
+  }
 }
 
 function publishConsent(preferences: ConsentPreferences) {
@@ -88,7 +84,7 @@ function persistPreferences(preferences: ConsentPreferences) {
   publishConsent(preferences)
 
   if (!preferences.analytics || !preferences.marketing) {
-    clearNonEssentialCookies()
+    clearNonEssentialCookies(preferences)
   }
 }
 
@@ -102,7 +98,7 @@ export default function CookieConsent() {
 
     if (saved) {
       publishConsent(saved)
-      if (!saved.analytics || !saved.marketing) clearNonEssentialCookies()
+      if (!saved.analytics || !saved.marketing) clearNonEssentialCookies(saved)
       return
     }
 

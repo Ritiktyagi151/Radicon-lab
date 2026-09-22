@@ -1,6 +1,9 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import Image from 'next/image'
+import { useViewportActivity } from '@/lib/useViewportActivity'
+
+import React, { useState, useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
 import { Phone, ChevronLeft, ChevronRight } from 'lucide-react'
 
@@ -20,6 +23,8 @@ const researchImages = [
 ]
 
 export default function ResearchSection() {
+  const sectionRef = useRef<HTMLElement>(null)
+  const active = useViewportActivity(sectionRef)
   const [currentIndex, setCurrentIndex] = useState(0)
   const [isAutoPlaying, setIsAutoPlaying] = useState(true)
   const [isHovering, setIsHovering] = useState(false)
@@ -38,12 +43,12 @@ export default function ResearchSection() {
   }
 
   useEffect(() => {
-    if (!isAutoPlaying || isHovering) return
+    if (!active || !isAutoPlaying || isHovering) return
     const interval = setInterval(() => {
-      nextSlide()
+      setCurrentIndex((prev) => (prev + 1) % researchImages.length)
     }, 3000)
     return () => clearInterval(interval)
-  }, [isAutoPlaying, isHovering, currentIndex])
+  }, [active, isAutoPlaying, isHovering])
 
   // 3 images visible at a time (landscape ke liye better)
   const getVisibleImages = () => {
@@ -56,12 +61,12 @@ export default function ResearchSection() {
   }
 
   return (
-    <section className="w-full">
+    <section ref={sectionRef} className="w-full">
       {/* Header Section */}
       <motion.div
         initial={{ opacity: 0, y: 28 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: false, amount: 0.35 }}
+        viewport={{ once: true, amount: 0.35 }}
         transition={{ duration: 0.65, ease: 'easeOut' }}
         className="mx-auto max-w-7xl rounded-t-lg bg-white px-4 py-10 text-center shadow-[0_20px_60px_rgba(39,96,134,0.10)] sm:py-12"
       >
@@ -112,7 +117,8 @@ export default function ResearchSection() {
                 className="relative aspect-video overflow-hidden border-r border-white last:border-0 group"
               >
                 {/* Image */}
-                <img
+                <Image
+                  fill sizes="(max-width: 767px) 100vw, 33vw"
                   src={item.src}
                   alt={`Product ${index + 1}`}
                   className="w-full h-full object-cover transition-all duration-700 ease-out group-hover:scale-110 group-hover:brightness-75"
@@ -162,7 +168,7 @@ export default function ResearchSection() {
         <motion.div
           initial={{ opacity: 0, y: 28 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: false, amount: 0.35 }}
+          viewport={{ once: true, amount: 0.35 }}
           transition={{ duration: 0.65, ease: 'easeOut' }}
           className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6"
         >

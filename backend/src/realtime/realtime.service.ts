@@ -29,6 +29,10 @@ export type RealtimeEvent = {
 export class RealtimeService {
   private readonly eventsSubject = new Subject<RealtimeEvent>();
 
+  changes(): Observable<RealtimeEvent> {
+    return this.eventsSubject.asObservable();
+  }
+
   events(): Observable<{ data: RealtimeEvent }> {
     const heartbeat$ = interval(30000).pipe(
       map(() => ({

@@ -23,6 +23,7 @@ const MissionSection = () => {
               src="/homepage-images/missionsection.jpg" 
               alt="Our Mission Background"
               fill
+              sizes="(max-width: 1023px) 85vw, 40vw"
               className="object-cover"
             />
           </div>
@@ -33,6 +34,7 @@ const MissionSection = () => {
               src="/homepage-images/missionsection1.jpg" 
               alt="Our Vision Foreground"
               fill
+              sizes="(max-width: 1023px) 85vw, 40vw"
               className="object-cover"
             />
           </div>

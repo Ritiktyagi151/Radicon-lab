@@ -32,7 +32,7 @@ export default function RadiconServices() {
         variants={staggerContainer}
         initial="initial"
         whileInView="animate"
-        viewport={{ once: false, amount: 0.25 }}
+        viewport={{ once: true, amount: 0.25 }}
         className="grid gap-6 md:grid-cols-2 md:gap-8 md:items-center"
       >
         <motion.div variants={fadeInUp} className="space-y-6">
@@ -95,7 +95,7 @@ export default function RadiconServices() {
         variants={staggerContainer}
         initial="initial"
         whileInView="animate"
-        viewport={{ once: false, amount: 0.25 }}
+        viewport={{ once: true, amount: 0.25 }}
         className="space-y-8"
       >
         <motion.div variants={fadeInUp} className="text-gray-700 leading-relaxed text-lg">
@@ -163,7 +163,7 @@ export default function RadiconServices() {
       <motion.div 
         initial="initial"
         whileInView="animate"
-        viewport={{ once: false, amount: 0.25 }}
+        viewport={{ once: true, amount: 0.25 }}
         className="grid gap-6 md:grid-cols-2 md:gap-8 md:items-center"
       >
         <motion.div 
@@ -212,7 +212,7 @@ export default function RadiconServices() {
         variants={staggerContainer}
         initial="initial"
         whileInView="animate"
-        viewport={{ once: false, amount: 0.25 }}
+        viewport={{ once: true, amount: 0.25 }}
         className="space-y-8"
       >
         <motion.div 
@@ -272,7 +272,7 @@ export default function RadiconServices() {
         <motion.div 
           initial={{ opacity: 0, y: -20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: false, amount: 0.35 }}
+          viewport={{ once: true, amount: 0.35 }}
           transition={{ duration: 0.8 }}
           className="text-center mb-10"
         >
@@ -291,7 +291,7 @@ export default function RadiconServices() {
         <motion.div 
           initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: false, amount: 0.35 }}
+          viewport={{ once: true, amount: 0.35 }}
           whileHover={{ y: -5, rotateX: 2 }}
           className="bg-white rounded-xl shadow-lg overflow-hidden mb-8 border border-[#E8E8E8] [transform-style:preserve-3d] sm:mb-10"
         >

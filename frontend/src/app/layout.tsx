@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import { Livvic } from 'next/font/google'
-import Script from 'next/script'
+import ConsentAnalytics from '@/components/layout/ConsentAnalytics'
 import './globals.css'
 
 const livvic = Livvic({
@@ -127,26 +127,7 @@ export default function RootLayout({
         className={`${livvic.className} ${livvic.variable} antialiased`}
         suppressHydrationWarning
       >
-        <Script
-          src={`https://www.googletagmanager.com/gtag/js?id=${gaMeasurementId}`}
-          strategy="afterInteractive"
-        />
-        <Script id="google-analytics" strategy="afterInteractive">
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', '${gaMeasurementId}');
-          `}
-        </Script>
-        <noscript>
-          <iframe
-            src="https://www.googletagmanager.com/ns.html?id=GTM-MGZSL92D"
-            height="0"
-            width="0"
-            style={{ display: 'none', visibility: 'hidden' }}
-          />
-        </noscript>
+        <ConsentAnalytics />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}

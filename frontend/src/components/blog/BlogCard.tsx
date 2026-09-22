@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion'
 import { ArrowRight, Clock, User } from 'lucide-react'
 import Link from 'next/link'
+import ContentImage from '@/components/ContentImage'
 import { useSeoRoutes } from '@/lib/admin/useSeoRoutes'
 import { resolveUploadUrl } from '@/lib/uploadUrls'
 import type { Blog } from '@/types/blog'
@@ -28,7 +29,7 @@ export default function BlogCard({ blog }: { blog: Blog }) {
     >
       <Link href={href} className="block">
         <div className="relative overflow-hidden">
-          <img
+          <ContentImage width={640} height={400} sizes="(max-width: 767px) 100vw, (max-width: 1023px) 50vw, 33vw"
             src={resolveUploadUrl(blog.featuredImage)}
             alt={blog.title}
             className="h-[245px] w-full object-fill transition-transform duration-500 group-hover:scale-110"

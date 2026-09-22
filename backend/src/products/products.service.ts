@@ -219,6 +219,7 @@ export class ProductsService implements OnModuleInit {
       });
     }
 
+    this.realtimeService.publish('products', 'created', 'Sample categories and products created');
     return { message: 'Sample categories and products are ready.' };
   }
 

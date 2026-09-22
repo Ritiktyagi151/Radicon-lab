@@ -1,9 +1,13 @@
 "use client";
 
-import React, { useMemo, useState, useEffect, useRef } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import Script from 'next/script';
+import dynamic from 'next/dynamic';
+
+const AppointmentModal = dynamic(() => import('./AppointmentModal'), { ssr: false });
+const SearchPanel = dynamic(() => import('./SearchPanel'), { ssr: false });
 import { 
   FaFacebookF, 
   FaInstagram, 
@@ -22,17 +26,12 @@ import {
   X
 } from 'lucide-react';
 import { useSeoRoutes } from '@/lib/admin/useSeoRoutes';
-import { API_BASE_URL } from '@/lib/admin/api';
-import { RecaptchaCheckbox, type RecaptchaCheckboxHandle } from '@/lib/recaptcha';
 import type { PublicSeoRoute } from '@/lib/seoRoutes';
 import { getAboutPages, getAboutPath } from '@/lib/aboutData';
-import { getCategories, getProducts } from '@/lib/productApi';
+import { getCategories } from '@/lib/productApi';
 import { getCategoryPath } from '@/lib/categoryUrls';
-import { getProductPath } from '@/lib/productUrls';
 import { getServicePath, getServices } from '@/lib/serviceData';
-import { getAllPublishedBlogs } from '@/lib/blogApi';
-import type { Blog } from '@/types/blog';
-import type { Category, Product } from '@/types/product';
+import type { Category } from '@/types/product';
 
 
 const aboutLinks = getAboutPages();
@@ -210,98 +209,16 @@ declare global {
   }
 }
 
-const subjectOptions = ['General Inquiry', 'Support', 'Sales', 'Partnership'];
-
-type ContactFormState = {
-  name: string;
-  email: string;
-  phone: string;
-  subject: string;
-  message: string;
-};
-
-type SearchItem = {
-  title: string;
-  href: string;
-  type: 'Product' | 'Category' | 'Blog' | 'Service' | 'About' | 'Page';
-  description?: string;
-  keywords: string;
-};
-
-const initialContactForm: ContactFormState = {
-  name: '',
-  email: '',
-  phone: '',
-  subject: 'General Inquiry',
-  message: '',
-};
-
-const coreSearchPages: SearchItem[] = [
-  {
-    title: 'Home',
-    href: '/',
-    type: 'Page',
-    description: 'Radicon Laboratories homepage',
-    keywords: 'home radicon laboratories pharmaceutical manufacturing healthcare',
-  },
-  {
-    title: 'Products',
-    href: '/categories',
-    type: 'Page',
-    description: 'Browse medicine categories and product range',
-    keywords: 'products medicines categories tablets capsules ointments oral strips range',
-  },
-  {
-    title: 'Services',
-    href: '/services',
-    type: 'Page',
-    description: 'Manufacturing and pharmaceutical services',
-    keywords: 'services manufacturing contract manufacturing regulatory research development',
-  },
-  {
-    title: 'Blogs',
-    href: '/blog',
-    type: 'Page',
-    description: 'Healthcare and pharmaceutical articles',
-    keywords: 'blogs articles news healthcare pharmaceutical',
-  },
-  {
-    title: 'Contact',
-    href: '/contact',
-    type: 'Page',
-    description: 'Reach Radicon Laboratories',
-    keywords: 'contact phone email inquiry appointment address',
-  },
-  {
-    title: 'Career',
-    href: '/career',
-    type: 'Page',
-    description: 'Career opportunities at Radicon',
-    keywords: 'career jobs hiring opportunities',
-  },
-];
-
-const makeSearchText = (...parts: Array<string | string[] | undefined | null>) =>
-  parts.flatMap((part) => (Array.isArray(part) ? part : [part])).filter(Boolean).join(' ').toLowerCase();
-
 const Navbar = ({ initialRoutes }: { initialRoutes?: PublicSeoRoute[] }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [categories, setCategories] = useState<Category[]>([]);
   const [isLanguageOpen, setIsLanguageOpen] = useState(false);
+  const [translationRequested, setTranslationRequested] = useState(false);
   const [languageSearch, setLanguageSearch] = useState('');
   const [selectedLanguage, setSelectedLanguage] = useState(languages.find((language) => language.name === 'English (US)') || languages[0]);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [searchItems, setSearchItems] = useState<SearchItem[]>(coreSearchPages);
-  const [isSearchLoading, setIsSearchLoading] = useState(false);
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
-  const [contactForm, setContactForm] = useState<ContactFormState>(initialContactForm);
-  const [contactErrors, setContactErrors] = useState<Partial<Record<keyof ContactFormState, string>>>({});
-  const [contactStatus, setContactStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
-  const [contactMessage, setContactMessage] = useState('');
-  const [recaptchaToken, setRecaptchaToken] = useState('');
-  const recaptchaRef = useRef<RecaptchaCheckboxHandle>(null);
   const [pendingLanguageCode, setPendingLanguageCode] = useState('');
   const { hrefFor } = useSeoRoutes(initialRoutes);
   const filteredLanguages = useMemo(() => {
@@ -309,15 +226,6 @@ const Navbar = ({ initialRoutes }: { initialRoutes?: PublicSeoRoute[] }) => {
     if (!query) return languages;
     return languages.filter((language) => language.name.toLowerCase().includes(query));
   }, [languageSearch]);
-  const searchResults = useMemo(() => {
-    const query = searchQuery.trim().toLowerCase();
-    const items = query
-      ? searchItems.filter((item) => item.keywords.includes(query))
-      : searchItems;
-
-    return items.slice(0, 18);
-  }, [searchItems, searchQuery]);
-
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 80) {
@@ -336,118 +244,6 @@ const Navbar = ({ initialRoutes }: { initialRoutes?: PublicSeoRoute[] }) => {
   }, []);
 
   useEffect(() => {
-    if (!isSearchOpen || searchItems.length > coreSearchPages.length) return;
-
-    let isMounted = true;
-
-    Promise.all([
-      getProducts(),
-      getAllPublishedBlogs(),
-      getCategories(),
-    ])
-      .then(([products, blogs, loadedCategories]) => {
-        if (!isMounted) return;
-
-        const productItems = products.map((product: Product): SearchItem => {
-          const categoryName = typeof product.category === 'string' ? '' : product.category?.name;
-          return {
-            title: product.name,
-            href: getProductPath(product.slug),
-            type: 'Product',
-            description: product.shortDescription || product.description || categoryName || 'Product details',
-            keywords: makeSearchText(
-              product.name,
-              product.sku,
-              product.description,
-              product.shortDescription,
-              product.fullContent,
-              product.tags,
-              product.seoKeywords,
-              categoryName
-            ),
-          };
-        });
-
-        const categoryItems = loadedCategories.map((category: Category): SearchItem => ({
-          title: category.name,
-          href: getCategoryPath(category.slug),
-          type: 'Category',
-          description: category.description || 'Product category',
-          keywords: makeSearchText(category.name, category.description, category.metaTitle, category.metaDescription),
-        }));
-
-        const blogItems = blogs.map((blog: Blog): SearchItem => ({
-          title: blog.title,
-          href: `/blog-${blog.slug}`,
-          type: 'Blog',
-          description: blog.excerpt,
-          keywords: makeSearchText(blog.title, blog.excerpt, blog.category, blog.tags, blog.seoTitle, blog.seoDescription),
-        }));
-
-        const serviceItems = serviceLinks.map((service): SearchItem => ({
-          title: service.title,
-          href: getServicePath(service.slug),
-          type: 'Service',
-          description: service.excerpt,
-          keywords: makeSearchText(service.title, service.excerpt, service.points),
-        }));
-
-        const aboutItems = aboutLinks.map((page): SearchItem => ({
-          title: page.title,
-          href: getAboutPath(page.slug),
-          type: 'About',
-          description: page.description,
-          keywords: makeSearchText(
-            page.title,
-            page.eyebrow,
-            page.description,
-            page.hero,
-            page.highlights,
-            page.sections.flatMap((section) => [section.heading, section.body, ...(section.points || [])])
-          ),
-        }));
-
-        setCategories(loadedCategories);
-        setSearchItems([
-          ...productItems,
-          ...categoryItems,
-          ...blogItems,
-          ...serviceItems,
-          ...aboutItems,
-          ...coreSearchPages,
-        ]);
-      })
-      .catch(() => {
-        if (isMounted) {
-          setSearchItems([
-            ...serviceLinks.map((service): SearchItem => ({
-              title: service.title,
-              href: getServicePath(service.slug),
-              type: 'Service',
-              description: service.excerpt,
-              keywords: makeSearchText(service.title, service.excerpt, service.points),
-            })),
-            ...aboutLinks.map((page): SearchItem => ({
-              title: page.title,
-              href: getAboutPath(page.slug),
-              type: 'About',
-              description: page.description,
-              keywords: makeSearchText(page.title, page.eyebrow, page.description, page.hero, page.highlights),
-            })),
-            ...coreSearchPages,
-          ]);
-        }
-      })
-      .finally(() => {
-        if (isMounted) setIsSearchLoading(false);
-      });
-
-    return () => {
-      isMounted = false;
-    };
-  }, [isSearchOpen, searchItems.length]);
-
-  useEffect(() => {
     window.googleTranslateElementInit = () => {
       const TranslateElement = window.google?.translate?.TranslateElement;
       if (!TranslateElement) return;
@@ -462,7 +258,15 @@ const Navbar = ({ initialRoutes }: { initialRoutes?: PublicSeoRoute[] }) => {
       );
     };
 
+    // Restore an existing language choice without loading translation for new visitors.
+    const restoreTimer = window.setTimeout(() => {
+      if (document.cookie.split(';').some((cookie) => cookie.trim().startsWith('googtrans='))) {
+        setTranslationRequested(true);
+      }
+    }, 0);
+
     return () => {
+      window.clearTimeout(restoreTimer);
       window.googleTranslateElementInit = undefined;
     };
   }, []);
@@ -470,19 +274,26 @@ const Navbar = ({ initialRoutes }: { initialRoutes?: PublicSeoRoute[] }) => {
   useEffect(() => {
     if (!pendingLanguageCode) return;
 
-    const timer = window.setTimeout(() => {
+    const deadline = Date.now() + 15000;
+    const timer = window.setInterval(() => {
+      if (Date.now() > deadline) {
+        window.clearInterval(timer);
+        return;
+      }
       const select = document.querySelector<HTMLSelectElement>('.goog-te-combo');
       if (!select) return;
 
       select.value = pendingLanguageCode;
       select.dispatchEvent(new Event('change'));
       setPendingLanguageCode('');
+      window.clearInterval(timer);
     }, 250);
 
-    return () => window.clearTimeout(timer);
+    return () => window.clearInterval(timer);
   }, [pendingLanguageCode]);
 
   const handleLanguageSelect = (language: (typeof languages)[number]) => {
+    setTranslationRequested(true);
     const languageCode = googleLanguageCodes[language.name] || 'en';
     const select = document.querySelector<HTMLSelectElement>('.goog-te-combo');
 
@@ -501,16 +312,8 @@ const Navbar = ({ initialRoutes }: { initialRoutes?: PublicSeoRoute[] }) => {
   };
 
   const openSearch = () => {
-    if (searchItems.length <= coreSearchPages.length) {
-      setIsSearchLoading(true);
-    }
     setIsSearchOpen(true);
     setIsMobileMenuOpen(false);
-  };
-
-  const closeSearch = () => {
-    setIsSearchOpen(false);
-    setSearchQuery('');
   };
 
   // Function to close mobile menu
@@ -520,87 +323,15 @@ const Navbar = ({ initialRoutes }: { initialRoutes?: PublicSeoRoute[] }) => {
 
   const openContactModal = () => {
     setIsContactModalOpen(true);
-    setContactStatus('idle');
-    setContactMessage('');
-  };
-
-  const closeContactModal = () => {
-    setIsContactModalOpen(false);
-  };
-
-  const updateContactField = (field: keyof ContactFormState, value: string) => {
-    setContactForm((current) => ({ ...current, [field]: value }));
-    setContactErrors((current) => ({ ...current, [field]: undefined }));
-    if (contactStatus !== 'sending') {
-      setContactStatus('idle');
-      setContactMessage('');
-    }
-  };
-
-  const validateContactForm = () => {
-    const errors: Partial<Record<keyof ContactFormState, string>> = {};
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-    if (!contactForm.name.trim()) errors.name = 'Name is required.';
-    if (!contactForm.email.trim()) {
-      errors.email = 'Email is required.';
-    } else if (!emailPattern.test(contactForm.email.trim())) {
-      errors.email = 'Enter a valid email address.';
-    }
-    if (!contactForm.message.trim()) errors.message = 'Message is required.';
-
-    setContactErrors(errors);
-    return Object.keys(errors).length === 0;
-  };
-
-  const handleContactSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    if (!validateContactForm()) return;
-
-    setContactStatus('sending');
-    setContactMessage('');
-
-    try {
-      if (!recaptchaToken) {
-        setContactStatus('error');
-        setContactMessage('Please complete the reCAPTCHA verification.');
-        return;
-      }
-
-      const response = await fetch(`${API_BASE_URL}/contacts`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          ...contactForm,
-          company: 'Navbar modal inquiry',
-          recaptchaToken,
-        }),
-      });
-
-      if (!response.ok) {
-        const payload = await response.json().catch(() => null);
-        throw new Error(payload?.message || 'Unable to submit inquiry right now.');
-      }
-
-      setContactForm(initialContactForm);
-      setContactErrors({});
-      setRecaptchaToken('');
-      recaptchaRef.current?.reset();
-      setContactStatus('success');
-      setContactMessage('Thank you. Your inquiry has been sent successfully.');
-    } catch (error) {
-      setContactStatus('error');
-      setContactMessage(error instanceof Error ? error.message : 'Unable to submit inquiry right now.');
-    }
   };
 
   return (
     <header className="w-full">
       <div id="google_translate_element" className="hidden" aria-hidden="true" />
-      <Script
+      {translationRequested && <Script
         src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
         strategy="afterInteractive"
-      />
+      />}
 
       {/* CSS for 2s Slide Down Animation */}
       <style jsx global>{`
@@ -919,196 +650,8 @@ const Navbar = ({ initialRoutes }: { initialRoutes?: PublicSeoRoute[] }) => {
         </div>
       </div>
 
-      {isSearchOpen ? (
-        <button
-          type="button"
-          className="fixed inset-0 z-[55] cursor-default bg-transparent"
-          onClick={closeSearch}
-          aria-label="Close search"
-        />
-      ) : null}
-
-      <div
-        className={`fixed right-3 z-[60] w-[calc(100vw-24px)] max-w-md overflow-hidden rounded-sm border border-[#E8E8E8] bg-white shadow-2xl shadow-slate-900/15 transition-all duration-300 sm:right-6 lg:right-12 ${
-          isScrolled ? 'top-[76px]' : 'top-[84px] lg:top-[116px]'
-        } ${isSearchOpen ? 'visible translate-y-0 opacity-100' : 'invisible -translate-y-2 opacity-0'}`}
-      >
-        <div className="border-b border-[#E8E8E8] p-3">
-          <label className="sr-only" htmlFor="site-search-input">Search website</label>
-          <div className="flex items-center gap-2 border border-[#E8E8E8] bg-[#F0F8FF] px-3 py-2.5 transition focus-within:border-[#DF1F26] focus-within:bg-white">
-            <Search size={18} className="shrink-0 text-slate-500" />
-            <input
-              id="site-search-input"
-              value={searchQuery}
-              onChange={(event) => setSearchQuery(event.target.value)}
-              autoFocus={isSearchOpen}
-              placeholder="Search products, blogs, services..."
-              className="w-full bg-transparent text-sm font-semibold text-slate-900 outline-none placeholder:text-slate-400"
-            />
-            <button
-              type="button"
-              onClick={closeSearch}
-              className="shrink-0 rounded-sm p-1 text-slate-400 transition-colors hover:bg-white hover:text-slate-900"
-              aria-label="Close search"
-            >
-              <X size={17} />
-            </button>
-          </div>
-        </div>
-
-        <div className="max-h-[360px] overflow-y-auto p-2">
-          {isSearchLoading ? (
-            <p className="px-3 py-7 text-center text-sm font-bold text-slate-500">Loading search...</p>
-          ) : searchResults.length ? (
-            <div className="space-y-1">
-              {searchResults.map((item) => (
-                <Link
-                  key={`${item.type}-${item.href}-${item.title}`}
-                  href={item.href}
-                  onClick={closeSearch}
-                  className="group block rounded-sm border border-transparent px-3 py-2.5 transition hover:border-[#E8E8E8] hover:bg-[#F0F8FF]"
-                >
-                  <span className="flex items-center justify-between gap-3">
-                    <span className="min-w-0 truncate text-sm font-bold text-slate-950 group-hover:text-slate-700">
-                      {item.title}
-                    </span>
-                    <span className="shrink-0 rounded-sm bg-[#F0F8FF] px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-[#DF1F26]">
-                      {item.type}
-                    </span>
-                  </span>
-                  {item.description ? (
-                    <span className="mt-1 line-clamp-1 block text-xs leading-5 text-slate-500">
-                      {item.description}
-                    </span>
-                  ) : null}
-                </Link>
-              ))}
-            </div>
-          ) : (
-            <div className="px-3 py-8 text-center">
-              <p className="text-sm font-bold text-slate-900">No results found</p>
-              <p className="mt-1 text-xs text-slate-500">Try a product, category, service, or blog topic.</p>
-            </div>
-          )}
-        </div>
-      </div>
-
-      <div
-        className={`fixed inset-0 z-[90] flex items-center justify-center bg-slate-950/55 px-4 py-6 backdrop-blur-sm transition-all duration-300 ${
-          isContactModalOpen ? 'visible opacity-100' : 'invisible opacity-0'
-        }`}
-        onClick={closeContactModal}
-        role="presentation"
-      >
-        <div
-          className={`max-h-[calc(100vh-48px)] w-full max-w-2xl overflow-y-auto rounded-sm border border-[#E8E8E8] bg-white shadow-2xl transition-all duration-300 ${
-            isContactModalOpen ? 'translate-y-0 scale-100 opacity-100' : 'translate-y-5 scale-95 opacity-0'
-          }`}
-          onClick={(event) => event.stopPropagation()}
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="navbar-contact-title"
-        >
-          <div className="flex items-start justify-between border-b border-[#E8E8E8] px-5 py-4 sm:px-7">
-            <div>
-              <p className="text-xs font-bold uppercase tracking-[0.22em] text-[#DF1F26]">Contact Form</p>
-              <p id="navbar-contact-title" className="mt-2 text-2xl font-bold text-slate-950">Send an inquiry</p>
-            </div>
-            <button
-              type="button"
-              onClick={closeContactModal}
-              className="rounded-sm p-2 text-slate-500 transition-colors hover:bg-[#F0F8FF] hover:text-slate-900"
-              aria-label="Close contact form"
-            >
-              <X size={22} />
-            </button>
-          </div>
-
-          <form onSubmit={handleContactSubmit} className="space-y-5 px-5 py-5 sm:px-7 sm:py-6">
-            <div className="grid gap-4 sm:grid-cols-2">
-              <label className="block">
-                <span className="text-sm font-bold uppercase text-slate-900">Name</span>
-                <input
-                  required
-                  value={contactForm.name}
-                  onChange={(event) => updateContactField('name', event.target.value)}
-                  className="mt-2 w-full border border-[#E8E8E8] bg-[#F0F8FF] px-4 py-3 text-sm font-semibold outline-none transition focus:border-[#DF1F26] focus:bg-white"
-                  placeholder="Your name"
-                />
-                {contactErrors.name ? <span className="mt-1 block text-xs font-bold text-red-600">{contactErrors.name}</span> : null}
-              </label>
-              <label className="block">
-                <span className="text-sm font-bold uppercase text-slate-900">Email</span>
-                <input
-                  required
-                  type="email"
-                  value={contactForm.email}
-                  onChange={(event) => updateContactField('email', event.target.value)}
-                  className="mt-2 w-full border border-[#E8E8E8] bg-[#F0F8FF] px-4 py-3 text-sm font-semibold outline-none transition focus:border-[#DF1F26] focus:bg-white"
-                  placeholder="you@example.com"
-                />
-                {contactErrors.email ? <span className="mt-1 block text-xs font-bold text-red-600">{contactErrors.email}</span> : null}
-              </label>
-              <label className="block">
-                <span className="text-sm font-bold uppercase text-slate-900">Phone Number</span>
-                <input
-                  value={contactForm.phone}
-                  onChange={(event) => updateContactField('phone', event.target.value)}
-                  className="mt-2 w-full border border-[#E8E8E8] bg-[#F0F8FF] px-4 py-3 text-sm font-semibold outline-none transition focus:border-[#DF1F26] focus:bg-white"
-                  placeholder="Phone number"
-                />
-              </label>
-              <label className="block">
-                <span className="text-sm font-bold uppercase text-slate-900">Subject</span>
-                <select
-                  value={contactForm.subject}
-                  onChange={(event) => updateContactField('subject', event.target.value)}
-                  className="mt-2 w-full border border-[#E8E8E8] bg-[#F0F8FF] px-4 py-3 text-sm font-semibold outline-none transition focus:border-[#DF1F26] focus:bg-white"
-                >
-                  {subjectOptions.map((subject) => (
-                    <option key={subject} value={subject}>{subject}</option>
-                  ))}
-                </select>
-              </label>
-              <label className="block sm:col-span-2">
-                <span className="text-sm font-bold uppercase text-slate-900">Message</span>
-                <textarea
-                  required
-                  rows={5}
-                  value={contactForm.message}
-                  onChange={(event) => updateContactField('message', event.target.value)}
-                  className="mt-2 w-full resize-none border border-[#E8E8E8] bg-[#F0F8FF] px-4 py-3 text-sm font-semibold outline-none transition focus:border-[#DF1F26] focus:bg-white"
-                  placeholder="Tell us how we can help."
-                />
-                {contactErrors.message ? <span className="mt-1 block text-xs font-bold text-red-600">{contactErrors.message}</span> : null}
-              </label>
-            </div>
-
-            <RecaptchaCheckbox
-              ref={recaptchaRef}
-              onVerify={setRecaptchaToken}
-            />
-
-            {contactMessage ? (
-              <p className={`border px-4 py-3 text-sm font-bold ${
-                contactStatus === 'success'
-                  ? 'border-green-200 bg-green-50 text-green-700'
-                  : 'border-red-200 bg-red-50 text-red-700'
-              }`}>
-                {contactMessage}
-              </p>
-            ) : null}
-
-            <button
-              type="submit"
-              disabled={contactStatus === 'sending'}
-              className="w-full bg-[#DF1F26] px-6 py-4 text-sm font-bold uppercase tracking-wide text-white transition hover:bg-brand-800 disabled:cursor-not-allowed disabled:opacity-70 sm:w-auto"
-            >
-              {contactStatus === 'sending' ? 'Submitting...' : 'Submit'}
-            </button>
-          </form>
-        </div>
-      </div>
+      {isSearchOpen && <SearchPanel isScrolled={isScrolled} onClose={() => setIsSearchOpen(false)} />}
+      {isContactModalOpen && <AppointmentModal onClose={() => setIsContactModalOpen(false)} />}
     </header>
   );
 };

@@ -41,7 +41,7 @@ export default function FeaturesSection() {
               key={index}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: false, amount: 0.28 }}
+              viewport={{ once: true, amount: 0.28 }}
               transition={{ delay: index * 0.1, duration: 0.5 }}
               whileHover={{ y: -12, rotateX: 5, rotateY: index % 2 === 0 ? -5 : 5, scale: 1.02 }}
               className={`group relative overflow-hidden border border-gray-100 p-6 transition-all duration-500 cursor-pointer sm:p-8 lg:p-10

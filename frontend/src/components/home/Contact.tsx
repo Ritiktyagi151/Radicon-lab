@@ -12,7 +12,7 @@ export default function Contact() {
       <motion.div
         initial={{ opacity: 0, y: 32 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: false, amount: 0.35 }}
+        viewport={{ once: true, amount: 0.35 }}
         transition={{ duration: 0.6, ease: 'easeOut' }}
         whileHover={{ y: -8, rotateX: 3, rotateY: -3 }}
         className="floating-panel rounded-lg p-5 transition-shadow hover:shadow-2xl hover:shadow-blue-100/70 sm:p-8 md:flex md:items-center md:justify-between md:gap-8 [transform-style:preserve-3d]"
@@ -20,7 +20,7 @@ export default function Contact() {
         <motion.div
           initial={{ opacity: 0, x: -24 }}
           whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: false, amount: 0.35 }}
+          viewport={{ once: true, amount: 0.35 }}
           transition={{ duration: 0.55, delay: 0.1 }}
         >
           <p className="text-sm font-bold uppercase tracking-wide text-gray-500">Contact</p>

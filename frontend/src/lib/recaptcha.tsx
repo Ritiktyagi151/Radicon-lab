@@ -25,6 +25,7 @@ export type RecaptchaCheckboxHandle = {
 type RecaptchaCheckboxProps = {
   onVerify: (token: string) => void
   className?: string
+  enabled?: boolean
 }
 
 declare global {
@@ -100,7 +101,7 @@ function loadRecaptchaScript() {
 }
 
 export const RecaptchaCheckbox = forwardRef<RecaptchaCheckboxHandle, RecaptchaCheckboxProps>(
-  function RecaptchaCheckbox({ onVerify, className }, ref) {
+  function RecaptchaCheckbox({ onVerify, className, enabled = true }, ref) {
     const containerRef = useRef<HTMLDivElement>(null)
     const widgetIdRef = useRef<number | null>(null)
     const onVerifyRef = useRef(onVerify)
@@ -122,9 +123,10 @@ export const RecaptchaCheckbox = forwardRef<RecaptchaCheckboxHandle, RecaptchaCh
     )
 
     useEffect(() => {
+      if (!enabled || !containerRef.current) return
       let isMounted = true
 
-      loadRecaptchaScript()
+      const load = () => loadRecaptchaScript()
         .then(() => {
           if (!isMounted || !containerRef.current || widgetIdRef.current !== null || !siteKey) return
 
@@ -151,14 +153,23 @@ export const RecaptchaCheckbox = forwardRef<RecaptchaCheckboxHandle, RecaptchaCh
           if (isMounted) setError(loadError instanceof Error ? loadError.message : 'Unable to load reCAPTCHA.')
         })
 
+      const observer = new IntersectionObserver((entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) {
+          observer.disconnect()
+          void load()
+        }
+      }, { rootMargin: '300px' })
+      observer.observe(containerRef.current)
+
       return () => {
         isMounted = false
+        observer.disconnect()
       }
-    }, [])
+    }, [enabled])
 
     return (
       <div className={className}>
-        <div ref={containerRef} />
+        <div ref={containerRef} className="min-h-[78px]" />
         {error ? <p className="mt-2 text-sm font-bold text-red-700">{error}</p> : null}
       </div>
     )

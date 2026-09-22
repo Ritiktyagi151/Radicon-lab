@@ -1,29 +1,33 @@
 'use client'
 
+import Image from 'next/image'
+
+import ViewportVideo from '@/components/ViewportVideo'
+
 import React, { useEffect, useState, useRef } from 'react'
-import { motion, useInView } from 'framer-motion'
+import { motion, useInView, useReducedMotion } from 'framer-motion'
 import { Microscope, FlaskConical, ClipboardCheck, Trophy } from 'lucide-react'
 
 // --- Counter Hook ---
 const Counter = ({ to, duration = 2 }: { to: number; duration?: number }) => {
   const [count, setCount] = useState(0)
   const ref = useRef(null)
+  const reducedMotion = useReducedMotion()
   const isInView = useInView(ref, { once: true })
 
   useEffect(() => {
-    if (isInView) {
-      let start = 0
-      const totalMiliseconds = duration * 1000
-      const incrementTime = totalMiliseconds / to
-      const timer = setInterval(() => {
-        start += 1
-        setCount(start)
-        if (start === to) clearInterval(timer)
-      }, incrementTime)
-      return () => clearInterval(timer)
+    if (!isInView || reducedMotion) return
+    let frame = 0
+    const startedAt = performance.now()
+    const tick = (now: number) => {
+      const progress = Math.min((now - startedAt) / (duration * 1000), 1)
+      setCount(Math.round(to * progress))
+      if (progress < 1) frame = requestAnimationFrame(tick)
     }
-  }, [isInView, to, duration])
-  return <span ref={ref}>{count}</span>
+    frame = requestAnimationFrame(tick)
+    return () => cancelAnimationFrame(frame)
+  }, [isInView, to, duration, reducedMotion])
+  return <span ref={ref}>{reducedMotion ? to : count}</span>
 }
 
 const stats = [
@@ -51,7 +55,7 @@ export default function StatsSection() {
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: false, amount: 0.3 }}
+            viewport={{ once: true, amount: 0.3 }}
             transition={{ duration: 0.65, ease: 'easeOut' }}
             className="floating-panel rounded-lg p-4 sm:p-8 lg:p-12 [perspective:1200px]"
           >
@@ -61,7 +65,7 @@ export default function StatsSection() {
                   key={idx}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: false, amount: 0.3 }}
+                  viewport={{ once: true, amount: 0.3 }}
                   transition={{ delay: idx * 0.08, duration: 0.45 }}
                   whileHover={{ y: -8, rotateX: 5, rotateY: idx % 2 === 0 ? -4 : 4, scale: 1.03 }}
                   className="flex items-center gap-4 border border-transparent p-3 transition hover:border-[#E8E8E8] hover:bg-[#F0F8FF] hover:shadow-lg [transform-style:preserve-3d]"
@@ -87,7 +91,8 @@ export default function StatsSection() {
   
   {/* Background Image */}
   <div className="absolute inset-0">
-    <img
+    <Image
+      fill sizes="(max-width: 1023px) 100vw, 900px"
       src="/texture.webp"
       alt="Background"
       className="w-full h-full object-cover"
@@ -124,7 +129,7 @@ export default function StatsSection() {
           <motion.div
             initial={{ opacity: 0, x: -40 }}
             whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: false, amount: 0.25 }}
+            viewport={{ once: true, amount: 0.25 }}
             transition={{ duration: 0.7, ease: 'easeOut' }}
             whileHover={{ y: -6, rotateY: 2 }}
             className="bg-white p-5 shadow-lg sm:p-8 lg:w-1/2 lg:p-12 [transform-style:preserve-3d]"
@@ -153,22 +158,19 @@ export default function StatsSection() {
           <motion.div
             initial={{ opacity: 0, x: 40 }}
             whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: false, amount: 0.25 }}
+            viewport={{ once: true, amount: 0.25 }}
             transition={{ duration: 0.7, ease: 'easeOut' }}
             whileHover={{ y: -8, rotateX: 2, rotateY: -3 }}
             className="relative group overflow-hidden shadow-xl lg:-inset-y-20 lg:w-1/2 [transform-style:preserve-3d]"
           >
             {/* Auto-playing Video */}
-            <video
-              autoPlay
+            <ViewportVideo
               loop
               muted
               playsInline
               className="h-full min-h-[280px] w-full object-cover sm:min-h-[360px] lg:min-h-[400px]"
-            >
-              <source src="https://d2j2uxe7jasn0r.cloudfront.net/watermarks/video/E6LxqQ1ixikssn79z/medicine-pills-tablets-rotating-on-green-background_bevjpxs3__2371880f1f476f681a8b16cc828f1872__P360.mp4" type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
+              src="https://d2j2uxe7jasn0r.cloudfront.net/watermarks/video/E6LxqQ1ixikssn79z/medicine-pills-tablets-rotating-on-green-background_bevjpxs3__2371880f1f476f681a8b16cc828f1872__P360.mp4"
+            />
 
             
 

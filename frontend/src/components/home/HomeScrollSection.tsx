@@ -18,7 +18,7 @@ export default function HomeScrollSection({ children, direction = 'up' }: HomeSc
     <motion.div
       initial={{ opacity: 0, ...offset }}
       whileInView={{ opacity: 1, x: 0, y: 0 }}
-      viewport={{ once: false, amount: 0.16 }}
+      viewport={{ once: true, amount: 0.16 }}
       transition={{ duration: 0.65, ease: 'easeOut' }}
     >
       {children}

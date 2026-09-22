@@ -2,8 +2,10 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import ContentImage from '@/components/ContentImage'
 import { AlertTriangle, ChevronRight, MessageCircle, ShieldCheck } from 'lucide-react'
-import InquiryModal from '@/components/InquiryModal'
+import dynamic from 'next/dynamic'
+const InquiryModal = dynamic(() => import('@/components/InquiryModal'), { ssr: false })
 import { getCategoryPath } from '@/lib/categoryUrls'
 import { resolveUploadHtml, resolveUploadUrl } from '@/lib/uploadUrls'
 import type { Product } from '@/types/product'
@@ -49,7 +51,7 @@ export default function ProductDetailClient({ product, relatedProducts }: Produc
         <section className="grid items-start gap-8 lg:grid-cols-[0.94fr_1.06fr]">
           <div>
             <div className="aspect-[4/3] overflow-hidden border border-[#DF1F26]/20 bg-white">
-              <img
+              <ContentImage width={800} height={600} sizes="(max-width: 1023px) 100vw, 50vw" loading="eager" fetchPriority="high"
                 src={resolveUploadUrl(mainImage)}
                 alt={product.name}
                 className="h-full w-full object-contain p-3 sm:p-6"
@@ -60,7 +62,7 @@ export default function ProductDetailClient({ product, relatedProducts }: Produc
               <div className="mt-3 grid grid-cols-4 gap-2 sm:grid-cols-5">
                 {images.slice(0, 5).map((image) => (
                   <div key={image} className="aspect-square border border-[#DF1F26]/25 bg-white p-2">
-                    <img src={resolveUploadUrl(image)} alt={product.name} className="h-full w-full object-contain" />
+                    <ContentImage width={160} height={160} sizes="(max-width: 639px) 25vw, 120px" src={resolveUploadUrl(image)} alt={product.name} className="h-full w-full object-contain" />
                   </div>
                 ))}
               </div>
@@ -140,11 +142,11 @@ export default function ProductDetailClient({ product, relatedProducts }: Produc
         ) : null}
       </main>
 
-      <InquiryModal
+      {isModalOpen && <InquiryModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         productName={product.name}
-      />
+      />}
     </div>
   )
 }
