@@ -5,6 +5,9 @@ export type ContactDocument = HydratedDocument<Contact>;
 
 @Schema({ timestamps: true })
 export class Contact {
+  @Prop({ type: Date, default: null, index: true })
+  deletedAt?: Date | null;
+
   @Prop({ required: true, trim: true })
   name: string;
 

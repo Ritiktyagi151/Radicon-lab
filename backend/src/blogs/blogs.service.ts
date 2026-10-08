@@ -1,3 +1,4 @@
+import { TrashService } from '../trash/trash.service';
 import {
   ConflictException,
   Injectable,
@@ -14,6 +15,7 @@ import { RealtimeService } from '../realtime/realtime.service';
 @Injectable()
 export class BlogsService {
   constructor(
+    private readonly trashService: TrashService,
     @InjectModel(Blog.name) private readonly blogModel: Model<BlogDocument>,
     private readonly realtimeService: RealtimeService,
   ) {}
@@ -41,7 +43,7 @@ export class BlogsService {
     const page = query.page || 1;
     const limit = query.limit || 9;
     const skip = (page - 1) * limit;
-    const filter: Record<string, unknown> = {};
+    const filter: Record<string, unknown> = { deletedAt: null };
 
     if (query.status) filter.status = query.status;
     if (query.category && query.category !== 'All')
@@ -78,7 +80,7 @@ export class BlogsService {
 
   async findFeatured() {
     const blog = await this.blogModel
-      .findOne({ status: BlogStatus.Published })
+      .findOne({ status: BlogStatus.Published, deletedAt: null })
       .sort({ publishedAt: -1, createdAt: -1 })
       .lean()
       .exec();
@@ -90,12 +92,12 @@ export class BlogsService {
 
   async findCategories() {
     return this.blogModel
-      .distinct('category', { status: BlogStatus.Published })
+      .distinct('category', { status: BlogStatus.Published, deletedAt: null })
       .exec();
   }
 
   async findBySlug(slug: string) {
-    const blog = await this.blogModel.findOne({ slug }).lean().exec();
+    const blog = await this.blogModel.findOne({ slug, deletedAt: null }).lean().exec();
 
     if (!blog) throw new NotFoundException('Blog not found');
 
@@ -111,7 +113,7 @@ export class BlogsService {
     }
 
     const blog = await this.blogModel
-      .findByIdAndUpdate(id, payload, { new: true, runValidators: true })
+      .findOneAndUpdate({ _id: id, deletedAt: null }, payload, { new: true, runValidators: true })
       .lean()
       .exec();
 
@@ -127,17 +129,7 @@ export class BlogsService {
   }
 
   async remove(id: string) {
-    const blog = await this.blogModel.findByIdAndDelete(id).lean().exec();
-
-    if (!blog) throw new NotFoundException('Blog not found');
-
-    this.realtimeService.publish(
-      'blogs',
-      'deleted',
-      `Blog deleted: ${blog.title}`,
-    );
-
-    return { message: 'Blog deleted successfully' };
+    return this.trashService.moveToTrash('blogs', id);
   }
 
   private async ensureSlugIsAvailable(slug: string, ignoredId?: string) {

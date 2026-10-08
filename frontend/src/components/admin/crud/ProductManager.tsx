@@ -149,10 +149,10 @@ export default function ProductManager() {
   }
 
   const deleteCategory = async (id?: string) => {
-    if (!id || !window.confirm('Delete this category? Products assigned to it should be moved first.')) return
+    if (!id || !window.confirm('Move this category to Trash? Move or trash its products first. You can restore it later.')) return
     try {
       await apiRequest(`/categories/${id}`, { method: 'DELETE' })
-      showToast('Category deleted successfully')
+      showToast('Category moved to Trash')
       await loadData()
     } catch (error) {
       showToast(error instanceof Error ? error.message : 'Unable to delete category', 'error')
@@ -160,10 +160,10 @@ export default function ProductManager() {
   }
 
   const deleteProduct = async (id?: string) => {
-    if (!id || !window.confirm('Delete this product?')) return
+    if (!id || !window.confirm('Move this product to Trash? You can restore it later.')) return
     try {
       await apiRequest(`/products/${id}`, { method: 'DELETE' })
-      showToast('Product deleted successfully')
+      showToast('Product moved to Trash')
       await loadData()
     } catch (error) {
       showToast(error instanceof Error ? error.message : 'Unable to delete product', 'error')

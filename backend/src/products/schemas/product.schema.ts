@@ -12,6 +12,9 @@ export enum ProductStatus {
 
 @Schema({ timestamps: true })
 export class Product {
+  @Prop({ type: Date, default: null, index: true })
+  deletedAt?: Date | null;
+
   @Prop({ required: true, trim: true })
   name: string;
 

@@ -1,3 +1,4 @@
+import { TrashService } from '../trash/trash.service';
 import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { InjectModel } from '@nestjs/mongoose';
@@ -19,6 +20,7 @@ export class ContactsService {
   private readonly infoMailTo: string;
 
   constructor(
+    private readonly trashService: TrashService,
     @InjectModel(Contact.name) private readonly contactModel: Model<ContactDocument>,
     private readonly realtimeService: RealtimeService,
     private readonly configService: ConfigService,
@@ -82,17 +84,11 @@ export class ContactsService {
   }
 
   findAll() {
-    return this.contactModel.find().sort({ createdAt: -1 }).lean().exec();
+    return this.contactModel.find({ deletedAt: null }).sort({ createdAt: -1 }).lean().exec();
   }
 
   async remove(id: string) {
-    const contact = await this.contactModel.findByIdAndDelete(id).lean().exec();
-
-    if (!contact) throw new NotFoundException('Contact inquiry not found');
-
-    this.realtimeService.publish('contacts', 'deleted', `Inquiry deleted: ${contact.subject}`);
-
-    return { message: 'Contact inquiry deleted successfully' };
+    return this.trashService.moveToTrash('contacts', id);
   }
 
   private async sendContactEmails(contact: ContactDocument) {

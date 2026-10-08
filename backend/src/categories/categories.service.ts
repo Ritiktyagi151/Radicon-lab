@@ -1,3 +1,4 @@
+import { TrashService } from '../trash/trash.service';
 import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
@@ -9,6 +10,7 @@ import { Category, CategoryDocument, CategoryStatus } from './schemas/category.s
 @Injectable()
 export class CategoriesService {
   constructor(
+    private readonly trashService: TrashService,
     @InjectModel(Category.name) private readonly categoryModel: Model<CategoryDocument>,
     private readonly realtimeService: RealtimeService,
   ) {}
@@ -25,19 +27,19 @@ export class CategoriesService {
   }
 
   findAll(includeDrafts = true) {
-    const filter = includeDrafts ? {} : { status: CategoryStatus.Active };
+    const filter = includeDrafts ? { deletedAt: null } : { status: CategoryStatus.Active, deletedAt: null };
     return this.categoryModel.find(filter).sort({ sortOrder: 1, name: 1 }).lean().exec();
   }
 
   async findById(id: string) {
-    const category = await this.categoryModel.findById(id).lean().exec();
+    const category = await this.categoryModel.findOne({ _id: id, deletedAt: null }).lean().exec();
     if (!category) throw new NotFoundException('Category not found');
     return category;
   }
 
   async findBySlug(slug: string) {
     const category = await this.categoryModel
-      .findOne({ slug: this.normalizeSlug(slug), status: CategoryStatus.Active })
+      .findOne({ slug: this.normalizeSlug(slug), status: CategoryStatus.Active, deletedAt: null })
       .lean()
       .exec();
     if (!category) throw new NotFoundException('Category not found');
@@ -52,7 +54,7 @@ export class CategoriesService {
     }
 
     const category = await this.categoryModel
-      .findByIdAndUpdate(id, payload, { new: true, runValidators: true })
+      .findOneAndUpdate({ _id: id, deletedAt: null }, payload, { new: true, runValidators: true })
       .lean()
       .exec();
 
@@ -62,17 +64,14 @@ export class CategoriesService {
   }
 
   async remove(id: string) {
-    const category = await this.categoryModel.findByIdAndDelete(id).lean().exec();
-    if (!category) throw new NotFoundException('Category not found');
-    this.realtimeService.publish('categories', 'deleted', `Category deleted: ${category.name}`);
-    return { message: 'Category deleted successfully' };
+    return this.trashService.moveToTrash('categories', id);
   }
 
   async reorder(items: Array<{ id: string; sortOrder: number }>) {
     await Promise.all(
       items.map((item, index) =>
         this.categoryModel
-          .findByIdAndUpdate(item.id, { sortOrder: item.sortOrder ?? index }, { runValidators: true })
+          .findOneAndUpdate({ _id: item.id, deletedAt: null }, { sortOrder: item.sortOrder ?? index }, { runValidators: true })
           .lean()
           .exec(),
       ),

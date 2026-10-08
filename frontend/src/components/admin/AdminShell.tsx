@@ -15,6 +15,7 @@ import {
   ShieldCheck,
   Sparkles,
   X,
+  Trash2,
 } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
@@ -30,6 +31,7 @@ const adminLinks = [
   { href: '/admin/contact', label: 'Contact', icon: Mail },
   { href: '/admin/settings', label: 'Nav & Footer', icon: Settings },
   { href: '/admin/seo', label: 'SEO', icon: BarChart3 },
+  { href: '/admin/trash', label: 'Trash', icon: Trash2 },
 ]
 
 function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {

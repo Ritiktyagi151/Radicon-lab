@@ -355,10 +355,10 @@ export default function SeoManager() {
   }
 
   const deletePage = async (page: SeoPage) => {
-    if (!window.confirm(`Delete SEO record for ${page.pageName}?`)) return
+    if (!window.confirm(`Move SEO record for ${page.pageName} to Trash? You can restore it later.`)) return
     try {
       await apiRequest(`/seo/pages/${page.id}`, { method: 'DELETE' })
-      showToast('SEO URL deleted successfully')
+      showToast('SEO record moved to Trash')
       await loadSeo()
     } catch (error) {
       showToast(error instanceof Error ? error.message : 'Unable to delete URL', 'error')

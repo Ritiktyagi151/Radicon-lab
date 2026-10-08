@@ -172,10 +172,10 @@ export default function BlogManager() {
   }
 
   const deleteBlog = async (id?: string) => {
-    if (!id || !window.confirm('Delete this blog?')) return
+    if (!id || !window.confirm('Move this blog to Trash? You can restore it later.')) return
     try {
       await apiRequest(`/blogs/${id}`, { method: 'DELETE' })
-      showToast('Blog deleted successfully')
+      showToast('Blog moved to Trash')
       await loadBlogs()
     } catch (error) {
       showToast(error instanceof Error ? error.message : 'Unable to delete blog', 'error')
@@ -187,7 +187,7 @@ export default function BlogManager() {
       <AdminPageHeader
         eyebrow="Content Studio"
         title="Blog CRUD"
-        description="Create, edit, preview, delete, and publish blog content with image previews and status tracking."
+        description="Create, edit, preview, trash, restore, and publish blog content with image previews and status tracking."
         action={
           <AdminButton onClick={startCreate}>
             <span className="inline-flex items-center gap-2">

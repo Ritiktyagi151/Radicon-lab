@@ -5,6 +5,9 @@ export type SeoSettingsDocument = HydratedDocument<SeoSettings>;
 
 @Schema({ _id: false })
 export class SeoPage {
+  @Prop({ type: Date, default: null })
+  deletedAt?: Date | null;
+
   @Prop({ required: true })
   id: string;
 

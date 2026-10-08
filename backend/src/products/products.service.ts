@@ -1,3 +1,4 @@
+import { TrashService } from '../trash/trash.service';
 import { ConflictException, Injectable, NotFoundException, OnModuleInit } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
@@ -11,6 +12,7 @@ import { CategoryStatus } from '../categories/schemas/category.schema';
 @Injectable()
 export class ProductsService implements OnModuleInit {
   constructor(
+    private readonly trashService: TrashService,
     @InjectModel(Product.name) private readonly productModel: Model<ProductDocument>,
     private readonly realtimeService: RealtimeService,
     private readonly categoriesService: CategoriesService,
@@ -46,7 +48,7 @@ export class ProductsService implements OnModuleInit {
   }
 
   findAll(query: { category?: string; search?: string; status?: string } = {}) {
-    const filter: Record<string, unknown> = {};
+    const filter: Record<string, unknown> = { deletedAt: null };
 
     if (query.status) filter.status = query.status;
     if (query.category && Types.ObjectId.isValid(query.category)) filter.category = query.category;
@@ -69,7 +71,7 @@ export class ProductsService implements OnModuleInit {
 
   async findOne(id: string) {
     const product = await this.productModel
-      .findById(id)
+      .findOne({ _id: id, deletedAt: null })
       .select('-features -specifications -faqs')
       .populate('category', 'name slug image description')
       .lean()
@@ -84,7 +86,7 @@ export class ProductsService implements OnModuleInit {
 
   async findBySlug(slug: string) {
     const product = await this.productModel
-      .findOne({ slug: this.normalizeSlug(slug), status: 'active' })
+      .findOne({ slug: this.normalizeSlug(slug), status: 'active', deletedAt: null })
       .select('-features -specifications -faqs')
       .populate('category', 'name slug image description')
       .lean()
@@ -97,7 +99,7 @@ export class ProductsService implements OnModuleInit {
 
   async findRelated(id: string, categoryId: string) {
     return this.productModel
-      .find({ _id: { $ne: id }, category: categoryId, status: 'active' })
+      .find({ _id: { $ne: id }, category: categoryId, status: 'active', deletedAt: null })
       .select('-features -specifications -faqs')
       .populate('category', 'name slug')
       .limit(4)
@@ -126,8 +128,8 @@ export class ProductsService implements OnModuleInit {
     }
 
     const product = await this.productModel
-      .findByIdAndUpdate(
-        id,
+      .findOneAndUpdate(
+        { _id: id, deletedAt: null },
         { $set: payload, $unset: { features: '', specifications: '', faqs: '' } },
         { new: true, runValidators: true },
       )
@@ -142,20 +144,14 @@ export class ProductsService implements OnModuleInit {
   }
 
   async remove(id: string) {
-    const product = await this.productModel.findByIdAndDelete(id).lean().exec();
-
-    if (!product) throw new NotFoundException('Product not found');
-
-    this.realtimeService.publish('products', 'deleted', `Product deleted: ${product.name}`);
-
-    return { message: 'Product deleted successfully' };
+    return this.trashService.moveToTrash('products', id);
   }
 
   async reorder(items: Array<{ id: string; sortOrder: number }>) {
     await Promise.all(
       items.map((item, index) =>
         this.productModel
-          .findByIdAndUpdate(item.id, { sortOrder: item.sortOrder ?? index }, { runValidators: true })
+          .findOneAndUpdate({ _id: item.id, deletedAt: null }, { sortOrder: item.sortOrder ?? index }, { runValidators: true })
           .lean()
           .exec(),
       ),

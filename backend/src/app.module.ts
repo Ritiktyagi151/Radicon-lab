@@ -1,3 +1,4 @@
+import { TrashModule } from './trash/trash.module';
 import { Module } from '@nestjs/common';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { PublicCacheInterceptor } from './public-cache.interceptor';
@@ -31,6 +32,7 @@ import { UploadsModule } from './uploads/uploads.module';
       }),
       inject: [ConfigService],
     }),
+    TrashModule,
     AuthModule,
     RealtimeModule,
     BlogsModule,

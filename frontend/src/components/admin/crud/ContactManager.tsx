@@ -49,10 +49,10 @@ export default function ContactManager() {
   })
 
   const deleteContact = async (id: string) => {
-    if (!window.confirm('Delete this inquiry?')) return
+    if (!window.confirm('Move this inquiry to Trash? You can restore it later.')) return
     try {
       await apiRequest(`/contacts/${id}`, { method: 'DELETE' })
-      showToast('Contact inquiry deleted successfully')
+      showToast('Contact inquiry moved to Trash')
       await loadContacts()
     } catch (error) {
       showToast(error instanceof Error ? error.message : 'Unable to delete inquiry', 'error')
@@ -64,7 +64,7 @@ export default function ContactManager() {
       <AdminPageHeader
         eyebrow="Client Inbox"
         title="Contact Us CRUD"
-        description="Review all user inquiries, inspect messages in a quick-view panel, and delete resolved requests."
+        description="Review all user inquiries, inspect messages in a quick-view panel, and move resolved requests to Trash."
       />
 
       <div className="relative overflow-hidden rounded-3xl border border-white/70 bg-white/80 shadow-xl shadow-slate-200/60 backdrop-blur-xl">

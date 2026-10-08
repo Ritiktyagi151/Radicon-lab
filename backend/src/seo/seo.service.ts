@@ -1,4 +1,5 @@
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
+import { TrashService } from '../trash/trash.service';
 import { InjectModel } from '@nestjs/mongoose';
 import { randomUUID } from 'crypto';
 import { Model } from 'mongoose';
@@ -58,6 +59,7 @@ export type PublicSeoRoute = {
 @Injectable()
 export class SeoService {
   constructor(
+    private readonly trashService: TrashService,
     @InjectModel(SeoSettings.name)
     private readonly seoSettingsModel: Model<SeoSettingsDocument>,
     private readonly realtimeService: RealtimeService,
@@ -66,9 +68,11 @@ export class SeoService {
   async getSettings() {
     const settings = await this.ensureSettings();
     const global = (settings.global || defaultGlobal) as SeoGlobalSettings;
+    const pages = (settings.pages || []).filter((page) => !page.deletedAt);
     return {
       ...settings,
-      analysis: settings.pages.map((page) => this.analyzePage(page, global)),
+      pages,
+      analysis: pages.map((page) => this.analyzePage(page, global)),
     };
   }
 
@@ -76,7 +80,7 @@ export class SeoService {
     const settings = await this.ensureSettings();
     const global = (settings.global || defaultGlobal) as SeoGlobalSettings;
 
-    return (settings.pages || []).map((page) => this.toPublicRoute(page, global));
+    return (settings.pages || []).filter((page) => !page.deletedAt).map((page) => this.toPublicRoute(page, global));
   }
 
   async resolvePublicRoute(path: string) {
@@ -92,26 +96,27 @@ export class SeoService {
   async savePage(pageDto: SeoPageDto) {
     const settings = await this.ensureSettings();
     const page = this.normalizePage(pageDto);
-    const pages = settings.pages || [];
-    const index = pages.findIndex((item) => item.id === page.id);
-
-    if (index >= 0) pages[index] = page;
-    else pages.unshift(page);
-
-    const result = await this.seoSettingsModel
-      .findOneAndUpdate({ key: 'default' }, { pages }, { new: true })
-      .lean()
-      .exec();
+    const existing = (settings.pages || []).find((item) => item.id === page.id);
+    if (existing?.deletedAt) {
+      throw new ConflictException('Restore this SEO record from Trash before editing it.');
+    }
+    if (existing) {
+      const result = await this.seoSettingsModel.updateOne(
+        { key: 'default', pages: { $elemMatch: { id: page.id, deletedAt: null } } },
+        { $set: { 'pages.$': page } },
+      ).exec();
+      if (!result.matchedCount) throw new NotFoundException('SEO record not found');
+    } else {
+      await this.seoSettingsModel.updateOne(
+        { key: 'default' }, { $push: { pages: page } },
+      ).exec();
+    }
     this.realtimeService.publish('seo', 'updated', `SEO page saved: ${page.pageName}`);
-    return result;
+    return this.getSettings();
   }
 
   async deletePage(id: string) {
-    const settings = await this.ensureSettings();
-    const pages = (settings.pages || []).filter((page) => page.id !== id);
-    const result = await this.seoSettingsModel.findOneAndUpdate({ key: 'default' }, { pages }, { new: true }).lean().exec();
-    this.realtimeService.publish('seo', 'deleted', 'SEO page deleted');
-    return result;
+    return this.trashService.moveToTrash('seo', id);
   }
 
   async saveRedirects(redirects: RedirectDto[]) {
@@ -150,7 +155,7 @@ export class SeoService {
     const global = (settings.global || defaultGlobal) as SeoGlobalSettings;
     const siteUrl = global.siteUrl.replace(/\/$/, '');
     const urls = (settings.pages || [])
-      .filter((page) => page.includeInSitemap && this.getCanonicalUrl(page, global) === this.absoluteUrl(siteUrl, page.customSlug || page.url))
+      .filter((page) => !page.deletedAt && page.includeInSitemap && this.getCanonicalUrl(page, global) === this.absoluteUrl(siteUrl, page.customSlug || page.url))
       .map((page) => `  <url>\n    <loc>${this.absoluteUrl(siteUrl, page.customSlug || page.url)}</loc>\n  </url>`)
       .join('\n');
 

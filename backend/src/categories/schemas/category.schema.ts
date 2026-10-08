@@ -11,6 +11,9 @@ export enum CategoryStatus {
 
 @Schema({ timestamps: true })
 export class Category {
+  @Prop({ type: Date, default: null, index: true })
+  deletedAt?: Date | null;
+
   @Prop({ required: true, trim: true })
   name: string;
 

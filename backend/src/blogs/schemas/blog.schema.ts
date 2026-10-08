@@ -11,6 +11,9 @@ export enum BlogStatus {
 
 @Schema({ timestamps: true })
 export class Blog {
+  @Prop({ type: Date, default: null, index: true })
+  deletedAt?: Date | null;
+
   @Prop({ required: true, trim: true })
   title: string;
 
